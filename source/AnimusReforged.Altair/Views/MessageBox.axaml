@@ -1,0 +1,33 @@
+﻿<ui:AppWindow xmlns="https://github.com/avaloniaui"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:ui="using:FluentAvalonia.UI.Windowing"
+              xmlns:vm="using:AnimusReforged.Altair.ViewModels"
+              mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="250"
+              x:Class="AnimusReforged.Altair.Views.MessageBox"
+              x:DataType="vm:MessageBoxViewModel"
+              Title="MessageBox"
+              SizeToContent="WidthAndHeight"
+              WindowStartupLocation="CenterOwner"
+              CanResize="False"
+              MinWidth="200"
+              MinHeight="100">
+    <Design.DataContext>
+        <vm:MessageBoxViewModel />
+    </Design.DataContext>
+    <StackPanel Margin="20,20,20,5" Spacing="15">
+        <TextBlock TextWrapping="Wrap"
+                   Text="{Binding Message}"
+                   MaxWidth="400"
+                   FontSize="14"
+                   LineHeight="20" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="OK"
+                    Width="80"
+                    Height="32"
+                    Command="{Binding OkCommand}"
+                    IsDefault="True" />
+        </StackPanel>
+    </StackPanel>
+</ui:AppWindow>

@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -6,6 +7,7 @@ using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using AnimusReforged.Altair.ViewModels;
 using AnimusReforged.Altair.Views;
+using AnimusReforged.Paths;
 using AnimusReforged.Settings;
 using Avalonia.Controls;
 

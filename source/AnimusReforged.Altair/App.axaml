@@ -2,6 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="AnimusReforged.Altair.App"
              xmlns:local="using:AnimusReforged.Altair"
+             xmlns:styling="clr-namespace:FluentAvalonia.Styling;assembly=FluentAvalonia"
              RequestedThemeVariant="Default">
 
     <Application.DataTemplates>
@@ -9,6 +10,6 @@
     </Application.DataTemplates>
   
     <Application.Styles>
-        <FluentTheme />
+        <styling:FluentAvaloniaTheme />
     </Application.Styles>
 </Application>

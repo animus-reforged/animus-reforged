@@ -1,15 +1,60 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:AnimusReforged.Altair.ViewModels"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="AnimusReforged.Altair.Views.MainWindow"
-        x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/icon.ico"
-        Title="{Binding Title}">
+<ui:AppWindow xmlns="https://github.com/avaloniaui"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:controls="using:FluentAvalonia.UI.Controls"
+              xmlns:ui="using:FluentAvalonia.UI.Windowing"
+              xmlns:vm="using:AnimusReforged.Altair.ViewModels"
+              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" Height="580" Width="760"
+              x:Class="AnimusReforged.Altair.Views.MainWindow"
+              x:DataType="vm:MainWindowViewModel"
+              Icon="/Assets/icon.ico"
+              Title="{Binding Title}">
     <Design.DataContext>
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel />
     </Design.DataContext>
-    
-</Window>
+    <controls:NavigationView x:Name="NavView"
+                             AlwaysShowHeader="False"
+                             IsBackButtonVisible="False"
+                             IsSettingsVisible="False"
+                             PaneDisplayMode="Top"
+                             SelectionChanged="NavView_OnSelectionChanged">
+        <!-- Navigation Items -->
+        <controls:NavigationView.MenuItems>
+            <controls:NavigationViewItem SelectsOnInvoked="False">
+                <controls:NavigationViewItem.Content>
+                    <Button Command="{Binding DonateButton}">
+                        <StackPanel Orientation="Horizontal" Spacing="4">
+                            <controls:SymbolIcon Symbol="Like" />
+                            <TextBlock Text="Donate" />
+                        </StackPanel>
+                    </Button>
+                </controls:NavigationViewItem.Content>
+            </controls:NavigationViewItem>
+
+            <controls:NavigationViewItem Content="Play">
+                <controls:NavigationViewItem.IconSource>
+                    <controls:SymbolIconSource Symbol="Play" />
+                </controls:NavigationViewItem.IconSource>
+            </controls:NavigationViewItem>
+
+            <controls:NavigationViewItem Content="Settings">
+                <controls:NavigationViewItem.IconSource>
+                    <controls:SymbolIconSource Symbol="Setting" />
+                </controls:NavigationViewItem.IconSource>
+            </controls:NavigationViewItem>
+        </controls:NavigationView.MenuItems>
+
+        <controls:NavigationView.FooterMenuItems>
+            <controls:NavigationViewItem Content="Credits">
+                <controls:NavigationViewItem.IconSource>
+                    <controls:SymbolIconSource Symbol="ContactInfo" />
+                </controls:NavigationViewItem.IconSource>
+            </controls:NavigationViewItem>
+        </controls:NavigationView.FooterMenuItems>
+
+        <ContentControl Content="{Binding CurrentPage}" />
+
+
+    </controls:NavigationView>
+</ui:AppWindow>
