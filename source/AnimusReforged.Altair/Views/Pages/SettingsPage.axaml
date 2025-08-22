@@ -2,7 +2,174 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AnimusReforged.Altair.ViewModels"
+             xmlns:ui="using:FluentAvalonia.UI.Controls"
+             xmlns:ic="using:FluentIcons.Avalonia.Fluent"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="AnimusReforged.Altair.Views.Pages.SettingsPage">
-    Settings!
+             x:Class="AnimusReforged.Altair.Views.Pages.SettingsPage"
+             x:DataType="vm:SettingsPageViewModel">
+    <UserControl.DataContext>
+        <vm:SettingsPageViewModel />
+    </UserControl.DataContext>
+    <ScrollViewer>
+        <StackPanel Spacing="12" Margin="20">
+            <ui:SettingsExpander Header="uMod"
+                                 Description="Enable texture modification support">
+                <ui:SettingsExpander.IconSource>
+                    <ic:SymbolIconSource Symbol="Wrench" />
+                </ui:SettingsExpander.IconSource>
+                <ui:SettingsExpander.Footer>
+                    <ToggleSwitch IsChecked="{Binding IsUModEnabled, Mode=TwoWay}" />
+                </ui:SettingsExpander.Footer>
+                <ui:SettingsExpander.Items>
+                    <!-- Enabled Mods -->
+                    <ui:SettingsExpander Header="Enabled Mods"
+                                         Description="Currently active modifications">
+                        <ui:SettingsExpander.IconSource>
+                            <ic:SymbolIconSource Symbol="Checkmark" />
+                        </ui:SettingsExpander.IconSource>
+                        <ui:SettingsExpander.Footer>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Button Content="Add" />
+                                <Button Content="Remove" />
+                            </StackPanel>
+                        </ui:SettingsExpander.Footer>
+                        <ui:SettingsExpander.Items>
+                            <ItemsControl>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <DockPanel Margin="4">
+                                            <TextBlock VerticalAlignment="Center" />
+                                            <StackPanel Orientation="Horizontal"
+                                                        DockPanel.Dock="Right"
+                                                        Spacing="4">
+                                                <Button Content="↑" />
+                                                <Button Content="↓" />
+                                                <Button Content="Disable" />
+                                            </StackPanel>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ui:SettingsExpander.Items>
+                    </ui:SettingsExpander>
+
+                    <!-- Disabled Mods -->
+                    <ui:SettingsExpander Header="Disabled Mods"
+                                         Description="Mods that are present but not active">
+                        <ui:SettingsExpander.IconSource>
+                            <ic:SymbolIconSource Symbol="Dismiss" />
+                        </ui:SettingsExpander.IconSource>
+                        <ui:SettingsExpander.Items>
+                            <ItemsControl>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <DockPanel Margin="4">
+                                            <TextBlock VerticalAlignment="Center" />
+                                            <Button Content="Enable"
+                                                    HorizontalAlignment="Right"
+                                                    CommandParameter="{Binding}" />
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ui:SettingsExpander.Items>
+                    </ui:SettingsExpander>
+                </ui:SettingsExpander.Items>
+            </ui:SettingsExpander>
+
+            <ui:SettingsExpander Header="ReShade"
+                                 Description="Enable post-processing effects">
+                <ui:SettingsExpander.IconSource>
+                    <ic:SymbolIconSource Symbol="Camera" />
+                </ui:SettingsExpander.IconSource>
+                <ui:SettingsExpander.Footer>
+                    <ToggleSwitch IsChecked="{Binding IsReShadeEnabled, Mode=TwoWay}" />
+                </ui:SettingsExpander.Footer>
+            </ui:SettingsExpander>
+
+            <ui:SettingsExpander Header="EaglePatch"
+                                 Description="Apply community patches and fixes">
+                <ui:SettingsExpander.IconSource>
+                    <ic:SymbolIconSource Symbol="WrenchScrewdriver" />
+                </ui:SettingsExpander.IconSource>
+                <!-- Footer = main toggle -->
+                <ui:SettingsExpander.Footer>
+                    <ToggleSwitch IsChecked="{Binding IsEaglePatchEnabled, Mode=TwoWay}" />
+                </ui:SettingsExpander.Footer>
+
+                <!-- Nested EaglePatch sub-settings -->
+                <ui:SettingsExpander.Items>
+                    <ui:SettingsExpander Header="Keyboard Layout"
+                                         HorizontalAlignment="Stretch"
+                                         Description="Select keyboard layout">
+                        <ui:SettingsExpander.IconSource>
+                            <ic:SymbolIconSource Symbol="Keyboard" />
+                        </ui:SettingsExpander.IconSource>
+                        <ui:SettingsExpander.Footer>
+                            <ComboBox MinWidth="150"
+                                      ItemsSource="{Binding KeyboardLayouts}"
+                                      SelectedItem="{Binding SelectedKeyboardLayout}"
+                                      HorizontalAlignment="Right" />
+                        </ui:SettingsExpander.Footer>
+                    </ui:SettingsExpander>
+
+                    <ui:SettingsExpander Header="PS3 Controls"
+                                         HorizontalAlignment="Stretch"
+                                         Description="Swap triggers and bumpers for PS3-style controls">
+                        <ui:SettingsExpander.IconSource>
+                            <ic:SymbolIconSource Symbol="XboxController" />
+                        </ui:SettingsExpander.IconSource>
+                        <ui:SettingsExpander.Footer>
+                            <ToggleSwitch IsChecked="{Binding IsPs3ControlsEnabled, Mode=TwoWay}" />
+                        </ui:SettingsExpander.Footer>
+                    </ui:SettingsExpander>
+
+                    <ui:SettingsExpander Header="Skip Intro Videos"
+                                         HorizontalAlignment="Stretch"
+                                         Description="Automatically skip startup videos">
+                        <ui:SettingsExpander.IconSource>
+                            <ic:SymbolIconSource Symbol="FastForward" />
+                        </ui:SettingsExpander.IconSource>
+                        <ui:SettingsExpander.Footer>
+                            <ToggleSwitch IsChecked="{Binding IsSkipIntroVideosEnabled, Mode=TwoWay}" />
+                        </ui:SettingsExpander.Footer>
+                    </ui:SettingsExpander>
+                </ui:SettingsExpander.Items>
+            </ui:SettingsExpander>
+
+            <ui:SettingsExpander Header="Stutter fix"
+                                 Description="Patches game executable and hosts file to ignore Ubisoft's servers">
+                <ui:SettingsExpander.IconSource>
+                    <ic:SymbolIconSource Symbol="GlobeOff" />
+                </ui:SettingsExpander.IconSource>
+                <ui:SettingsExpander.Footer>
+                    <Button Content="Apply Fix"
+                            Classes="accent" />
+                </ui:SettingsExpander.Footer>
+            </ui:SettingsExpander>
+
+            <ui:SettingsExpander Header="Windowed Mode Patch"
+                                 Description="Fixes windowed mode (This will force the game to launch in Windowed mode always)">
+                <ui:SettingsExpander.IconSource>
+                    <ic:SymbolIconSource Symbol="WindowWrench" />
+                </ui:SettingsExpander.IconSource>
+                <ui:SettingsExpander.Footer>
+                    <ToggleSwitch IsChecked="{Binding IsWindowedModePatchEnabled, Mode=TwoWay}" />
+                </ui:SettingsExpander.Footer>
+                <ui:SettingsExpander.Items>
+                    <ui:SettingsExpander Header="Borderless Fullscreen"
+                                         HorizontalAlignment="Stretch"
+                                         Description="Makes the game window borderless">
+                        <ui:SettingsExpander.IconSource>
+                            <ic:SymbolIconSource Symbol="FullScreenMaximize" />
+                        </ui:SettingsExpander.IconSource>
+                        <ui:SettingsExpander.Footer>
+                            <ToggleSwitch IsChecked="{Binding IsBorderlessFullscreenEnabled, Mode=TwoWay}" />
+                        </ui:SettingsExpander.Footer>
+                    </ui:SettingsExpander>
+                </ui:SettingsExpander.Items>
+            </ui:SettingsExpander>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>
