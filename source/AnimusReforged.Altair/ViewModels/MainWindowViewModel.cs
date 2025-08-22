@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using AnimusReforged.Altair.Views.Pages;
 using Avalonia.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -14,19 +15,26 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
-        //CurrentPage = new DefaultView();
+        if (App.Settings.SetupCompleted)
+        {
+            CurrentPage = new DefaultPage();
+        }
+        else
+        {
+            CurrentPage = new WelcomePage();
+        }
     }
 
     [RelayCommand]
     private void Navigate(string destination)
     {
-        /*
         CurrentPage = destination switch
         {
-            "Credits" => new CreditsView(),
-            "Settings" => new SettingsView(),
-            _ => new DefaultView()
-        };*/
+            "Credits" => new CreditsPage(),
+            "Settings" => new SettingsPage(),
+            "Welcome" => new WelcomePage(),
+            _ => new DefaultPage()
+        };
         Logger.Debug($"Navigating to {destination} page");
     }
 

@@ -12,9 +12,9 @@ public partial class MainWindow : AppWindow
     public MainWindow()
     {
         InitializeComponent();
-#if !DEBUG
         Loaded += async (_, _) =>
         {
+#if !DEBUG
             Logger.Info("Checking if the AnimusReforged has been placed next to the game executable");
             if (!File.Exists(AppPaths.GameExecutable))
             {
@@ -22,8 +22,8 @@ public partial class MainWindow : AppWindow
                 await MessageBox.ShowAsync($"Game executable not found. Please make sure you have the game installed and the executable is in the game folder next to the {AppPaths.GameExecutable}.", "Error", App.MainWindow);
                 Environment.Exit(0);
             }
-        };
 #endif
+        };
     }
 
     private void NavView_OnSelectionChanged(object? sender, NavigationViewSelectionChangedEventArgs e)
