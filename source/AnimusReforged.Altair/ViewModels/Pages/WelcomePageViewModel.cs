@@ -1,6 +1,18 @@
-﻿namespace AnimusReforged.Altair.ViewModels;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
-public class WelcomePageViewModel : ViewModelBase
+namespace AnimusReforged.Altair.ViewModels;
+
+public partial class WelcomePageViewModel : ViewModelBase
 {
+    // Variables
+    [ObservableProperty] 
+    private string statusText = string.Empty;
     
+    // Methods
+    [RelayCommand]
+    private void Install()
+    {
+        Logger.Debug("Installing AnimusReforged mods");
+    }
 }
