@@ -1,9 +1,15 @@
 ﻿using System.Reflection;
+using System.Text.Json.Serialization;
 
 namespace AnimusReforged.Settings;
 
 public abstract class BaseSettingsStore
 {
+    // Variables
+    [JsonPropertyName("setup_completed")]
+    public bool SetupCompleted { get; set; } = false;
+    
+    // Methods
     public string GetVersion()
     {
         try
