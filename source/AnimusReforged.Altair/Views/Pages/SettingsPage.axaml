@@ -24,7 +24,8 @@
                 <ui:SettingsExpander.Items>
                     <!-- Enabled Mods -->
                     <ui:SettingsExpander Header="Enabled Mods"
-                                         Description="Currently active modifications">
+                                         Description="Currently active modifications"
+                                         IsEnabled="{Binding IsUModEnabled}">
                         <ui:SettingsExpander.IconSource>
                             <ic:SymbolIconSource Symbol="Checkmark" />
                         </ui:SettingsExpander.IconSource>
@@ -56,7 +57,8 @@
 
                     <!-- Disabled Mods -->
                     <ui:SettingsExpander Header="Disabled Mods"
-                                         Description="Mods that are present but not active">
+                                         Description="Mods that are present but not active"
+                                         IsEnabled="{Binding IsUModEnabled}">
                         <ui:SettingsExpander.IconSource>
                             <ic:SymbolIconSource Symbol="Dismiss" />
                         </ui:SettingsExpander.IconSource>
@@ -102,7 +104,8 @@
                 <ui:SettingsExpander.Items>
                     <ui:SettingsExpander Header="Keyboard Layout"
                                          HorizontalAlignment="Stretch"
-                                         Description="Select keyboard layout">
+                                         Description="Select keyboard layout"
+                                         IsEnabled="{Binding IsEaglePatchEnabled}">
                         <ui:SettingsExpander.IconSource>
                             <ic:SymbolIconSource Symbol="Keyboard" />
                         </ui:SettingsExpander.IconSource>
@@ -116,7 +119,8 @@
 
                     <ui:SettingsExpander Header="PS3 Controls"
                                          HorizontalAlignment="Stretch"
-                                         Description="Swap triggers and bumpers for PS3-style controls">
+                                         Description="Swap triggers and bumpers for PS3-style controls"
+                                         IsEnabled="{Binding IsEaglePatchEnabled}">
                         <ui:SettingsExpander.IconSource>
                             <ic:SymbolIconSource Symbol="XboxController" />
                         </ui:SettingsExpander.IconSource>
@@ -127,7 +131,8 @@
 
                     <ui:SettingsExpander Header="Skip Intro Videos"
                                          HorizontalAlignment="Stretch"
-                                         Description="Automatically skip startup videos">
+                                         Description="Automatically skip startup videos"
+                                         IsEnabled="{Binding IsEaglePatchEnabled}">
                         <ui:SettingsExpander.IconSource>
                             <ic:SymbolIconSource Symbol="FastForward" />
                         </ui:SettingsExpander.IconSource>
@@ -160,7 +165,8 @@
                 <ui:SettingsExpander.Items>
                     <ui:SettingsExpander Header="Borderless Fullscreen"
                                          HorizontalAlignment="Stretch"
-                                         Description="Makes the game window borderless">
+                                         Description="Makes the game window borderless"
+                                         IsEnabled="{Binding IsWindowedModePatchEnabled}">
                         <ui:SettingsExpander.IconSource>
                             <ic:SymbolIconSource Symbol="FullScreenMaximize" />
                         </ui:SettingsExpander.IconSource>
