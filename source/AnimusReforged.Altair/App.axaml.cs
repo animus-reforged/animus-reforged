@@ -71,7 +71,7 @@ public partial class App : Application
         };
     }
 
-    private void OnExit(object sender, ControlledApplicationLifetimeExitEventArgs e)
+    private void OnExit(object? sender, ControlledApplicationLifetimeExitEventArgs e)
     {
         AppSettings.SaveSettings();
     }

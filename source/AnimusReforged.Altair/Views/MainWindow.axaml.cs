@@ -1,7 +1,9 @@
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using AnimusReforged.Altair.ViewModels;
 using AnimusReforged.Paths;
+using Avalonia.Interactivity;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Windowing;
 
@@ -12,18 +14,36 @@ public partial class MainWindow : AppWindow
     public MainWindow()
     {
         InitializeComponent();
-        Loaded += async (_, _) =>
+        Loaded += OnLoaded;
+    }
+
+    private async void OnLoaded(object? sender, RoutedEventArgs e)
+    {
+        try
         {
 #if !DEBUG
-            Logger.Info("Checking if the AnimusReforged has been placed next to the game executable");
-            if (!File.Exists(AppPaths.GameExecutable))
-            {
-                Logger.Error("Missing game executable, terminating");
-                await MessageBox.ShowAsync($"Game executable not found. Please make sure you have the game installed and the executable is in the game folder next to the {AppPaths.GameExecutable}.", "Error", App.MainWindow);
-                Environment.Exit(0);
-            }
+            await CheckInstallation();
+#else
+            await Task.CompletedTask;
 #endif
-        };
+        }
+        catch (Exception ex)
+        {
+            Logger.Error($"Error during startup");
+            Logger.LogExceptionDetails(ex);
+            Environment.Exit(0);
+        }
+    }
+
+    private async Task CheckInstallation()
+    {
+        Logger.Info("Checking if the AnimusReforged has been placed next to the game executable");
+        if (!File.Exists(AppPaths.GameExecutable))
+        {
+            Logger.Error("Missing game executable, terminating");
+            await MessageBox.ShowAsync($"Game executable not found. Please make sure you have the game installed and the executable is in the game folder next to the {Path.GetFileName(AppPaths.GameExecutable)}.", "Error", App.MainWindow);
+            Environment.Exit(0);
+        }
     }
 
     private void NavView_OnSelectionChanged(object? sender, NavigationViewSelectionChangedEventArgs e)
