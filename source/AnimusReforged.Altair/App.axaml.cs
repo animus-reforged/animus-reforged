@@ -36,6 +36,7 @@ public partial class App : Application
             {
                 DataContext = new MainWindowViewModel(),
             };
+            desktop.Exit += OnExit;
         }
 
         base.OnFrameworkInitializationCompleted();
@@ -68,5 +69,10 @@ public partial class App : Application
                 Logger.LogExceptionDetails(ex);
             }
         };
+    }
+
+    private void OnExit(object sender, ControlledApplicationLifetimeExitEventArgs e)
+    {
+        AppSettings.SaveSettings();
     }
 }
