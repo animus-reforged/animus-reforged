@@ -17,7 +17,8 @@ public static class ModManager
     {
         Logger.Info("Downloading Ultimate ASI Loader");
         _downloadManager.ProgressChanged += progressCallback;
-        string savePath = Path.Combine(AppPaths.Downloads, "Ultimate ASI Loader.zip");
+        string savePath = Path.Combine(AppPaths.Downloads, Path.GetFileName(ASI_LOADER_URL));
+        Logger.Debug($"Save path: {savePath}");
         try
         {
             await _downloadManager.DownloadFileAsync(ASI_LOADER_URL, savePath);
@@ -34,11 +35,13 @@ public static class ModManager
     public static async Task InstallAsiLoader()
     {
         Logger.Info("Extracting Ultimate ASI Loader");
-        await Task.Delay(1);
-        string zipFile = Path.Combine(AppPaths.Downloads, "Ultimate ASI Loader.zip");
+        string zipFile = Path.Combine(AppPaths.Downloads, Path.GetFileName(ASI_LOADER_URL));
+        string outputPath = AppPaths.Base;
+        Logger.Debug($"Zip file location: {zipFile}");
+        Logger.Debug($"Extraction path: {outputPath}");
         try
         {
-            Extractor.ExtractZip(zipFile, AppPaths.Base);
+            Extractor.ExtractZip(zipFile, outputPath);
         }
         catch (Exception ex)
         {
@@ -46,12 +49,13 @@ public static class ModManager
             Logger.LogExceptionDetails(ex);
             throw new Exception("Failed to extract Ultimate ASI Loader");
         }
-        
-        // Create scripts folder if it's missing
+
+        // Create a scripts folder if it's missing
         if (!Directory.Exists(AppPaths.Scripts))
         {
             Directory.CreateDirectory(AppPaths.Scripts);
         }
+        await Task.Delay(1);
     }
 
     // EaglePatch
@@ -59,7 +63,8 @@ public static class ModManager
     {
         Logger.Info("Downloading EaglePatch mod");
         _downloadManager.ProgressChanged += progressCallback;
-        string savePath = Path.Combine(AppPaths.Downloads, "EaglePatch.rar");
+        string savePath = Path.Combine(AppPaths.Downloads, Path.GetFileName(EAGLE_PATCH_URL));
+        Logger.Debug($"Save path: {savePath}");
         try
         {
             await _downloadManager.DownloadFileAsync(EAGLE_PATCH_URL, savePath);
@@ -76,11 +81,13 @@ public static class ModManager
     public static async Task InstallEaglePatch()
     {
         Logger.Info("Extracting EaglePatch mod");
-        await Task.Delay(1);
-        string zipFile = Path.Combine(AppPaths.Downloads, "EaglePatch.rar");
+        string zipFile = Path.Combine(AppPaths.Downloads, Path.GetFileName(EAGLE_PATCH_URL));
+        string outputPath = AppPaths.Scripts;
+        Logger.Debug($"Zip file location: {zipFile}");
+        Logger.Debug($"Extraction path: {outputPath}");
         try
         {
-            Extractor.ExtractRar(zipFile, AppPaths.Scripts, [".ini", ".asi"]);
+            Extractor.ExtractRar(zipFile, outputPath, [".ini", ".asi"]);
         }
         catch (Exception ex)
         {
@@ -88,6 +95,7 @@ public static class ModManager
             Logger.LogExceptionDetails(ex);
             throw new Exception("Failed to extract EaglePatch mod");
         }
+        await Task.Delay(1);
     }
 
     // uMod
