@@ -22,13 +22,13 @@ public partial class WelcomePageViewModel : ViewModelBase
         Logger.Debug("Installing AnimusReforged (Altair) mods");
         try
         {
-            // TODO: Install ASI Loader (https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases/latest/download/Ultimate-ASI-Loader.zip)
+            // Install ASI Loader (https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases/latest/download/Ultimate-ASI-Loader.zip)
             StatusText = "Downloading Ultimate ASI Loader";
             await ModManager.DownloadAsiLoader(progress => ProgressBarValue = progress);
             StatusText = "Installing Ultimate ASI Loader";
             await ModManager.InstallAsiLoader();
 
-            // TODO: Install EaglePatch (https://github.com/Sergeanur/EaglePatch/releases/latest/download/EaglePatchAC1.rar)
+            // Install EaglePatch (https://github.com/Sergeanur/EaglePatch/releases/latest/download/EaglePatchAC1.rar)
             StatusText = "Downloading EaglePatch mod";
             await ModManager.DownloadEaglePatch(progress => ProgressBarValue = progress);
             StatusText = "Installing EaglePatch mod";

@@ -73,9 +73,10 @@
                                      Minimum="0"
                                      Maximum="100"
                                      Value="{Binding ProgressBarValue}" />
-                        <TextBlock FontSize="12"
-                                   Opacity="0.8"
-                                   Text="{Binding ProgressBarValue}" />
+                        <TextBlock FontSize="14"
+                                   Opacity="1"
+                                   HorizontalAlignment="Right"
+                                   Text="{Binding ProgressBarValue, StringFormat={}{0}%}" />
                     </StackPanel>
 
                     <!-- Install Button -->
