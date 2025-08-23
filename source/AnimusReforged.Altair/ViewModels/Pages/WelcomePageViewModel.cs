@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
+using AnimusReforged.Altair.Views;
+using AnimusReforged.Mods.Altair;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 namespace AnimusReforged.Altair.ViewModels;
@@ -6,13 +9,44 @@ namespace AnimusReforged.Altair.ViewModels;
 public partial class WelcomePageViewModel : ViewModelBase
 {
     // Variables
-    [ObservableProperty] 
-    private string statusText = string.Empty;
-    
+    [ObservableProperty] private string statusText = string.Empty;
+
+    [ObservableProperty] private int progressBarValue = 0;
+
     // Methods
     [RelayCommand]
-    private void Install()
+    private async void Install()
     {
-        Logger.Debug("Installing AnimusReforged mods");
+        Logger.Debug("Installing AnimusReforged (Altair) mods");
+        try
+        {
+            // TODO: Install ASI Loader (https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases/latest/download/Ultimate-ASI-Loader.zip)
+            StatusText = "Downloading Ultimate ASI Loader";
+            await ModManager.DownloadAsiLoader(progress => ProgressBarValue = progress);
+            StatusText = "Installing Ultimate ASI Loader";
+            await ModManager.InstallAsiLoader();
+
+            // TODO: Install EaglePatch (https://github.com/Sergeanur/EaglePatch/releases/latest/download/EaglePatchAC1.rar)
+            StatusText = "Downloading EaglePatch mod";
+            await ModManager.DownloadEaglePatch(progress => ProgressBarValue = progress);
+            StatusText = "Installing EaglePatch mod";
+
+            // TODO: Install uMod (https://github.com/animus-reforged/uMod/releases/latest/download/uMod.zip)
+            StatusText = "Downloading uMod";
+            await ModManager.DownloaduMod(progress => ProgressBarValue = progress);
+            StatusText = "Installing uMod";
+
+            // TODO: Install Overhaul (https://github.com/animus-reforged/Overhaul/releases/latest/download/Overhaul.zip)
+            StatusText = "Downloading Overhaul mod";
+            await ModManager.DownloadOverhaul(progress => ProgressBarValue = progress);
+            StatusText = "Installing Overhaul mod";
+            
+            App.Settings.SetupCompleted = true;
+            await MessageBox.ShowAsync("Installation completed.", "Success");
+        }
+        catch (Exception ex)
+        {
+            await MessageBox.ShowAsync(ex.Message);
+        }
     }
 }
