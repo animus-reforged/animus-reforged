@@ -26,7 +26,7 @@ public partial class MainWindowViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void Navigate(string destination)
+    public void Navigate(string destination)
     {
         CurrentPage = destination switch
         {

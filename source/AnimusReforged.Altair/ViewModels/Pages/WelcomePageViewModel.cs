@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using AnimusReforged.Altair.Views;
 using AnimusReforged.Mods.Altair;
 using AnimusReforged.Paths;
+using Avalonia;
+using Avalonia.Controls.ApplicationLifetimes;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -46,7 +48,7 @@ public partial class WelcomePageViewModel : ViewModelBase
             await ModManager.DownloadOverhaul(progress => ProgressBarValue = progress);
             StatusText = "Installing Overhaul mod";
             await ModManager.InstallOverhaul();
-            
+
             // Cleanup
             StatusText = "Cleaning up";
             // Delete the downloads directory recursively
@@ -58,6 +60,12 @@ public partial class WelcomePageViewModel : ViewModelBase
             App.Settings.SetupCompleted = true;
             StatusText = "Download Complete.";
             await MessageBox.ShowAsync("Installation completed.", "Success");
+            
+            // Navigate to a different page
+            if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime { MainWindow.DataContext: MainWindowViewModel mainVM })
+            {
+                mainVM.Navigate("Default");
+            }
         }
         catch (Exception ex)
         {
