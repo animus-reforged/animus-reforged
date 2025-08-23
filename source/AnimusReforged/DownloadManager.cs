@@ -58,6 +58,10 @@ public class DownloadManager
             Logger.Error($"An error occurred during download: {ex}");
             throw;
         }
+        finally
+        {
+            ProgressChanged?.Invoke(0);
+        }
     }
     
     private void UpdateProgress(long downloadedBytes, long totalBytes)
