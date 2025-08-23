@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:ui="using:FluentAvalonia.UI.Controls"
              xmlns:ic="using:FluentIcons.Avalonia.Fluent"
-             xmlns:vm="using:AnimusReforged.Altair.ViewModels"
+             xmlns:vm="using:AnimusReforged.Altair.ViewModels.Pages"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="AnimusReforged.Altair.Views.Pages.CreditsPage"
              x:DataType="vm:CreditsPageViewModel">

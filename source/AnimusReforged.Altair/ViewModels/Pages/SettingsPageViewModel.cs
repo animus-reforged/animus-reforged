@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace AnimusReforged.Altair.ViewModels;
+namespace AnimusReforged.Altair.ViewModels.Pages;
 
 public partial class SettingsPageViewModel : ViewModelBase
 {
@@ -16,13 +16,13 @@ public partial class SettingsPageViewModel : ViewModelBase
     [ObservableProperty] private string selectedKeyboardLayout = "Keyboard"; // Default value
     public ObservableCollection<string> KeyboardLayouts { get; } = ["KeyboardMouse2", "KeyboardMouse5", "Keyboard", "KeyboardAlt"];
 
-    [ObservableProperty] private bool isPs3ControlsEnabled = false;
+    [ObservableProperty] private bool isPs3ControlsEnabled;
 
     [ObservableProperty] private bool isSkipIntroVideosEnabled = true;
 
-    [ObservableProperty] private bool isWindowedModePatchEnabled = false;
+    [ObservableProperty] private bool isWindowedModePatchEnabled;
 
-    [ObservableProperty] private bool isBorderlessFullscreenEnabled = false;
+    [ObservableProperty] private bool isBorderlessFullscreenEnabled;
 
     // Constructor
     public SettingsPageViewModel()
