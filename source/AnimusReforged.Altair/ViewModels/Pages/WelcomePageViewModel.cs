@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using AnimusReforged.Altair.Views;
 using AnimusReforged.Mods.Altair;
+using AnimusReforged.Paths;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -30,7 +32,8 @@ public partial class WelcomePageViewModel : ViewModelBase
             StatusText = "Downloading EaglePatch mod";
             await ModManager.DownloadEaglePatch(progress => ProgressBarValue = progress);
             StatusText = "Installing EaglePatch mod";
-
+            await ModManager.InstallEaglePatch();
+            
             // TODO: Install uMod (https://github.com/animus-reforged/uMod/releases/latest/download/uMod.zip)
             StatusText = "Downloading uMod";
             await ModManager.DownloaduMod(progress => ProgressBarValue = progress);
@@ -40,6 +43,13 @@ public partial class WelcomePageViewModel : ViewModelBase
             StatusText = "Downloading Overhaul mod";
             await ModManager.DownloadOverhaul(progress => ProgressBarValue = progress);
             StatusText = "Installing Overhaul mod";
+            
+            // Cleanup
+            // Delete the downloads directory recursively
+            if (Directory.Exists(AppPaths.Downloads))
+            {
+                Directory.Delete(AppPaths.Downloads, true);
+            }
             
             App.Settings.SetupCompleted = true;
             await MessageBox.ShowAsync("Installation completed.", "Success");

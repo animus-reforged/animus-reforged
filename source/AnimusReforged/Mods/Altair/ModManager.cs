@@ -46,17 +46,48 @@ public static class ModManager
             Logger.LogExceptionDetails(ex);
             throw new Exception("Failed to extract Ultimate ASI Loader");
         }
+        
+        // Create scripts folder if it's missing
+        if (!Directory.Exists(AppPaths.Scripts))
+        {
+            Directory.CreateDirectory(AppPaths.Scripts);
+        }
     }
 
     // EaglePatch
     public static async Task DownloadEaglePatch(Action<int> progressCallback)
     {
         Logger.Info("Downloading EaglePatch mod");
+        _downloadManager.ProgressChanged += progressCallback;
+        string savePath = Path.Combine(AppPaths.Downloads, "EaglePatch.rar");
+        try
+        {
+            await _downloadManager.DownloadFileAsync(EAGLE_PATCH_URL, savePath);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error("Failed to download EaglePatch mod");
+            Logger.LogExceptionDetails(ex);
+            throw new Exception("Failed to extract EaglePatch mod");
+        }
+        Logger.Info("Download complete");
     }
 
     public static async Task InstallEaglePatch()
     {
-        Logger.Info("Installing EaglePatch mod");
+        Logger.Info("Extracting EaglePatch mod");
+        await Task.Delay(1);
+        string zipFile = Path.Combine(AppPaths.Downloads, "EaglePatch.rar");
+        try
+        {
+            Extractor.ExtractRar(zipFile, AppPaths.Scripts, [".ini", ".asi"]);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error("Failed to extract EaglePatch mod");
+            Logger.LogExceptionDetails(ex);
+            throw new Exception("Failed to extract EaglePatch mod");
+        }
     }
 
     // uMod
