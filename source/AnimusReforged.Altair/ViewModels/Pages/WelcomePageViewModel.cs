@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using AnimusReforged.Altair.Views;
 using AnimusReforged.Mods.Altair;
+using AnimusReforged.Mods.Utilities;
 using AnimusReforged.Paths;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -48,15 +49,23 @@ public partial class WelcomePageViewModel : ViewModelBase
             await ModManager.DownloadOverhaul(progress => ProgressBarValue = progress);
             StatusText = "Installing Overhaul mod";
             await ModManager.InstallOverhaul();
-
+            
+            // Setup uMod and Overhaul
+            StatusText = "Setting up uMod and Overhaul mod";
+            await UModManager.SetupAppdata(AppPaths.AltairGameExecutable);
+            await UModManager.SetupSaveFile(AppPaths.AltairGameExecutable, "ac1.txt");
+            
             // Cleanup
             StatusText = "Cleaning up";
+            Logger.Info("Cleaning up");
             // Delete the downloads directory recursively
             if (Directory.Exists(AppPaths.Downloads))
             {
+                Logger.Debug("Deleting downloads directory");
                 Directory.Delete(AppPaths.Downloads, true);
             }
-
+            
+            Logger.Info("Setup completed");
             App.Settings.SetupCompleted = true;
             StatusText = "Download Complete.";
             await MessageBox.ShowAsync("Installation completed.", "Success");
@@ -64,6 +73,7 @@ public partial class WelcomePageViewModel : ViewModelBase
             // Navigate to a different page
             if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime { MainWindow.DataContext: MainWindowViewModel mainVM })
             {
+                Logger.Debug("Navigating to default page");
                 mainVM.Navigate("Default");
             }
         }

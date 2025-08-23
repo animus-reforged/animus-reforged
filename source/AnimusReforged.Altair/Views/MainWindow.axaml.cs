@@ -38,10 +38,10 @@ public partial class MainWindow : AppWindow
     private async Task CheckInstallation()
     {
         Logger.Info("Checking if the AnimusReforged has been placed next to the game executable");
-        if (!File.Exists(AppPaths.GameExecutable))
+        if (!File.Exists(AppPaths.AltairGameExecutable))
         {
             Logger.Error("Missing game executable, terminating");
-            await MessageBox.ShowAsync($"Game executable not found. Please make sure you have the game installed and the executable is in the game folder next to the {Path.GetFileName(AppPaths.GameExecutable)}.", "Error", App.MainWindow);
+            await MessageBox.ShowAsync($"Game executable not found. Please make sure you have the game installed and the executable is in the game folder next to the {Path.GetFileName(AppPaths.AltairGameExecutable)}.", "Error", App.MainWindow);
             Environment.Exit(0);
         }
     }

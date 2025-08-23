@@ -163,7 +163,7 @@ public static class ModManager
     {
         Logger.Info("Installing Overhaul mod");
         string zipFile = Path.Combine(AppPaths.Downloads, Path.GetFileName(OVERHAUL_MOD_URL));
-        string outputPath = AppPaths.OverhaulMod;
+        string outputPath = AppPaths.AltairOverhaulMod;
         Logger.Debug($"Zip file location: {zipFile}");
         Logger.Debug($"Extraction path: {outputPath}");
         try
