@@ -8,7 +8,7 @@ public static class ModManager
     // Constants
     private const string ASI_LOADER_URL = "https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases/latest/download/Ultimate-ASI-Loader.zip";
     private const string EAGLE_PATCH_URL = "https://github.com/Sergeanur/EaglePatch/releases/latest/download/EaglePatchAC1.rar";
-    private const string UMOD_PATCH_URL = "https://github.com/animus-reforged/uMod/releases/latest/download/uMod.zip";
+    private const string UMOD_URL = "https://github.com/animus-reforged/uMod/releases/latest/download/uMod.zip";
 
     // Variables
     private static readonly DownloadManager _downloadManager = new DownloadManager();
@@ -104,11 +104,11 @@ public static class ModManager
     {
         Logger.Info("Downloading uMod");
         _downloadManager.ProgressChanged += progressCallback;
-        string savePath = Path.Combine(AppPaths.Downloads, Path.GetFileName(UMOD_PATCH_URL));
+        string savePath = Path.Combine(AppPaths.Downloads, Path.GetFileName(UMOD_URL));
         Logger.Debug($"Save path: {savePath}");
         try
         {
-            await _downloadManager.DownloadFileAsync(UMOD_PATCH_URL, savePath);
+            await _downloadManager.DownloadFileAsync(UMOD_URL, savePath);
         }
         catch (Exception ex)
         {
@@ -122,7 +122,7 @@ public static class ModManager
     public static async Task InstalluMod()
     {
         Logger.Info("Installing uMod");
-        string zipFile = Path.Combine(AppPaths.Downloads, Path.GetFileName(UMOD_PATCH_URL));
+        string zipFile = Path.Combine(AppPaths.Downloads, Path.GetFileName(UMOD_URL));
         string outputPath = AppPaths.uMod;
         Logger.Debug($"Zip file location: {zipFile}");
         Logger.Debug($"Extraction path: {outputPath}");
