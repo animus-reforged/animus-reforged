@@ -9,4 +9,6 @@ public class AppPaths : Base
     public static readonly string LogFile = AbsolutePath("animusreforged.log");
     public static readonly string Scripts = AbsolutePath("scripts");
     public static readonly string uMod = AbsolutePath("uMod");
+    public static readonly string Mods = AbsolutePath("mods");
+    public static readonly string OverhaulMod = AbsolutePath("mods", "Overhaul");
 }

@@ -41,12 +41,14 @@ public partial class WelcomePageViewModel : ViewModelBase
             StatusText = "Installing uMod";
             await ModManager.InstalluMod();
 
-            // TODO: Install Overhaul (https://github.com/animus-reforged/Overhaul/releases/latest/download/Overhaul.zip)
+            // Install Overhaul (https://github.com/animus-reforged/mods/releases/download/altair/Overhaul.zip)
             StatusText = "Downloading Overhaul mod";
             await ModManager.DownloadOverhaul(progress => ProgressBarValue = progress);
             StatusText = "Installing Overhaul mod";
-
+            await ModManager.InstallOverhaul();
+            
             // Cleanup
+            StatusText = "Cleaning up";
             // Delete the downloads directory recursively
             if (Directory.Exists(AppPaths.Downloads))
             {
@@ -54,6 +56,7 @@ public partial class WelcomePageViewModel : ViewModelBase
             }
 
             App.Settings.SetupCompleted = true;
+            StatusText = "Download Complete.";
             await MessageBox.ShowAsync("Installation completed.", "Success");
         }
         catch (Exception ex)
