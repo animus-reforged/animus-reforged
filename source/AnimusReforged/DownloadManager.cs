@@ -16,7 +16,7 @@ public class DownloadManager
         if (!_httpClient.DefaultRequestHeaders.Contains("User-Agent"))
         {
             _httpClient.DefaultRequestHeaders.Add("User-Agent",
-                "Xenia Manager (https://github.com/xenia-manager/xenia-manager)");
+                "Animus Reforged (https://github.com/animus-reforged)");
         }
     
         // Ensure the default directory exists
