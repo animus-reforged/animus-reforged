@@ -8,6 +8,7 @@ public static class ModManager
     // Constants
     private const string ASI_LOADER_URL = "https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases/latest/download/Ultimate-ASI-Loader.zip";
     private const string EAGLE_PATCH_URL = "https://github.com/Sergeanur/EaglePatch/releases/latest/download/EaglePatchAC1.rar";
+    private const string UMOD_PATCH_URL = "https://github.com/animus-reforged/uMod/releases/latest/download/uMod.zip";
 
     // Variables
     private static readonly DownloadManager _downloadManager = new DownloadManager();
@@ -27,7 +28,7 @@ public static class ModManager
         {
             Logger.Error("Failed to download Ultimate ASI Loader");
             Logger.LogExceptionDetails(ex);
-            throw new Exception("Failed to extract Ultimate ASI Loader");
+            throw new Exception("Failed to download Ultimate ASI Loader");
         }
         Logger.Info("Download complete");
     }
@@ -73,7 +74,7 @@ public static class ModManager
         {
             Logger.Error("Failed to download EaglePatch mod");
             Logger.LogExceptionDetails(ex);
-            throw new Exception("Failed to extract EaglePatch mod");
+            throw new Exception("Failed to download EaglePatch mod");
         }
         Logger.Info("Download complete");
     }
@@ -102,11 +103,41 @@ public static class ModManager
     public static async Task DownloaduMod(Action<int> progressCallback)
     {
         Logger.Info("Downloading uMod");
+        _downloadManager.ProgressChanged += progressCallback;
+        string savePath = Path.Combine(AppPaths.Downloads, Path.GetFileName(UMOD_PATCH_URL));
+        Logger.Debug($"Save path: {savePath}");
+        try
+        {
+            await _downloadManager.DownloadFileAsync(UMOD_PATCH_URL, savePath);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error("Failed to download uMod");
+            Logger.LogExceptionDetails(ex);
+            throw new Exception("Failed to download uMod");
+        }
+        Logger.Info("Download complete");
     }
 
     public static async Task InstalluMod()
     {
         Logger.Info("Installing uMod");
+        string zipFile = Path.Combine(AppPaths.Downloads, Path.GetFileName(UMOD_PATCH_URL));
+        string outputPath = AppPaths.uMod;
+        Logger.Debug($"Zip file location: {zipFile}");
+        Logger.Debug($"Extraction path: {outputPath}");
+        try
+        {
+            Directory.CreateDirectory(outputPath);
+            Extractor.ExtractZip(zipFile, outputPath);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error("Failed to extract uMod");
+            Logger.LogExceptionDetails(ex);
+            throw new Exception("Failed to extract uMod");
+        }
+        await Task.Delay(1);
     }
 
     // Overhaul
