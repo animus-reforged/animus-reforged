@@ -9,9 +9,10 @@ namespace AnimusReforged.Altair.ViewModels;
 public partial class MainWindowViewModel : ViewModelBase
 {
     public string Title { get; } = $"AnimusReforged (Altair) v{App.Settings.GetVersion()}";
-    
-    [ObservableProperty] 
-    private Control? currentPage;
+
+    [ObservableProperty] private Control? currentPage;
+
+    [ObservableProperty] private bool working = false;
 
     public MainWindowViewModel()
     {

@@ -24,37 +24,40 @@ public partial class WelcomePageViewModel : ViewModelBase
     private async Task Install()
     {
         Logger.Debug("Installing AnimusReforged (Altair) mods");
+        MainWindowViewModel? mainVM = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow.DataContext as MainWindowViewModel;
+        if (mainVM == null) return; // or throw
         try
         {
+            mainVM.Working = true;
             // Install ASI Loader (https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases/latest/download/Ultimate-ASI-Loader.zip)
             StatusText = "Downloading Ultimate ASI Loader";
             await ModManager.DownloadAsiLoader(progress => ProgressBarValue = progress);
             StatusText = "Installing Ultimate ASI Loader";
-            await ModManager.InstallAsiLoader();
+            ModManager.InstallAsiLoader();
 
             // Install EaglePatch (https://github.com/Sergeanur/EaglePatch/releases/latest/download/EaglePatchAC1.rar)
             StatusText = "Downloading EaglePatch mod";
             await ModManager.DownloadEaglePatch(progress => ProgressBarValue = progress);
             StatusText = "Installing EaglePatch mod";
-            await ModManager.InstallEaglePatch();
+            ModManager.InstallEaglePatch();
 
             // Install uMod (https://github.com/animus-reforged/uMod/releases/latest/download/uMod.zip)
             StatusText = "Downloading uMod";
             await ModManager.DownloaduMod(progress => ProgressBarValue = progress);
             StatusText = "Installing uMod";
-            await ModManager.InstalluMod();
+            ModManager.InstalluMod();
 
             // Install Overhaul (https://github.com/animus-reforged/mods/releases/download/altair/Overhaul.zip)
             StatusText = "Downloading Overhaul mod";
             await ModManager.DownloadOverhaul(progress => ProgressBarValue = progress);
             StatusText = "Installing Overhaul mod";
-            await ModManager.InstallOverhaul();
-            
+            ModManager.InstallOverhaul();
+
             // Setup uMod and Overhaul
             StatusText = "Setting up uMod and Overhaul mod";
             await UModManager.SetupAppdata(AppPaths.AltairGameExecutable);
             await UModManager.SetupSaveFile(AppPaths.AltairGameExecutable, "ac1.txt");
-            
+
             // Cleanup
             StatusText = "Cleaning up";
             Logger.Info("Cleaning up");
@@ -64,14 +67,14 @@ public partial class WelcomePageViewModel : ViewModelBase
                 Logger.Debug("Deleting downloads directory");
                 Directory.Delete(AppPaths.Downloads, true);
             }
-            
+
             Logger.Info("Setup completed");
             App.Settings.SetupCompleted = true;
             StatusText = "Download Complete.";
             await MessageBox.ShowAsync("Installation completed.", "Success");
-            
+
             // Navigate to a different page
-            if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime { MainWindow.DataContext: MainWindowViewModel mainVM })
+            if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime { MainWindow.DataContext: MainWindowViewModel vm })
             {
                 Logger.Debug("Navigating to default page");
                 mainVM.Navigate("Default");
@@ -80,6 +83,10 @@ public partial class WelcomePageViewModel : ViewModelBase
         catch (Exception ex)
         {
             await MessageBox.ShowAsync(ex.Message);
+        }
+        finally
+        {
+            mainVM.Working = false;
         }
     }
 }

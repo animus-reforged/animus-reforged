@@ -9,7 +9,8 @@
               x:Class="AnimusReforged.Altair.Views.MainWindow"
               x:DataType="vm:MainWindowViewModel"
               Icon="/Assets/icon.ico"
-              Title="{Binding Title}">
+              Title="{Binding Title}"
+              IsEnabled="{Binding Working, Converter={StaticResource InverseBoolConverter}}">
     <Design.DataContext>
         <vm:MainWindowViewModel />
     </Design.DataContext>

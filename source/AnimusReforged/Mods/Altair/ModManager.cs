@@ -34,7 +34,7 @@ public static class ModManager
         Logger.Info("Download complete");
     }
 
-    public static async Task InstallAsiLoader()
+    public static void InstallAsiLoader()
     {
         Logger.Info("Extracting Ultimate ASI Loader");
         string zipFile = Path.Combine(AppPaths.Downloads, Path.GetFileName(ASI_LOADER_URL));
@@ -54,7 +54,6 @@ public static class ModManager
 
         // Create a scripts folder if it's missing
         Directory.CreateDirectory(AppPaths.Scripts);
-        await Task.Delay(1);
     }
 
     // EaglePatch
@@ -77,7 +76,7 @@ public static class ModManager
         Logger.Info("Download complete");
     }
 
-    public static async Task InstallEaglePatch()
+    public static void InstallEaglePatch()
     {
         Logger.Info("Extracting EaglePatch mod");
         string zipFile = Path.Combine(AppPaths.Downloads, Path.GetFileName(EAGLE_PATCH_URL));
@@ -94,7 +93,6 @@ public static class ModManager
             Logger.LogExceptionDetails(ex);
             throw new Exception("Failed to extract EaglePatch mod");
         }
-        await Task.Delay(1);
     }
 
     // uMod
@@ -117,7 +115,7 @@ public static class ModManager
         Logger.Info("Download complete");
     }
 
-    public static async Task InstalluMod()
+    public static void InstalluMod()
     {
         Logger.Info("Installing uMod");
         string zipFile = Path.Combine(AppPaths.Downloads, Path.GetFileName(UMOD_URL));
@@ -136,7 +134,6 @@ public static class ModManager
             throw new Exception("Failed to extract uMod");
         }
         Directory.CreateDirectory(AppPaths.Mods);
-        await Task.Delay(1);
     }
 
     // Overhaul
@@ -159,7 +156,7 @@ public static class ModManager
         Logger.Info("Download complete");
     }
 
-    public static async Task InstallOverhaul()
+    public static void InstallOverhaul()
     {
         Logger.Info("Installing Overhaul mod");
         string zipFile = Path.Combine(AppPaths.Downloads, Path.GetFileName(OVERHAUL_MOD_URL));
@@ -177,6 +174,5 @@ public static class ModManager
             Logger.LogExceptionDetails(ex);
             throw new Exception("Failed to extract Overhaul mod");
         }
-        await Task.Delay(1);
     }
 }
