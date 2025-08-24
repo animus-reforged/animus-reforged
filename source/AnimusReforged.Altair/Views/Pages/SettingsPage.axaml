@@ -112,7 +112,7 @@
                         <ui:SettingsExpander.Footer>
                             <ComboBox MinWidth="150"
                                       ItemsSource="{Binding KeyboardLayouts}"
-                                      SelectedItem="{Binding SelectedKeyboardLayout}"
+                                      SelectedIndex="{Binding SelectedKeyboardLayoutIndex}"
                                       HorizontalAlignment="Right" />
                         </ui:SettingsExpander.Footer>
                     </ui:SettingsExpander>

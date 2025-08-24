@@ -1,4 +1,8 @@
 ﻿using System.Collections.ObjectModel;
+using System.IO;
+using AnimusReforged.Altair.Views;
+using AnimusReforged.Mods.Utilities;
+using AnimusReforged.Paths;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AnimusReforged.Altair.ViewModels.Pages;
@@ -6,6 +10,7 @@ namespace AnimusReforged.Altair.ViewModels.Pages;
 public partial class SettingsPageViewModel : ViewModelBase
 {
     // Variables
+    private bool _suppressUpdates;
     [ObservableProperty] private bool isUModEnabled = App.Settings.Tweaks.UMod;
 
     [ObservableProperty] private bool isReShadeEnabled;
@@ -13,9 +18,11 @@ public partial class SettingsPageViewModel : ViewModelBase
     [ObservableProperty] private bool isEaglePatchEnabled;
 
     // Keyboard Layouts
-    [ObservableProperty] private string selectedKeyboardLayout = "Keyboard"; // Default value
+    [ObservableProperty] private int selectedKeyboardLayoutIndex = 2; // Default Value
     public ObservableCollection<string> KeyboardLayouts { get; } = ["KeyboardMouse2", "KeyboardMouse5", "Keyboard", "KeyboardAlt"];
 
+    // EaglePatch
+    private IniParser? _eaglePatchIni;
     [ObservableProperty] private bool isPs3ControlsEnabled;
 
     [ObservableProperty] private bool isSkipIntroVideosEnabled;
@@ -29,13 +36,48 @@ public partial class SettingsPageViewModel : ViewModelBase
     // Constructor
     public SettingsPageViewModel()
     {
+        _suppressUpdates = true;
         // TODO: Loading settings from files
+        // Load EaglePatch settings
+        LoadEaglePatchSettings();
+        _suppressUpdates = false;
     }
 
     // Methods
+
+    private void LoadEaglePatchSettings()
+    {
+        if (File.Exists(Path.Combine(AppPaths.Scripts, "EaglePatchAC1.asi")))
+        {
+            Logger.Info("EaglePatch is enabled");
+            IsEaglePatchEnabled = true;
+        }
+        else if (File.Exists(Path.Combine(AppPaths.Scripts, "EaglePatchAC1.asi.disabled")))
+        {
+            Logger.Info("EaglePatch is disabled");
+            IsEaglePatchEnabled = false;
+        }
+        else
+        {
+            Logger.Warning("EaglePatch is not installed");
+            IsEaglePatchEnabled = false;
+        }
+        _eaglePatchIni = new IniParser(AppPaths.AltairEaglePatchIni);
+        SelectedKeyboardLayoutIndex = _eaglePatchIni.GetInt("EaglePatchAC1", "KeyboardLayout");
+        Logger.Info($"Selected keyboard layout: {SelectedKeyboardLayoutIndex}");
+        IsPs3ControlsEnabled = _eaglePatchIni.GetBool("EaglePatchAC1", "PS3Controls");
+        Logger.Info($"PS3Controls: {IsPs3ControlsEnabled}");
+        IsSkipIntroVideosEnabled = _eaglePatchIni.GetBool("EaglePatchAC1", "SkipIntroVideos");
+        Logger.Info($"SkipIntroVideos: {IsSkipIntroVideosEnabled}");
+    }
+    
     // TODO: Saving settings
     partial void OnIsUModEnabledChanged(bool oldValue, bool newValue)
     {
+        if (_suppressUpdates)
+        {
+            return;
+        }
         Logger.Debug($"UMod: {oldValue} -> {newValue}");
         App.Settings.Tweaks.UMod = newValue;
         App.AppSettings.SaveSettings();
@@ -43,31 +85,63 @@ public partial class SettingsPageViewModel : ViewModelBase
 
     partial void OnIsReShadeEnabledChanged(bool oldValue, bool newValue)
     {
+        if (_suppressUpdates)
+        {
+            return;
+        }
         Logger.Debug($"ReShade: {oldValue} -> {newValue}");
     }
 
     partial void OnIsEaglePatchEnabledChanged(bool oldValue, bool newValue)
     {
+        if (_suppressUpdates)
+        {
+            return;
+        }
+        if (IsEaglePatchEnabled && !File.Exists(Path.Combine(AppPaths.Scripts, "EaglePatchAC1.asi")) && !File.Exists(Path.Combine(AppPaths.Scripts, "EaglePatchAC1.asi.disabled")))
+        {
+            // TODO: Fix UI not applying this false value
+            Logger.Error("EaglePatch couldn't be found");
+            IsEaglePatchEnabled = false; 
+            MessageBox.Show("EaglePatch couldn't be found. This could mean corrupted EaglePatch Installation.", "Error", App.MainWindow);
+            return;
+        }
         Logger.Debug($"EaglePatch: {oldValue} -> {newValue}");
     }
 
-    partial void OnSelectedKeyboardLayoutChanged(string? oldValue, string newValue)
+    partial void OnSelectedKeyboardLayoutIndexChanged(int oldValue, int newValue)
     {
+        if (_suppressUpdates)
+        {
+            return;
+        }
         Logger.Debug($"Keyboard Layout: {oldValue} -> {newValue}");
     }
 
     partial void OnIsPs3ControlsEnabledChanged(bool oldValue, bool newValue)
     {
+        if (_suppressUpdates)
+        {
+            return;
+        }
         Logger.Debug($"PS3 Controls: {oldValue} -> {newValue}");
     }
 
     partial void OnIsSkipIntroVideosEnabledChanged(bool oldValue, bool newValue)
     {
+        if (_suppressUpdates)
+        {
+            return;
+        }
         Logger.Debug($"Skip Intro Videos: {oldValue} -> {newValue}");
     }
 
     partial void OnIsStutterFixEnabledChanged(bool oldValue, bool newValue)
     {
+        if (_suppressUpdates)
+        {
+            return;
+        }
         Logger.Debug($"Stutter Fix: {oldValue} -> {newValue}");
         App.Settings.Tweaks.StutterFix = newValue;
         App.AppSettings.SaveSettings();
@@ -75,6 +149,10 @@ public partial class SettingsPageViewModel : ViewModelBase
 
     partial void OnIsWindowedModePatchEnabledChanged(bool oldValue, bool newValue)
     {
+        if (_suppressUpdates)
+        {
+            return;
+        }
         Logger.Debug($"Windowed Mode Patch: {oldValue} -> {newValue}");
         App.Settings.Tweaks.WindowedModePatch = newValue;
         App.AppSettings.SaveSettings();
@@ -82,6 +160,10 @@ public partial class SettingsPageViewModel : ViewModelBase
 
     partial void OnIsBorderlessFullscreenEnabledChanged(bool oldValue, bool newValue)
     {
+        if (_suppressUpdates)
+        {
+            return;
+        }
         Logger.Debug($"Borderless Fullscreen: {oldValue} -> {newValue}");
         App.Settings.Tweaks.BorderlessFullScreen = newValue;
         App.AppSettings.SaveSettings();
