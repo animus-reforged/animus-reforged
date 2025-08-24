@@ -6,11 +6,11 @@ namespace AnimusReforged.Altair.ViewModels.Pages;
 public partial class SettingsPageViewModel : ViewModelBase
 {
     // Variables
-    [ObservableProperty] private bool isUModEnabled = true;
+    [ObservableProperty] private bool isUModEnabled = App.Settings.Tweaks.UMod;
 
-    [ObservableProperty] private bool isReShadeEnabled = true;
+    [ObservableProperty] private bool isReShadeEnabled;
 
-    [ObservableProperty] private bool isEaglePatchEnabled = true;
+    [ObservableProperty] private bool isEaglePatchEnabled;
 
     // Keyboard Layouts
     [ObservableProperty] private string selectedKeyboardLayout = "Keyboard"; // Default value
@@ -18,11 +18,13 @@ public partial class SettingsPageViewModel : ViewModelBase
 
     [ObservableProperty] private bool isPs3ControlsEnabled;
 
-    [ObservableProperty] private bool isSkipIntroVideosEnabled = true;
+    [ObservableProperty] private bool isSkipIntroVideosEnabled;
 
-    [ObservableProperty] private bool isWindowedModePatchEnabled;
+    [ObservableProperty] private bool isStutterFixEnabled = App.Settings.Tweaks.StutterFix;
 
-    [ObservableProperty] private bool isBorderlessFullscreenEnabled;
+    [ObservableProperty] private bool isWindowedModePatchEnabled = App.Settings.Tweaks.WindowedModePatch;
+
+    [ObservableProperty] private bool isBorderlessFullscreenEnabled = App.Settings.Tweaks.BorderlessFullScreen;
 
     // Constructor
     public SettingsPageViewModel()
@@ -35,6 +37,8 @@ public partial class SettingsPageViewModel : ViewModelBase
     partial void OnIsUModEnabledChanged(bool oldValue, bool newValue)
     {
         Logger.Debug($"UMod: {oldValue} -> {newValue}");
+        App.Settings.Tweaks.UMod = newValue;
+        App.AppSettings.SaveSettings();
     }
 
     partial void OnIsReShadeEnabledChanged(bool oldValue, bool newValue)
@@ -62,13 +66,24 @@ public partial class SettingsPageViewModel : ViewModelBase
         Logger.Debug($"Skip Intro Videos: {oldValue} -> {newValue}");
     }
 
+    partial void OnIsStutterFixEnabledChanged(bool oldValue, bool newValue)
+    {
+        Logger.Debug($"Stutter Fix: {oldValue} -> {newValue}");
+        App.Settings.Tweaks.StutterFix = newValue;
+        App.AppSettings.SaveSettings();
+    }
+
     partial void OnIsWindowedModePatchEnabledChanged(bool oldValue, bool newValue)
     {
         Logger.Debug($"Windowed Mode Patch: {oldValue} -> {newValue}");
+        App.Settings.Tweaks.WindowedModePatch = newValue;
+        App.AppSettings.SaveSettings();
     }
 
     partial void OnIsBorderlessFullscreenEnabledChanged(bool oldValue, bool newValue)
     {
         Logger.Debug($"Borderless Fullscreen: {oldValue} -> {newValue}");
+        App.Settings.Tweaks.BorderlessFullScreen = newValue;
+        App.AppSettings.SaveSettings();
     }
 }

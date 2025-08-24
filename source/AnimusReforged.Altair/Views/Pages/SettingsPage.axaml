@@ -149,8 +149,7 @@
                     <ic:SymbolIconSource Symbol="GlobeOff" />
                 </ui:SettingsExpander.IconSource>
                 <ui:SettingsExpander.Footer>
-                    <Button Content="Apply Fix"
-                            Classes="accent" />
+                    <ToggleSwitch IsChecked="{Binding IsStutterFixEnabled, Mode=TwoWay}" />
                 </ui:SettingsExpander.Footer>
             </ui:SettingsExpander>
 

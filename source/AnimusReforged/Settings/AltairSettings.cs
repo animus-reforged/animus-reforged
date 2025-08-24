@@ -1,4 +1,6 @@
-﻿namespace AnimusReforged.Settings;
+﻿using System.Text.Json.Serialization;
+
+namespace AnimusReforged.Settings;
 
 /// <summary>
 /// Altair settings
@@ -8,6 +10,22 @@ public class AltairSettings() : AbstractSettings<AltairSettings.AltairSettingsSt
     public class AltairSettingsStore : BaseSettingsStore
     {
         // Settings
-        
+        [JsonPropertyName("tweaks")]
+        public TweakSettings Tweaks { get; set; } = new TweakSettings();
     }
+}
+
+public class TweakSettings
+{
+    [JsonPropertyName("umod")]
+    public bool UMod { get; set; } = false;
+    
+    [JsonPropertyName("stutter_fix")]
+    public bool StutterFix { get; set; } = false;
+    
+    [JsonPropertyName("windowed_mode_patch")]
+    public bool WindowedModePatch { get; set; } = false;
+    
+    [JsonPropertyName("borderless_fullscreen")]
+    public bool BorderlessFullScreen { get; set; } = false;
 }
