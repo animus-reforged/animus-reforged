@@ -27,11 +27,14 @@ public partial class WelcomePageViewModel : ViewModelBase
         MainWindowViewModel? mainVM = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow?.DataContext as MainWindowViewModel;
         if (mainVM == null)
         {
-            return;
+            Logger.Error("Couldn't find main window view model. Window won't be disabled.");
         }
         try
         {
-            mainVM.Working = true;
+            if (mainVM != null)
+            {
+                mainVM.Working = true;
+            }
             // Install ASI Loader (https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases/latest/download/Ultimate-ASI-Loader.zip)
             StatusText = "Downloading Ultimate ASI Loader";
             await ModManager.DownloadAsiLoader(progress => ProgressBarValue = progress);
@@ -77,7 +80,7 @@ public partial class WelcomePageViewModel : ViewModelBase
             await MessageBox.ShowAsync("Installation completed.", "Success");
 
             // Navigate to a different page
-            if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime { MainWindow.DataContext: MainWindowViewModel vm })
+            if (mainVM != null)
             {
                 Logger.Debug("Navigating to default page");
                 mainVM.Navigate("Default");
@@ -89,7 +92,10 @@ public partial class WelcomePageViewModel : ViewModelBase
         }
         finally
         {
-            mainVM.Working = false;
+            if (mainVM != null)
+            {
+                mainVM.Working = false;
+            }
         }
     }
 }
