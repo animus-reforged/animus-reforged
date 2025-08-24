@@ -12,11 +12,15 @@ public partial class MainWindowViewModel : ViewModelBase
 
     [ObservableProperty] private Control? currentPage;
 
-    [ObservableProperty] private bool working = false;
+    [ObservableProperty] private bool working;
+    
+    [ObservableProperty] private bool setupCompleted;
 
     public MainWindowViewModel()
     {
-        if (App.Settings.SetupCompleted)
+        SetupCompleted = App.Settings.SetupCompleted;
+        Working = false;
+        if (SetupCompleted)
         {
             CurrentPage = new DefaultPage();
         }

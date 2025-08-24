@@ -31,10 +31,6 @@ public partial class WelcomePageViewModel : ViewModelBase
         }
         try
         {
-            if (mainVM != null)
-            {
-                mainVM.Working = true;
-            }
             // Install ASI Loader (https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases/latest/download/Ultimate-ASI-Loader.zip)
             StatusText = "Downloading Ultimate ASI Loader";
             await ModManager.DownloadAsiLoader(progress => ProgressBarValue = progress);
@@ -73,7 +69,6 @@ public partial class WelcomePageViewModel : ViewModelBase
                 Logger.Debug("Deleting downloads directory");
                 Directory.Delete(AppPaths.Downloads, true);
             }
-
             Logger.Info("Setup completed");
             App.Settings.SetupCompleted = true;
             StatusText = "Download Complete.";
@@ -83,19 +78,13 @@ public partial class WelcomePageViewModel : ViewModelBase
             if (mainVM != null)
             {
                 Logger.Debug("Navigating to default page");
+                mainVM.SetupCompleted = true;
                 mainVM.Navigate("Default");
             }
         }
         catch (Exception ex)
         {
             await MessageBox.ShowAsync(ex.Message);
-        }
-        finally
-        {
-            if (mainVM != null)
-            {
-                mainVM.Working = false;
-            }
         }
     }
 }

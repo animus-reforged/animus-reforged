@@ -33,13 +33,13 @@
                 </controls:NavigationViewItem.Content>
             </controls:NavigationViewItem>
 
-            <controls:NavigationViewItem Content="Play">
+            <controls:NavigationViewItem Content="Play" IsEnabled="{Binding SetupCompleted}">
                 <controls:NavigationViewItem.IconSource>
                     <controls:SymbolIconSource Symbol="Play" />
                 </controls:NavigationViewItem.IconSource>
             </controls:NavigationViewItem>
 
-            <controls:NavigationViewItem Content="Settings">
+            <controls:NavigationViewItem Content="Settings" IsEnabled="{Binding SetupCompleted}">
                 <controls:NavigationViewItem.IconSource>
                     <controls:SymbolIconSource Symbol="Setting" />
                 </controls:NavigationViewItem.IconSource>
@@ -47,7 +47,7 @@
         </controls:NavigationView.MenuItems>
 
         <controls:NavigationView.FooterMenuItems>
-            <controls:NavigationViewItem Content="Credits">
+            <controls:NavigationViewItem Content="Credits" IsEnabled="{Binding SetupCompleted}">
                 <controls:NavigationViewItem.IconSource>
                     <controls:SymbolIconSource Symbol="ContactInfo" />
                 </controls:NavigationViewItem.IconSource>
@@ -55,7 +55,5 @@
         </controls:NavigationView.FooterMenuItems>
 
         <ContentControl Content="{Binding CurrentPage}" />
-
-
     </controls:NavigationView>
 </ui:AppWindow>
