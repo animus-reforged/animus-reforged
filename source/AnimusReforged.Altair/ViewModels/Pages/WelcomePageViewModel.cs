@@ -24,8 +24,11 @@ public partial class WelcomePageViewModel : ViewModelBase
     private async Task Install()
     {
         Logger.Debug("Installing AnimusReforged (Altair) mods");
-        MainWindowViewModel? mainVM = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow.DataContext as MainWindowViewModel;
-        if (mainVM == null) return; // or throw
+        MainWindowViewModel? mainVM = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow?.DataContext as MainWindowViewModel;
+        if (mainVM == null)
+        {
+            return;
+        }
         try
         {
             mainVM.Working = true;
