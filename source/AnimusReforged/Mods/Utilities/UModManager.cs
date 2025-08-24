@@ -1,4 +1,5 @@
-﻿using AnimusReforged.Paths;
+﻿using System.Text;
+using AnimusReforged.Paths;
 
 namespace AnimusReforged.Mods.Utilities;
 
@@ -8,9 +9,17 @@ public static class UModManager
     {
         Logger.Debug("Setting up uMod AppData");
         Directory.CreateDirectory(AppPaths.uModAppdata);
-        string encodedPath = Encode(gamePath);
-        Logger.Debug($"Encoded path: {encodedPath}");
-        await File.WriteAllTextAsync(AppPaths.uModConfig, encodedPath);
+        Logger.Debug($"Encoded path: {gamePath}");
+        if (File.Exists(AppPaths.uModConfig))
+        {
+            Logger.Debug("uMod AppData config file already exists, appending path");
+            await File.AppendAllTextAsync(AppPaths.uModConfig, Environment.NewLine + gamePath, System.Text.Encoding.Unicode);
+        }
+        else
+        {
+            Logger.Debug("Creating new uMod AppData config file (uMod_DX9.txt)");
+            await File.WriteAllTextAsync(AppPaths.uModConfig, gamePath, System.Text.Encoding.Unicode);
+        }
     }
 
     public static async Task SetupSaveFile(string gamePath, string templateName)
@@ -23,37 +32,15 @@ public static class UModManager
         }
         Logger.Debug("Setting up uMod template");
         string templatePath = Path.Combine(AppPaths.uModTemplates, templateName);
-        File.WriteAllLines(templatePath, new[]
-        {
+        File.WriteAllLines(templatePath, [
             "SaveAllTextures:0",
             "SaveSingleTexture:0",
             "FontColour:255,0,0",
             "TextureColour:0,255,0",
             $"Add_true:{AppPaths.AltairOverhaulModFile}\n"
-        });
-        string saveFileEntry = $"{gamePath}|{templatePath}";
+        ]);
+        string saveFileEntry = $"{gamePath}|{templatePath}\n";
         Logger.Debug($"Save file entry: {saveFileEntry}");
-        string encodedSaveFileEntry = Encode(saveFileEntry);
-        Logger.Debug($"Encoded save file entry: {encodedSaveFileEntry}");
-        await File.WriteAllTextAsync(AppPaths.uModSaveFiles, encodedSaveFileEntry);
-    }
-
-    private static string Encode(string input)
-    {
-        List<char> charList = new();
-        for (int i = 0; i < input.Length; i++)
-        {
-            // null before every character except the first
-            if (i > 0)
-            {
-                charList.Add('\0');
-            }
-            charList.Add(input[i]);
-        }
-
-        // null at the end
-        charList.Add('\0');
-
-        return new string(charList.ToArray());
+        await File.AppendAllTextAsync(AppPaths.uModSaveFiles, saveFileEntry, new UnicodeEncoding(false, false));
     }
 }
