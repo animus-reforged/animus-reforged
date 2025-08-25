@@ -31,6 +31,8 @@ public partial class SettingsPageViewModel : ViewModelBase
     [ObservableProperty] private bool isSkipIntroVideosEnabled;
 
     [ObservableProperty] private bool isStutterFixEnabled;
+    
+    [ObservableProperty] private bool isHighCoreCountFixEnabled;
 
     [ObservableProperty] private bool isWindowedModePatchEnabled;
 
@@ -45,13 +47,16 @@ public partial class SettingsPageViewModel : ViewModelBase
         LoadEaglePatchSettings();
         
         // Stutter Patch
-        isStutterFixEnabled = App.Settings.Tweaks.StutterFix;
+        IsStutterFixEnabled = App.Settings.Tweaks.StutterFix;
+        
+        // High Core Count Fix
+        IsHighCoreCountFixEnabled = App.Settings.Tweaks.HighCoreCountFix;
         
         // Windowed Mode Patch
-        isWindowedModePatchEnabled = App.Settings.Tweaks.WindowedModePatch;
+        IsWindowedModePatchEnabled = App.Settings.Tweaks.WindowedModePatch;
         
         // Borderless Fullscreen
-        isBorderlessFullscreenEnabled = App.Settings.Tweaks.BorderlessFullScreen;
+        IsBorderlessFullscreenEnabled = App.Settings.Tweaks.BorderlessFullScreen;
         
         _suppressUpdates = false;
     }

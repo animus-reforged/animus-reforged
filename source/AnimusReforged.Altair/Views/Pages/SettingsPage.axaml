@@ -152,6 +152,16 @@
                     <ToggleSwitch IsChecked="{Binding IsStutterFixEnabled, Mode=TwoWay}" />
                 </ui:SettingsExpander.Footer>
             </ui:SettingsExpander>
+            
+            <ui:SettingsExpander Header="High Core Count Fix"
+                                 Description="Fixes the game not starting on CPU's with 32 Cores">
+                <ui:SettingsExpander.IconSource>
+                    <ic:SymbolIconSource Symbol="BugArrowCounterclockwise" />
+                </ui:SettingsExpander.IconSource>
+                <ui:SettingsExpander.Footer>
+                    <ToggleSwitch IsChecked="{Binding IsHighCoreCountFixEnabled, Mode=TwoWay}" />
+                </ui:SettingsExpander.Footer>
+            </ui:SettingsExpander>
 
             <ui:SettingsExpander Header="Windowed Mode Patch"
                                  Description="Fixes windowed mode (This will force the game to launch in Windowed mode always)">

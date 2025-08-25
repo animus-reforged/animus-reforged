@@ -23,6 +23,9 @@ public class TweakSettings
     [JsonPropertyName("stutter_fix")]
     public bool StutterFix { get; set; } = false;
     
+    [JsonPropertyName("high_core_count_fix")]
+    public bool HighCoreCountFix { get; set; } = false;
+    
     [JsonPropertyName("windowed_mode_patch")]
     public bool WindowedModePatch { get; set; } = false;
     
