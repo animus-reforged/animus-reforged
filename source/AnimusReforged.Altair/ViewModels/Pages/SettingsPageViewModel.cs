@@ -1,6 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using AnimusReforged.Altair.Views;
+using AnimusReforged.Mods.Altair;
 using AnimusReforged.Mods.Utilities;
 using AnimusReforged.Paths;
 using Avalonia.Threading;
@@ -28,11 +30,11 @@ public partial class SettingsPageViewModel : ViewModelBase
 
     [ObservableProperty] private bool isSkipIntroVideosEnabled;
 
-    [ObservableProperty] private bool isStutterFixEnabled = App.Settings.Tweaks.StutterFix;
+    [ObservableProperty] private bool isStutterFixEnabled;
 
-    [ObservableProperty] private bool isWindowedModePatchEnabled = App.Settings.Tweaks.WindowedModePatch;
+    [ObservableProperty] private bool isWindowedModePatchEnabled;
 
-    [ObservableProperty] private bool isBorderlessFullscreenEnabled = App.Settings.Tweaks.BorderlessFullScreen;
+    [ObservableProperty] private bool isBorderlessFullscreenEnabled;
 
     // Constructor
     public SettingsPageViewModel()
@@ -41,6 +43,16 @@ public partial class SettingsPageViewModel : ViewModelBase
         // TODO: Loading settings from files
         // Load EaglePatch settings
         LoadEaglePatchSettings();
+        
+        // Stutter Patch
+        isStutterFixEnabled = App.Settings.Tweaks.StutterFix;
+        
+        // Windowed Mode Patch
+        isWindowedModePatchEnabled = App.Settings.Tweaks.WindowedModePatch;
+        
+        // Borderless Fullscreen
+        isBorderlessFullscreenEnabled = App.Settings.Tweaks.BorderlessFullScreen;
+        
         _suppressUpdates = false;
     }
 
@@ -155,6 +167,25 @@ public partial class SettingsPageViewModel : ViewModelBase
             return;
         }
         Logger.Debug($"Stutter Fix: {oldValue} -> {newValue}");
+        try
+        {
+            // Apply Patch
+            if (newValue)
+            {
+                Patcher.StutterPatch(AppPaths.AltairGameExecutable);
+            }
+            else
+            {
+                // Revert Patch
+                Patcher.StutterPatchRevert(AppPaths.AltairGameExecutable);
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex);
+            Logger.LogExceptionDetails(ex);
+            MessageBox.Show($"Failed to apply Stutter Fix. Full Error:\n{ex}", "Error", App.MainWindow);
+        }
         App.Settings.Tweaks.StutterFix = newValue;
         App.AppSettings.SaveSettings();
     }
