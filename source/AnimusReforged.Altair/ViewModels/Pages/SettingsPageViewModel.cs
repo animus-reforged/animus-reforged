@@ -3,6 +3,7 @@ using System.IO;
 using AnimusReforged.Altair.Views;
 using AnimusReforged.Mods.Utilities;
 using AnimusReforged.Paths;
+using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AnimusReforged.Altair.ViewModels.Pages;
@@ -70,7 +71,7 @@ public partial class SettingsPageViewModel : ViewModelBase
         IsSkipIntroVideosEnabled = _eaglePatchIni.GetBool("EaglePatchAC1", "SkipIntroVideos");
         Logger.Info($"SkipIntroVideos: {IsSkipIntroVideosEnabled}");
     }
-    
+
     // TODO: Saving settings
     partial void OnIsUModEnabledChanged(bool oldValue, bool newValue)
     {
@@ -100,9 +101,14 @@ public partial class SettingsPageViewModel : ViewModelBase
         }
         if (IsEaglePatchEnabled && !File.Exists(Path.Combine(AppPaths.Scripts, "EaglePatchAC1.asi")) && !File.Exists(Path.Combine(AppPaths.Scripts, "EaglePatchAC1.asi.disabled")))
         {
-            // TODO: Fix UI not applying this false value
             Logger.Error("EaglePatch couldn't be found");
-            IsEaglePatchEnabled = false; 
+            Dispatcher.UIThread.Post(() =>
+            {
+                _suppressUpdates = true;
+                IsEaglePatchEnabled = false;
+                _suppressUpdates = false;
+            });
+
             MessageBox.Show("EaglePatch couldn't be found. This could mean corrupted EaglePatch Installation.", "Error", App.MainWindow);
             return;
         }
