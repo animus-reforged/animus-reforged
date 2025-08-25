@@ -23,7 +23,7 @@ public partial class SettingsPageViewModel : ViewModelBase
     public ObservableCollection<string> KeyboardLayouts { get; } = ["KeyboardMouse2", "KeyboardMouse5", "Keyboard", "KeyboardAlt"];
 
     // EaglePatch
-    private IniParser? _eaglePatchIni;
+    private IniParser _eaglePatchSettings = null!;
     [ObservableProperty] private bool isPs3ControlsEnabled;
 
     [ObservableProperty] private bool isSkipIntroVideosEnabled;
@@ -63,12 +63,12 @@ public partial class SettingsPageViewModel : ViewModelBase
             Logger.Warning("EaglePatch is not installed");
             IsEaglePatchEnabled = false;
         }
-        _eaglePatchIni = new IniParser(AppPaths.AltairEaglePatchIni);
-        SelectedKeyboardLayoutIndex = _eaglePatchIni.GetInt("EaglePatchAC1", "KeyboardLayout");
+        _eaglePatchSettings = new IniParser(AppPaths.AltairEaglePatchIni);
+        SelectedKeyboardLayoutIndex = _eaglePatchSettings.GetInt("EaglePatchAC1", "KeyboardLayout");
         Logger.Info($"Selected keyboard layout: {SelectedKeyboardLayoutIndex}");
-        IsPs3ControlsEnabled = _eaglePatchIni.GetBool("EaglePatchAC1", "PS3Controls");
+        IsPs3ControlsEnabled = _eaglePatchSettings.GetBool("EaglePatchAC1", "PS3Controls");
         Logger.Info($"PS3Controls: {IsPs3ControlsEnabled}");
-        IsSkipIntroVideosEnabled = _eaglePatchIni.GetBool("EaglePatchAC1", "SkipIntroVideos");
+        IsSkipIntroVideosEnabled = _eaglePatchSettings.GetBool("EaglePatchAC1", "SkipIntroVideos");
         Logger.Info($"SkipIntroVideos: {IsSkipIntroVideosEnabled}");
     }
 
@@ -122,6 +122,8 @@ public partial class SettingsPageViewModel : ViewModelBase
             return;
         }
         Logger.Debug($"Keyboard Layout: {oldValue} -> {newValue}");
+        _eaglePatchSettings.Set("EaglePatchAC1", "KeyboardLayout", newValue);
+        _eaglePatchSettings.Save();
     }
 
     partial void OnIsPs3ControlsEnabledChanged(bool oldValue, bool newValue)
@@ -131,6 +133,8 @@ public partial class SettingsPageViewModel : ViewModelBase
             return;
         }
         Logger.Debug($"PS3 Controls: {oldValue} -> {newValue}");
+        _eaglePatchSettings.Set("EaglePatchAC1", "PS3Controls", newValue);
+        _eaglePatchSettings.Save();
     }
 
     partial void OnIsSkipIntroVideosEnabledChanged(bool oldValue, bool newValue)
@@ -140,6 +144,8 @@ public partial class SettingsPageViewModel : ViewModelBase
             return;
         }
         Logger.Debug($"Skip Intro Videos: {oldValue} -> {newValue}");
+        _eaglePatchSettings.Set("EaglePatchAC1", "SkipIntroVideos", newValue);
+        _eaglePatchSettings.Save();
     }
 
     partial void OnIsStutterFixEnabledChanged(bool oldValue, bool newValue)
