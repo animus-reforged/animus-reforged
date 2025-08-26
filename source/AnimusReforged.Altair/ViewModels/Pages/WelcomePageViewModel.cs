@@ -27,7 +27,9 @@ public partial class WelcomePageViewModel : ViewModelBase
         MainWindowViewModel? mainVM = (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow?.DataContext as MainWindowViewModel;
         if (mainVM == null)
         {
-            Logger.Error("Couldn't find main window view model. Window won't be disabled.");
+            Logger.Error("Couldn't find main window view model.");
+            await MessageBox.ShowAsync("Couldn't find main window view model. Window won't be disabled.", "Error");
+            return;
         }
         try
         {
@@ -60,9 +62,22 @@ public partial class WelcomePageViewModel : ViewModelBase
             await UModManager.SetupAppdata(AppPaths.AltairGameExecutable);
             await UModManager.SetupSaveFile(AppPaths.AltairGameExecutable, "ac1.txt");
 
+            // Backup executable
+            Logger.Info("Backing up the game executable");
+            StatusText = "Backing up the game executable";
+            if (File.Exists(AppPaths.AltairGameExecutable))
+            {
+                File.Copy(AppPaths.AltairGameExecutable, AppPaths.AltairGameExecutable + ".bak", true);
+            }
+
+            // Applying 4GB Patch (Large Address Aware)
+            StatusText = "Applying 4GB Patch (Large Address Aware)";
+            UniversalPatcher.LargeAddressAwarePatch(AppPaths.AltairGameExecutable);
+
             // Cleanup
-            StatusText = "Cleaning up";
             Logger.Info("Cleaning up");
+            StatusText = "Cleaning up";
+            
             // Delete the downloads directory recursively
             if (Directory.Exists(AppPaths.Downloads))
             {
@@ -72,15 +87,10 @@ public partial class WelcomePageViewModel : ViewModelBase
             Logger.Info("Setup completed");
             App.Settings.SetupCompleted = true;
             StatusText = "Download Complete.";
-            await MessageBox.ShowAsync("Installation completed.", "Success");
 
-            // Navigate to a different page
-            if (mainVM != null)
-            {
-                Logger.Debug("Navigating to default page");
-                mainVM.SetupCompleted = true;
-                mainVM.Navigate("Default");
-            }
+            mainVM.SetupCompleted = true;
+            mainVM.Navigate("Default");
+            await MessageBox.ShowAsync("Installation completed.", "Success");
         }
         catch (Exception ex)
         {
