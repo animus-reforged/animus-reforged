@@ -25,6 +25,9 @@ public class TweakSettings
     
     [JsonPropertyName("high_core_count_fix")]
     public bool HighCoreCountFix { get; set; } = false;
+
+    [JsonPropertyName("reshade")] 
+    public ReShadeSettings Reshade { get; set; } = new ReShadeSettings();
     
     [JsonPropertyName("windowed_mode_patch")]
     public bool WindowedModePatch { get; set; } = false;

@@ -28,3 +28,12 @@ public abstract class BaseSettingsStore
         }
     }
 }
+
+public class ReShadeSettings
+{
+    [JsonPropertyName("install_date")]
+    public DateTime? InstallDate { get; set; } = null;
+        
+    [JsonPropertyName("enabled")]
+    public bool Enabled { get; set; } = false;
+}

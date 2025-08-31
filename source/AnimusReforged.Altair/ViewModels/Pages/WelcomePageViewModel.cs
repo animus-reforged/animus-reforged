@@ -50,6 +50,15 @@ public partial class WelcomePageViewModel : ViewModelBase
             await ModManager.DownloadAltairFix(progress => ProgressBarValue = progress);
             StatusText = "Installing AltairFix";
             ModManager.InstallAltairFix();
+            
+            // Install ReShade (https://github.com/animus-reforged/mods/releases/download/altair/ReShade.zip)
+            StatusText = "Downloading ReShade";
+            await ModManager.DownloadReShade(progress => ProgressBarValue = progress);
+            StatusText = "Installing Reshade";
+            ModManager.InstallReShade();
+            App.Settings.Tweaks.Reshade.InstallDate = DateTime.Now;
+            App.Settings.Tweaks.Reshade.Enabled = true;
+            App.AppSettings.SaveSettings();
 
             // Install uMod (https://github.com/animus-reforged/uMod/releases/latest/download/uMod.zip)
             StatusText = "Downloading uMod";

@@ -9,6 +9,7 @@ public static class ModManager
     private const string ASI_LOADER_URL = "https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases/latest/download/Ultimate-ASI-Loader.zip";
     private const string EAGLE_PATCH_URL = "https://github.com/Sergeanur/EaglePatch/releases/latest/download/EaglePatchAC1.rar";
     private const string ALTAIRFIX_URL = "https://github.com/animus-reforged/AltairFix/releases/latest/download/AltairFix.zip";
+    private const string RESHADE_URL = "https://github.com/animus-reforged/mods/releases/download/altair/ReShade.zip";
     private const string UMOD_URL = "https://github.com/animus-reforged/uMod/releases/latest/download/uMod.zip";
     private const string OVERHAUL_MOD_URL = "https://github.com/animus-reforged/mods/releases/download/altair/Overhaul.zip";
 
@@ -132,6 +133,45 @@ public static class ModManager
             Logger.Error("Failed to extract AltairFix");
             Logger.LogExceptionDetails(ex);
             throw new Exception("Failed to extract AltairFix");
+        }
+    }
+    
+    // ReShade
+    public static async Task DownloadReShade(Action<int> progressCallback)
+    {
+        Logger.Info("Downloading ReShade");
+        _downloadManager.ProgressChanged += progressCallback;
+        string savePath = Path.Combine(AppPaths.Downloads, Path.GetFileName(RESHADE_URL));
+        Logger.Debug($"Save path: {savePath}");
+        try
+        {
+            await _downloadManager.DownloadFileAsync(RESHADE_URL, savePath);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error("Failed to download ReShade");
+            Logger.LogExceptionDetails(ex);
+            throw new Exception("Failed to download ReShade");
+        }
+        Logger.Info("Download complete");
+    }
+    
+    public static void InstallReShade()
+    {
+        Logger.Info("Extracting ReShade");
+        string zipFile = Path.Combine(AppPaths.Downloads, Path.GetFileName(RESHADE_URL));
+        string outputPath = AppPaths.Scripts;
+        Logger.Debug($"Zip file location: {zipFile}");
+        Logger.Debug($"Extraction path: {outputPath}");
+        try
+        {
+            Extractor.ExtractZip(zipFile, outputPath);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error("Failed to extract ReShade");
+            Logger.LogExceptionDetails(ex);
+            throw new Exception("Failed to extract ReShade");
         }
     }
 
