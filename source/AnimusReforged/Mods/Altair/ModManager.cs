@@ -8,6 +8,7 @@ public static class ModManager
     // Constants
     private const string ASI_LOADER_URL = "https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases/latest/download/Ultimate-ASI-Loader.zip";
     private const string EAGLE_PATCH_URL = "https://github.com/Sergeanur/EaglePatch/releases/latest/download/EaglePatchAC1.rar";
+    private const string ALTAIRFIX_URL = "https://github.com/animus-reforged/AltairFix/releases/latest/download/AltairFix.zip";
     private const string UMOD_URL = "https://github.com/animus-reforged/uMod/releases/latest/download/uMod.zip";
     private const string OVERHAUL_MOD_URL = "https://github.com/animus-reforged/mods/releases/download/altair/Overhaul.zip";
 
@@ -92,6 +93,45 @@ public static class ModManager
             Logger.Error("Failed to extract EaglePatch mod");
             Logger.LogExceptionDetails(ex);
             throw new Exception("Failed to extract EaglePatch mod");
+        }
+    }
+    
+    // AltairFix
+    public static async Task DownloadAltairFix(Action<int> progressCallback)
+    {
+        Logger.Info("Downloading AltairFix");
+        _downloadManager.ProgressChanged += progressCallback;
+        string savePath = Path.Combine(AppPaths.Downloads, Path.GetFileName(ALTAIRFIX_URL));
+        Logger.Debug($"Save path: {savePath}");
+        try
+        {
+            await _downloadManager.DownloadFileAsync(ALTAIRFIX_URL, savePath);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error("Failed to download AltairFix");
+            Logger.LogExceptionDetails(ex);
+            throw new Exception("Failed to download AltairFix");
+        }
+        Logger.Info("Download complete");
+    }
+    
+    public static void InstallAltairFix()
+    {
+        Logger.Info("Extracting AltairFix");
+        string zipFile = Path.Combine(AppPaths.Downloads, Path.GetFileName(ALTAIRFIX_URL));
+        string outputPath = AppPaths.Scripts;
+        Logger.Debug($"Zip file location: {zipFile}");
+        Logger.Debug($"Extraction path: {outputPath}");
+        try
+        {
+            Extractor.ExtractZip(zipFile, outputPath, [".ini", ".asi"]);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error("Failed to extract AltairFix");
+            Logger.LogExceptionDetails(ex);
+            throw new Exception("Failed to extract AltairFix");
         }
     }
 

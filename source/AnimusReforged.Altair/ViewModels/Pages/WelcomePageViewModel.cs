@@ -44,6 +44,12 @@ public partial class WelcomePageViewModel : ViewModelBase
             await ModManager.DownloadEaglePatch(progress => ProgressBarValue = progress);
             StatusText = "Installing EaglePatch mod";
             ModManager.InstallEaglePatch();
+            
+            // Install AltairFix (https://github.com/animus-reforged/AltairFix/releases/latest/download/AltairFix.zip)
+            StatusText = "Downloading AltairFix";
+            await ModManager.DownloadAltairFix(progress => ProgressBarValue = progress);
+            StatusText = "Installing AltairFix";
+            ModManager.InstallAltairFix();
 
             // Install uMod (https://github.com/animus-reforged/uMod/releases/latest/download/uMod.zip)
             StatusText = "Downloading uMod";
