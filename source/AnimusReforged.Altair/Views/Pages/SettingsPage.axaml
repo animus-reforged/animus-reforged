@@ -152,7 +152,7 @@
                     <ToggleSwitch IsChecked="{Binding IsStutterFixEnabled, Mode=TwoWay}" />
                 </ui:SettingsExpander.Footer>
             </ui:SettingsExpander>
-            
+
             <ui:SettingsExpander Header="High Core Count Fix"
                                  Description="Fixes the game not starting on CPU's with 32 Cores">
                 <ui:SettingsExpander.IconSource>
@@ -163,24 +163,40 @@
                 </ui:SettingsExpander.Footer>
             </ui:SettingsExpander>
 
-            <ui:SettingsExpander Header="Windowed Mode Patch"
-                                 Description="Fixes windowed mode (This will force the game to launch in Windowed mode always)">
+            <ui:SettingsExpander Header="Window Mode"
+                                 Description="Choose window mode for the game">
                 <ui:SettingsExpander.IconSource>
-                    <ic:SymbolIconSource Symbol="WindowWrench" />
+                    <ic:SymbolIconSource Symbol="Window" />
                 </ui:SettingsExpander.IconSource>
                 <ui:SettingsExpander.Footer>
-                    <ToggleSwitch IsChecked="{Binding IsWindowedModePatchEnabled, Mode=TwoWay}" />
+                    <ComboBox ItemsSource="{Binding WindowModes}"
+                              SelectedIndex="{Binding SelectedWindowModeIndex}"
+                              MinWidth="100" />
                 </ui:SettingsExpander.Footer>
                 <ui:SettingsExpander.Items>
-                    <ui:SettingsExpander Header="Borderless Fullscreen"
-                                         HorizontalAlignment="Stretch"
-                                         Description="Makes the game window borderless"
-                                         IsEnabled="{Binding IsWindowedModePatchEnabled}">
+                    <ui:SettingsExpander Header="Width"
+                                         Description="Window width (Windowed Only)"
+                                         IsEnabled="{Binding IsCustomResolutionMode}">
                         <ui:SettingsExpander.IconSource>
-                            <ic:SymbolIconSource Symbol="FullScreenMaximize" />
+                            <ic:SymbolIconSource Symbol="ArrowAutofitWidth" />
                         </ui:SettingsExpander.IconSource>
                         <ui:SettingsExpander.Footer>
-                            <ToggleSwitch IsChecked="{Binding IsBorderlessFullscreenEnabled, Mode=TwoWay}" />
+                            <ComboBox ItemsSource="{Binding SupportedWidths}"
+                                      SelectedValue="{Binding SelectedWidth}"
+                                      MinWidth="100" />
+                        </ui:SettingsExpander.Footer>
+                    </ui:SettingsExpander>
+
+                    <ui:SettingsExpander Header="Height"
+                                         Description="Window height (Windowed Only)"
+                                         IsEnabled="{Binding IsCustomResolutionMode}">
+                        <ui:SettingsExpander.IconSource>
+                            <ic:SymbolIconSource Symbol="ArrowAutofitHeight" />
+                        </ui:SettingsExpander.IconSource>
+                        <ui:SettingsExpander.Footer>
+                            <ComboBox ItemsSource="{Binding SupportedHeights}"
+                                      SelectedValue="{Binding SelectedHeight}"
+                                      MinWidth="100" />
                         </ui:SettingsExpander.Footer>
                     </ui:SettingsExpander>
                 </ui:SettingsExpander.Items>

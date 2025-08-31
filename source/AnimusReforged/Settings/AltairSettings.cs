@@ -28,10 +28,4 @@ public class TweakSettings
 
     [JsonPropertyName("reshade")] 
     public ReShadeSettings Reshade { get; set; } = new ReShadeSettings();
-    
-    [JsonPropertyName("windowed_mode_patch")]
-    public bool WindowedModePatch { get; set; } = false;
-    
-    [JsonPropertyName("borderless_fullscreen")]
-    public bool BorderlessFullScreen { get; set; } = false;
 }

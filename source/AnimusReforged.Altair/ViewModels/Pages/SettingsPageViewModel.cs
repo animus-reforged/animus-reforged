@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using AnimusReforged.Altair.Views;
 using AnimusReforged.Mods.Altair;
 using AnimusReforged.Mods.Utilities;
 using AnimusReforged.Paths;
+using AnimusReforged.Utilities;
 using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -31,38 +33,63 @@ public partial class SettingsPageViewModel : ViewModelBase
     [ObservableProperty] private bool isSkipIntroVideosEnabled;
 
     [ObservableProperty] private bool isStutterFixEnabled;
-    
+
     [ObservableProperty] private bool isHighCoreCountFixEnabled;
 
-    [ObservableProperty] private bool isWindowedModePatchEnabled;
+    // Windowed Mode
+    private IniParser _altairFixSettings = null!;
+    private ObservableCollection<string> WindowModes { get; } = ["Fullscreen", "Borderless", "Windowed"];
 
-    [ObservableProperty] private bool isBorderlessFullscreenEnabled;
+    [ObservableProperty] private int selectedWindowModeIndex;
+
+    [ObservableProperty] private bool isCustomResolutionMode;
+    
+    public ObservableCollection<int> SupportedWidths { get; } = [];
+    [ObservableProperty]
+    private int selectedWidth;
+    
+    public ObservableCollection<int> SupportedHeights { get; } = [];
+    [ObservableProperty]
+    private int selectedHeight;
 
     // Constructor
     public SettingsPageViewModel()
     {
         _suppressUpdates = true;
+        PopulateSupportedResolutions();
         // TODO: Loading settings from files
         // Load EaglePatch settings
         LoadEaglePatchSettings();
         
+        // Load AltairFix settings
+        LoadAltairFixSettings();
+        
         // Stutter Patch
         IsStutterFixEnabled = App.Settings.Tweaks.StutterFix;
-        
+
         // High Core Count Fix
         IsHighCoreCountFixEnabled = App.Settings.Tweaks.HighCoreCountFix;
-        
-        // Windowed Mode Patch
-        IsWindowedModePatchEnabled = App.Settings.Tweaks.WindowedModePatch;
-        
-        // Borderless Fullscreen
-        IsBorderlessFullscreenEnabled = App.Settings.Tweaks.BorderlessFullScreen;
-        
+
         _suppressUpdates = false;
     }
 
     // Methods
 
+    private void PopulateSupportedResolutions()
+    {
+        (List<int> widths, List<int> heights)= DisplayHelper.GetSupportedResolutions();
+        SupportedWidths.Clear();
+        SupportedHeights.Clear();
+        foreach (int width in widths)
+        {
+            SupportedWidths.Add(width);
+        }
+        foreach (int height in heights)
+        {
+            SupportedHeights.Add(height);
+        }
+    }
+    
     private void LoadEaglePatchSettings()
     {
         if (File.Exists(Path.Combine(AppPaths.Scripts, "EaglePatchAC1.asi")))
@@ -87,6 +114,18 @@ public partial class SettingsPageViewModel : ViewModelBase
         Logger.Info($"PS3Controls: {IsPs3ControlsEnabled}");
         IsSkipIntroVideosEnabled = _eaglePatchSettings.GetBool("EaglePatchAC1", "SkipIntroVideos");
         Logger.Info($"SkipIntroVideos: {IsSkipIntroVideosEnabled}");
+    }
+
+    private void LoadAltairFixSettings()
+    {
+        _altairFixSettings = new IniParser(AppPaths.AltairFixIni);
+        SelectedWindowModeIndex = _altairFixSettings.GetInt("Display", "WindowMode");
+        Logger.Info($"Window Mode: {WindowModes[SelectedWindowModeIndex]}");
+        IsCustomResolutionMode = SelectedWindowModeIndex == 2;
+        SelectedWidth = _altairFixSettings.GetInt("Display","WindowWidth");
+        Logger.Info($"Window Width: {SelectedWidth}");
+        SelectedHeight = _altairFixSettings.GetInt("Display","WindowHeight");
+        Logger.Info($"Window Height: {SelectedHeight}");
     }
 
     // TODO: Saving settings
@@ -195,25 +234,37 @@ public partial class SettingsPageViewModel : ViewModelBase
         App.AppSettings.SaveSettings();
     }
 
-    partial void OnIsWindowedModePatchEnabledChanged(bool oldValue, bool newValue)
+    partial void OnSelectedWindowModeIndexChanged(int oldValue, int newValue)
     {
         if (_suppressUpdates)
         {
             return;
         }
-        Logger.Debug($"Windowed Mode Patch: {oldValue} -> {newValue}");
-        App.Settings.Tweaks.WindowedModePatch = newValue;
-        App.AppSettings.SaveSettings();
+        Logger.Debug($"Window Mode: {WindowModes[oldValue]} -> {WindowModes[newValue]}");
+        IsCustomResolutionMode = newValue == 2;
+        _altairFixSettings.Set("Display", "WindowMode", newValue);
+        _altairFixSettings.Save();
+    }
+    
+    partial void OnSelectedWidthChanged(int oldValue, int newValue)
+    {
+        if (_suppressUpdates)
+        {
+            return;
+        }
+        Logger.Debug($"Window Width: {oldValue} -> {newValue}");
+        _altairFixSettings.Set("Display", "WindowWidth", newValue);
+        _altairFixSettings.Save();
     }
 
-    partial void OnIsBorderlessFullscreenEnabledChanged(bool oldValue, bool newValue)
+    partial void OnSelectedHeightChanged(int oldValue, int newValue)
     {
         if (_suppressUpdates)
         {
             return;
         }
-        Logger.Debug($"Borderless Fullscreen: {oldValue} -> {newValue}");
-        App.Settings.Tweaks.BorderlessFullScreen = newValue;
-        App.AppSettings.SaveSettings();
+        Logger.Debug($"Window Height: {oldValue} -> {newValue}");
+        _altairFixSettings.Set("Display", "WindowHeight", newValue);
+        _altairFixSettings.Save();
     }
 }
