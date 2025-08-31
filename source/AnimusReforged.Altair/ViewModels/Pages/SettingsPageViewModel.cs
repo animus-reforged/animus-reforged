@@ -7,7 +7,6 @@ using AnimusReforged.Mods.Altair;
 using AnimusReforged.Mods.Utilities;
 using AnimusReforged.Paths;
 using AnimusReforged.Utilities;
-using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace AnimusReforged.Altair.ViewModels.Pages;
@@ -43,14 +42,12 @@ public partial class SettingsPageViewModel : ViewModelBase
     [ObservableProperty] private int selectedWindowModeIndex;
 
     [ObservableProperty] private bool isCustomResolutionMode;
-    
+
     public ObservableCollection<int> SupportedWidths { get; } = [];
-    [ObservableProperty]
-    private int selectedWidth;
-    
+    [ObservableProperty] private int selectedWidth;
+
     public ObservableCollection<int> SupportedHeights { get; } = [];
-    [ObservableProperty]
-    private int selectedHeight;
+    [ObservableProperty] private int selectedHeight;
 
     // Constructor
     public SettingsPageViewModel()
@@ -58,12 +55,16 @@ public partial class SettingsPageViewModel : ViewModelBase
         _suppressUpdates = true;
         PopulateSupportedResolutions();
         // TODO: Loading settings from files
+
+        // ReShade
+        IsReShadeEnabled = App.Settings.Tweaks.Reshade.Enabled;
+
         // Load EaglePatch settings
         LoadEaglePatchSettings();
-        
+
         // Load AltairFix settings
         LoadAltairFixSettings();
-        
+
         // Stutter Patch
         IsStutterFixEnabled = App.Settings.Tweaks.StutterFix;
 
@@ -77,7 +78,7 @@ public partial class SettingsPageViewModel : ViewModelBase
 
     private void PopulateSupportedResolutions()
     {
-        (List<int> widths, List<int> heights)= DisplayHelper.GetSupportedResolutions();
+        (List<int> widths, List<int> heights) = DisplayHelper.GetSupportedResolutions();
         SupportedWidths.Clear();
         SupportedHeights.Clear();
         foreach (int width in widths)
@@ -89,7 +90,7 @@ public partial class SettingsPageViewModel : ViewModelBase
             SupportedHeights.Add(height);
         }
     }
-    
+
     private void LoadEaglePatchSettings()
     {
         if (File.Exists(Path.Combine(AppPaths.Scripts, "EaglePatchAC1.asi")))
@@ -122,9 +123,9 @@ public partial class SettingsPageViewModel : ViewModelBase
         SelectedWindowModeIndex = _altairFixSettings.GetInt("Display", "WindowMode");
         Logger.Info($"Window Mode: {WindowModes[SelectedWindowModeIndex]}");
         IsCustomResolutionMode = SelectedWindowModeIndex == 2;
-        SelectedWidth = _altairFixSettings.GetInt("Display","WindowWidth");
+        SelectedWidth = _altairFixSettings.GetInt("Display", "WindowWidth");
         Logger.Info($"Window Width: {SelectedWidth}");
-        SelectedHeight = _altairFixSettings.GetInt("Display","WindowHeight");
+        SelectedHeight = _altairFixSettings.GetInt("Display", "WindowHeight");
         Logger.Info($"Window Height: {SelectedHeight}");
     }
 
@@ -147,6 +148,33 @@ public partial class SettingsPageViewModel : ViewModelBase
             return;
         }
         Logger.Debug($"ReShade: {oldValue} -> {newValue}");
+        try
+        {
+            if (!UpdateAsiState("ReShade.asi", newValue))
+            {
+                // Couldn’t find the file when enabling, so revert in UI
+                _suppressUpdates = true;
+                IsReShadeEnabled = false;
+                _suppressUpdates = false;
+
+                MessageBox.Show("ReShade couldn't be found. This may mean a corrupted ReShade installation.", "Error", App.MainWindow);
+                return;
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to toggle ReShade state");
+
+            // Revert UI state to last known good
+            _suppressUpdates = true;
+            IsReShadeEnabled = oldValue;
+            _suppressUpdates = false;
+
+            MessageBox.Show("An error occurred while toggling ReShade. Please check file permissions.", "Error", App.MainWindow);
+            return;
+        }
+        App.Settings.Tweaks.Reshade.Enabled = newValue;
+        App.AppSettings.SaveSettings();
     }
 
     partial void OnIsEaglePatchEnabledChanged(bool oldValue, bool newValue)
@@ -155,20 +183,68 @@ public partial class SettingsPageViewModel : ViewModelBase
         {
             return;
         }
-        if (IsEaglePatchEnabled && !File.Exists(Path.Combine(AppPaths.Scripts, "EaglePatchAC1.asi")) && !File.Exists(Path.Combine(AppPaths.Scripts, "EaglePatchAC1.asi.disabled")))
+
+        try
         {
-            Logger.Error("EaglePatch couldn't be found");
-            Dispatcher.UIThread.Post(() =>
+            if (!UpdateAsiState("EaglePatchAC1.asi", newValue))
             {
+                // If we couldn’t find the file when enabling, revert the toggle in UI
                 _suppressUpdates = true;
                 IsEaglePatchEnabled = false;
                 _suppressUpdates = false;
-            });
 
-            MessageBox.Show("EaglePatch couldn't be found. This could mean corrupted EaglePatch Installation.", "Error", App.MainWindow);
+                MessageBox.Show("EaglePatch couldn't be found. This could mean a corrupted EaglePatch installation.", "Error", App.MainWindow);
+                return;
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to toggle EaglePatch state");
+            _suppressUpdates = true;
+            IsEaglePatchEnabled = oldValue;
+            _suppressUpdates = false;
+
+            MessageBox.Show("An error occurred while toggling EaglePatch. Please check file permissions.", "Error", App.MainWindow);
             return;
         }
+
         Logger.Debug($"EaglePatch: {oldValue} -> {newValue}");
+    }
+
+    private bool UpdateAsiState(string asiFileName, bool enable)
+    {
+        string asiPath = Path.Combine(AppPaths.Scripts, asiFileName);
+        string disabledPath = asiPath + ".disabled";
+
+        if (enable)
+        {
+            if (File.Exists(disabledPath))
+            {
+                File.Move(disabledPath, asiPath);
+                Logger.Info($"{asiFileName} enabled");
+                return true;
+            }
+            else if (File.Exists(asiPath))
+            {
+                // Already enabled
+                return true;
+            }
+            else
+            {
+                Logger.Error($"{asiFileName} file not found (enable requested)");
+                return false;
+            }
+        }
+        else
+        {
+            if (File.Exists(asiPath))
+            {
+                File.Move(asiPath, disabledPath);
+                Logger.Info($"{asiFileName} disabled");
+            }
+            // Already disabled — that’s fine too
+            return true;
+        }
     }
 
     partial void OnSelectedKeyboardLayoutIndexChanged(int oldValue, int newValue)
@@ -234,6 +310,17 @@ public partial class SettingsPageViewModel : ViewModelBase
         App.AppSettings.SaveSettings();
     }
 
+    partial void OnIsHighCoreCountFixEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (_suppressUpdates)
+        {
+            return;
+        }
+        Logger.Debug($"High Core Count Fix: {oldValue} -> {newValue}");
+        App.Settings.Tweaks.HighCoreCountFix = newValue;
+        App.AppSettings.SaveSettings();
+    }
+
     partial void OnSelectedWindowModeIndexChanged(int oldValue, int newValue)
     {
         if (_suppressUpdates)
@@ -245,7 +332,7 @@ public partial class SettingsPageViewModel : ViewModelBase
         _altairFixSettings.Set("Display", "WindowMode", newValue);
         _altairFixSettings.Save();
     }
-    
+
     partial void OnSelectedWidthChanged(int oldValue, int newValue)
     {
         if (_suppressUpdates)
