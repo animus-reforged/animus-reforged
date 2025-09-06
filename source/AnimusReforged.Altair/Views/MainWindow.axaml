@@ -18,22 +18,15 @@
                              AlwaysShowHeader="False"
                              IsBackButtonVisible="False"
                              IsSettingsVisible="False"
-                             PaneDisplayMode="Top"
-                             SelectionChanged="NavView_OnSelectionChanged">
+                             PaneDisplayMode="Left"
+                             OpenPaneLength="130"
+                             SelectionChanged="NavView_OnSelectionChanged"
+                             ItemInvoked="NavView_OnItemInvoked">
         <!-- Navigation Items -->
         <controls:NavigationView.MenuItems>
-            <controls:NavigationViewItem SelectsOnInvoked="False">
-                <controls:NavigationViewItem.Content>
-                    <Button Command="{Binding DonateButton}">
-                        <StackPanel Orientation="Horizontal" Spacing="4">
-                            <controls:SymbolIcon Symbol="Like" />
-                            <TextBlock Text="Donate" />
-                        </StackPanel>
-                    </Button>
-                </controls:NavigationViewItem.Content>
-            </controls:NavigationViewItem>
-
-            <controls:NavigationViewItem Content="Play" IsEnabled="{Binding SetupCompleted}">
+            <controls:NavigationViewItem Content="Play"
+                                         IsEnabled="{Binding SetupCompleted}"
+                                         SelectsOnInvoked="False">
                 <controls:NavigationViewItem.IconSource>
                     <controls:SymbolIconSource Symbol="Play" />
                 </controls:NavigationViewItem.IconSource>
@@ -52,8 +45,14 @@
                     <controls:SymbolIconSource Symbol="ContactInfo" />
                 </controls:NavigationViewItem.IconSource>
             </controls:NavigationViewItem>
+            <controls:NavigationViewItem Content="Donate" SelectsOnInvoked="False"
+                                         IsEnabled="{Binding SetupCompleted}">
+                <controls:NavigationViewItem.IconSource>
+                    <controls:SymbolIconSource Symbol="Like" />
+                </controls:NavigationViewItem.IconSource>
+            </controls:NavigationViewItem>
         </controls:NavigationView.FooterMenuItems>
 
-        <ContentControl Content="{Binding CurrentPage}" />
+        <controls:Frame Content="{Binding CurrentPage}"/>
     </controls:NavigationView>
 </ui:AppWindow>

@@ -53,4 +53,15 @@ public partial class MainWindow : AppWindow
             vm.NavigateCommand.Execute(nvi.Content?.ToString() ?? "");
         }
     }
+    private void NavView_OnItemInvoked(object? sender, NavigationViewItemInvokedEventArgs e)
+    {
+        if (DataContext is MainWindowViewModel vm)
+        {
+            string? contentTag = e.InvokedItemContainer?.Content?.ToString();
+            if (contentTag != null)
+            {
+                vm.NavigateInvokedCommand.Execute(contentTag);
+            }
+        }
+    }
 }

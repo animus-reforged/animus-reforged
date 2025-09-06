@@ -13,7 +13,7 @@ public partial class MainWindowViewModel : ViewModelBase
     [ObservableProperty] private Control? currentPage;
 
     [ObservableProperty] private bool working;
-    
+
     [ObservableProperty] private bool setupCompleted;
 
     public MainWindowViewModel()
@@ -29,7 +29,7 @@ public partial class MainWindowViewModel : ViewModelBase
             CurrentPage = new WelcomePage();
         }
     }
-
+    
     [RelayCommand]
     public void Navigate(string destination)
     {
@@ -44,7 +44,25 @@ public partial class MainWindowViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    public void DonateButton()
+    private void NavigateInvoked(string contentTag)
+    {
+        switch (contentTag)
+        {
+            case "Donate":
+                Logger.Debug("Donate button clicked");
+                DonateButton();
+                break;
+            case "Play":
+                // TODO: Launch game and uMod (if enabled)
+                break;
+            default:
+                Navigate(contentTag);
+                break;
+        }
+    }
+
+    [RelayCommand]
+    private void DonateButton()
     {
         Logger.Debug("Opening donation link in browser");
         Process.Start(new ProcessStartInfo
