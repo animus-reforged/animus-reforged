@@ -31,27 +31,63 @@
                         </ui:SettingsExpander.IconSource>
                         <ui:SettingsExpander.Footer>
                             <StackPanel Orientation="Horizontal" Spacing="8">
-                                <Button Content="Add" />
-                                <Button Content="Remove" />
+                                <Button Command="{Binding AddModCommand}">
+                                    <ic:SymbolIcon Symbol="Add" FontSize="16" />
+                                    <ToolTip.Tip>
+                                        <TextBlock Text="Add mod from your computer" />
+                                    </ToolTip.Tip>
+                                </Button>
                             </StackPanel>
                         </ui:SettingsExpander.Footer>
                         <ui:SettingsExpander.Items>
-                            <ItemsControl>
-                                <ItemsControl.ItemTemplate>
+                            <ListBox ItemsSource="{Binding EnabledMods}"
+                                     BorderThickness="0"
+                                     SelectionMode="Single">
+                                <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <DockPanel Margin="4">
-                                            <TextBlock VerticalAlignment="Center" />
-                                            <StackPanel Orientation="Horizontal"
-                                                        DockPanel.Dock="Right"
-                                                        Spacing="4">
-                                                <Button Content="↑" />
-                                                <Button Content="↓" />
-                                                <Button Content="Disable" />
+                                        <Grid ColumnDefinitions="*,Auto" Margin="4">
+                                            <TextBlock Text="{Binding Name}"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="14"
+                                                       Background="Transparent">
+                                                <ToolTip.Tip>
+                                                    <TextBlock Text="{Binding FullPath}" />
+                                                </ToolTip.Tip>
+                                            </TextBlock>
+                                            <StackPanel Orientation="Horizontal" Spacing="6" Grid.Column="1">
+                                                <Button Command="{Binding DataContext.MoveModUpCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}">
+                                                    <ic:SymbolIcon Symbol="ArrowUp" FontSize="16" />
+                                                    <ToolTip.Tip>
+                                                        <TextBlock Text="Move Up" />
+                                                    </ToolTip.Tip>
+                                                </Button>
+                                                <Button Command="{Binding DataContext.MoveModDownCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}">
+                                                    <ic:SymbolIcon Symbol="ArrowDown" FontSize="16" />
+                                                    <ToolTip.Tip>
+                                                        <TextBlock Text="Move Down" />
+                                                    </ToolTip.Tip>
+                                                </Button>
+                                                <Button Command="{Binding DataContext.DisableModCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}">
+                                                    <ic:SymbolIcon Symbol="Dismiss" FontSize="16" />
+                                                    <ToolTip.Tip>
+                                                        <TextBlock Text="Disable the mod" />
+                                                    </ToolTip.Tip>
+                                                </Button>
+                                                <Button Command="{Binding DataContext.RemoveModCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}">
+                                                    <ic:SymbolIcon Symbol="Delete" FontSize="16" />
+                                                    <ToolTip.Tip>
+                                                        <TextBlock Text="Delete the mod from your computer" />
+                                                    </ToolTip.Tip>
+                                                </Button>
                                             </StackPanel>
-                                        </DockPanel>
+                                        </Grid>
                                     </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
                         </ui:SettingsExpander.Items>
                     </ui:SettingsExpander>
 
@@ -63,18 +99,39 @@
                             <ic:SymbolIconSource Symbol="Dismiss" />
                         </ui:SettingsExpander.IconSource>
                         <ui:SettingsExpander.Items>
-                            <ItemsControl>
-                                <ItemsControl.ItemTemplate>
+                            <ListBox ItemsSource="{Binding DisabledMods}"
+                                     BorderThickness="0">
+                                <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <DockPanel Margin="4">
-                                            <TextBlock VerticalAlignment="Center" />
-                                            <Button Content="Enable"
-                                                    HorizontalAlignment="Right"
-                                                    CommandParameter="{Binding}" />
-                                        </DockPanel>
+                                        <Grid ColumnDefinitions="*,Auto" Margin="4">
+                                            <TextBlock Text="{Binding Name}"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="14"
+                                                       Background="Transparent">
+                                                <ToolTip.Tip>
+                                                    <TextBlock Text="{Binding FullPath}" />
+                                                </ToolTip.Tip>
+                                            </TextBlock>
+                                            <StackPanel Orientation="Horizontal" Spacing="6" Grid.Column="1">
+                                                <Button Command="{Binding DataContext.EnableModCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}">
+                                                    <ic:SymbolIcon Symbol="Checkmark" FontSize="16" />
+                                                    <ToolTip.Tip>
+                                                        <TextBlock Text="Enable mod" />
+                                                    </ToolTip.Tip>
+                                                </Button>
+                                                <Button Command="{Binding DataContext.RemoveModCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}">
+                                                    <ic:SymbolIcon Symbol="Delete" FontSize="16" />
+                                                    <ToolTip.Tip>
+                                                        <TextBlock Text="Delete the mod from your computer" />
+                                                    </ToolTip.Tip>
+                                                </Button>
+                                            </StackPanel>
+                                        </Grid>
                                     </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
                         </ui:SettingsExpander.Items>
                     </ui:SettingsExpander>
                 </ui:SettingsExpander.Items>

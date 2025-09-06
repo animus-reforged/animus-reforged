@@ -44,3 +44,101 @@ public static class UModManager
         await File.AppendAllTextAsync(AppPaths.uModSaveFiles, saveFileEntry, new UnicodeEncoding(false, false));
     }
 }
+
+public class uModTemplateParser
+{
+    // Variables
+    private readonly string _templatePath;
+    private readonly string _modsPath;
+    private List<string> _otherLines { get; set; } = [];
+
+    // Constructor
+    public uModTemplateParser(string templatePath, string modsPath)
+    {
+        _templatePath = templatePath;
+        _modsPath = modsPath;
+        LoadLines();
+    }
+
+    // Methods
+    private void LoadLines()
+    {
+        if (!File.Exists(_templatePath))
+        {
+            Logger.Debug($"Template file not found ({_templatePath})");
+            throw new FileNotFoundException($"Template file not found ({_templatePath})");
+        }
+
+        _otherLines.Clear();
+
+        foreach (string line in File.ReadAllLines(_templatePath))
+        {
+            if (!line.StartsWith("Add_true:"))
+            {
+                Logger.Debug($"Found text line: {line}");
+                _otherLines.Add(line);
+            }
+        }
+    }
+    
+    public (List<string> enabledMods, List<string> disabledMods) LoadMods()
+    {
+        if (!Directory.Exists(_modsPath))
+        {
+            Logger.Debug($"Mods directory not found ({_modsPath})");
+            throw new DirectoryNotFoundException($"Mods directory not found ({_modsPath})");
+        }
+        List<string> enabledMods = LoadEnabledMods();
+        Logger.Debug($"Searching mods folder: {_modsPath}");
+        List<string> allMods = Directory.GetFiles(_modsPath, "*.tpf", SearchOption.AllDirectories).ToList();
+        Logger.Info($"Found {allMods.Count} mod file(s) in folder");
+        foreach (string mod in allMods)
+        {
+            Logger.Debug($"Mod found: {mod}");
+        }
+        List<string> disabledMods = allMods.Except(enabledMods, StringComparer.OrdinalIgnoreCase).ToList();
+        Logger.Info($"Found {disabledMods.Count} disabled mod(s)");
+        foreach (string mod in disabledMods)
+        {
+            Logger.Debug($"Disabled mod: {mod}");
+        }
+        return (enabledMods, disabledMods);
+    }
+
+    private List<string> LoadEnabledMods()
+    {
+        if (!File.Exists(_templatePath))
+        {
+            Logger.Debug($"Template file not found ({_templatePath})");
+            throw new FileNotFoundException($"Template file not found ({_templatePath})");
+        }
+        Logger.Debug("Loading enabled mods from template file");
+        List<string> enabledMods = new List<string>();
+        foreach (string line in File.ReadAllLines(_templatePath))
+        {
+            if (line.StartsWith("Add_true:"))
+            {
+                string enabledMod = line.Substring("Add_true:".Length).Trim();
+                Logger.Debug($"Found enabled mod: {enabledMod}");
+                enabledMods.Add(enabledMod);
+            }
+        }
+
+        return enabledMods;
+    }
+    
+    public void SaveEnabledMods(List<string> enabledMods)
+    {
+        Logger.Info("Saving changes to template file");
+        List<string> templateFileLines = [];
+        Logger.Info("Writing lines to template file");
+        templateFileLines.AddRange(_otherLines);
+        if (enabledMods.Count > 0)
+        {
+            Logger.Info("Writing enabled mods to template file");
+            templateFileLines.AddRange(enabledMods.Select(modPath => $"Add_true:{modPath}"));
+        }
+        File.WriteAllLines(_templatePath, templateFileLines);
+        Logger.Info("Saving changes to template file done");
+    }
+}

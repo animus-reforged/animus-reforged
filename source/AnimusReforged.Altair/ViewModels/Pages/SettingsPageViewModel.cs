@@ -2,14 +2,32 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using AnimusReforged.Altair.Views;
 using AnimusReforged.Mods.Altair;
 using AnimusReforged.Mods.Utilities;
 using AnimusReforged.Paths;
 using AnimusReforged.Utilities;
+using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace AnimusReforged.Altair.ViewModels.Pages;
+
+public class ModItem
+{
+    public string FullPath { get; set; } = string.Empty;
+    public string Name => Path.GetFileNameWithoutExtension(FullPath);
+}
+
+public static class ModItemExtensions
+{
+    public static List<string> ToList(this IEnumerable<ModItem> mods)
+    {
+        return mods.Select(mod => mod.FullPath).ToList();
+    }
+}
 
 public partial class SettingsPageViewModel : ViewModelBase
 {
@@ -20,6 +38,11 @@ public partial class SettingsPageViewModel : ViewModelBase
     [ObservableProperty] private bool isReShadeEnabled;
 
     [ObservableProperty] private bool isEaglePatchEnabled;
+
+    // uMod
+    private uModTemplateParser _uModTemplateParser = null!;
+    public ObservableCollection<ModItem> EnabledMods { get; } = [];
+    public ObservableCollection<ModItem> DisabledMods { get; } = [];
 
     // Keyboard Layouts
     [ObservableProperty] private int selectedKeyboardLayoutIndex = 2; // Default Value
@@ -54,7 +77,9 @@ public partial class SettingsPageViewModel : ViewModelBase
     {
         _suppressUpdates = true;
         PopulateSupportedResolutions();
-        // TODO: Loading settings from files
+
+        // uMod
+        LoaduModSettings();
 
         // ReShade
         IsReShadeEnabled = App.Settings.Tweaks.Reshade.Enabled;
@@ -75,7 +100,7 @@ public partial class SettingsPageViewModel : ViewModelBase
     }
 
     // Methods
-
+    // Loading methods
     private void PopulateSupportedResolutions()
     {
         (List<int> widths, List<int> heights) = DisplayHelper.GetSupportedResolutions();
@@ -88,6 +113,35 @@ public partial class SettingsPageViewModel : ViewModelBase
         foreach (int height in heights)
         {
             SupportedHeights.Add(height);
+        }
+    }
+
+    private void LoaduModSettings()
+    {
+        _uModTemplateParser = new uModTemplateParser(AppPaths.AltairuModTemplateFile, AppPaths.Mods);
+        List<string> enabledMods;
+        List<string> disabledMods;
+        try
+        {
+            (enabledMods, disabledMods) = _uModTemplateParser.LoadMods();
+        }
+        catch (Exception ex)
+        {
+            Logger.Error("Failed to download Ultimate ASI Loader");
+            Logger.LogExceptionDetails(ex);
+            return;
+        }
+        EnabledMods.Clear();
+        DisabledMods.Clear();
+
+        foreach (string mod in enabledMods)
+        {
+            EnabledMods.Add(new ModItem { FullPath = mod });
+        }
+        
+        foreach (string mod in disabledMods)
+        {
+            DisabledMods.Add(new ModItem { FullPath = mod });
         }
     }
 
@@ -128,8 +182,8 @@ public partial class SettingsPageViewModel : ViewModelBase
         SelectedHeight = _altairFixSettings.GetInt("Display", "WindowHeight");
         Logger.Info($"Window Height: {SelectedHeight}");
     }
-
-    // TODO: Saving settings
+    
+    // Saving/UI Interactions
     partial void OnIsUModEnabledChanged(bool oldValue, bool newValue)
     {
         if (_suppressUpdates)
@@ -139,6 +193,100 @@ public partial class SettingsPageViewModel : ViewModelBase
         Logger.Debug($"UMod: {oldValue} -> {newValue}");
         App.Settings.Tweaks.UMod = newValue;
         App.AppSettings.SaveSettings();
+    }
+
+    [RelayCommand]
+    private async Task AddMod()
+    {
+        if (App.MainWindow?.StorageProvider is not { } storageProvider)
+        {
+            return;
+        }
+        FilePickerOpenOptions options = new FilePickerOpenOptions
+        {
+            Title = "Select Texture Mod",
+            AllowMultiple = true,
+            FileTypeFilter = new List<FilePickerFileType>
+            {
+                new FilePickerFileType("Texture Package Files") { Patterns = ["*.tpf"] }
+            }
+        };
+
+        IReadOnlyList<IStorageFile> files = await storageProvider.OpenFilePickerAsync(options);
+
+        foreach (IStorageFile file in files)
+        {
+            string oldFilePath = file.Path.LocalPath;
+            string newFilePath = Path.Combine(AppPaths.Mods, Path.GetFileName(oldFilePath));
+            File.Copy(oldFilePath, newFilePath, true);
+            
+            if (EnabledMods.Any(m => m.FullPath == newFilePath) || DisabledMods.Any(m => m.FullPath == newFilePath))
+            {
+                Logger.Warning($"Mod already exists: {newFilePath}");
+                continue;
+            }
+
+            ModItem modItem = new ModItem { FullPath = newFilePath };
+            EnabledMods.Add(modItem);
+            Logger.Info($"Added mod: {newFilePath}");
+        }
+
+        _uModTemplateParser.SaveEnabledMods(EnabledMods.ToList());
+    }
+
+    [RelayCommand]
+    private void MoveModUp(ModItem mod)
+    {
+        int index = EnabledMods.IndexOf(mod);
+        if (index <= 0)
+        {
+            return;
+        }
+        EnabledMods.Move(index, index - 1);
+        _uModTemplateParser.SaveEnabledMods(EnabledMods.ToList());
+    }
+
+    [RelayCommand]
+    private void MoveModDown(ModItem mod)
+    {
+        int index = EnabledMods.IndexOf(mod);
+        if (index >= EnabledMods.Count - 1)
+        {
+            return;
+        }
+        EnabledMods.Move(index, index + 1);
+        _uModTemplateParser.SaveEnabledMods(EnabledMods.ToList());
+    }
+    
+    [RelayCommand]
+    private void EnableMod(ModItem mod)
+    {
+        if (DisabledMods.Remove(mod))
+        {
+            EnabledMods.Add(mod);
+            _uModTemplateParser.SaveEnabledMods(EnabledMods.ToList());
+        }
+    }
+
+    [RelayCommand]
+    private void DisableMod(ModItem mod)
+    {
+        if (EnabledMods.Remove(mod))
+        {
+            DisabledMods.Add(mod);
+            _uModTemplateParser.SaveEnabledMods(EnabledMods.ToList());
+        }
+    }
+
+    [RelayCommand]
+    private void RemoveMod(ModItem mod)
+    {
+        if (!EnabledMods.Remove(mod))
+        {
+            DisabledMods.Remove(mod);
+        }
+        File.Delete(mod.FullPath);
+        _uModTemplateParser.SaveEnabledMods(EnabledMods.ToList());
     }
 
     partial void OnIsReShadeEnabledChanged(bool oldValue, bool newValue)
