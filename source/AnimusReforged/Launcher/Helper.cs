@@ -11,6 +11,7 @@ public class Helper
         uMod.StartInfo.FileName = AppPaths.uModExecutable;
         uMod.StartInfo.WorkingDirectory = AppPaths.uMod;
         uMod.StartInfo.UseShellExecute = true;
+        uMod.StartInfo.WindowStyle = ProcessWindowStyle.Minimized;
         uMod.Start();
         return uMod;
     }
