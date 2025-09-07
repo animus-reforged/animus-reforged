@@ -32,13 +32,18 @@ public static class UModManager
         }
         Logger.Debug("Setting up uMod template");
         string templatePath = Path.Combine(AppPaths.uModTemplates, templateName);
-        File.WriteAllLines(templatePath, [
+        List<string> templateLines = new List<string>
+        {
             "SaveAllTextures:0",
             "SaveSingleTexture:0",
             "FontColour:255,0,0",
             "TextureColour:0,255,0",
-            $"Add_true:{AppPaths.AltairOverhaulModFile}\n"
-        ]);
+            $"Add_true:{AppPaths.AltairOverhaulModFile}"
+        };
+        // write LF endings only
+        string content = string.Join("\n", templateLines) + "\n";
+        await File.WriteAllTextAsync(templatePath, content, new UTF8Encoding(false));
+
         string saveFileEntry = $"{gamePath}|{templatePath}\n";
         Logger.Debug($"Save file entry: {saveFileEntry}");
         await File.AppendAllTextAsync(AppPaths.uModSaveFiles, saveFileEntry, new UnicodeEncoding(false, false));
@@ -80,7 +85,7 @@ public class uModTemplateParser
             }
         }
     }
-    
+
     public (List<string> enabledMods, List<string> disabledMods) LoadMods()
     {
         if (!Directory.Exists(_modsPath))
@@ -126,7 +131,7 @@ public class uModTemplateParser
 
         return enabledMods;
     }
-    
+
     public void SaveEnabledMods(List<string> enabledMods)
     {
         Logger.Info("Saving changes to template file");
@@ -138,7 +143,9 @@ public class uModTemplateParser
             Logger.Info("Writing enabled mods to template file");
             templateFileLines.AddRange(enabledMods.Select(modPath => $"Add_true:{modPath}"));
         }
-        File.WriteAllLines(_templatePath, templateFileLines);
+        // write LF endings only
+        string content = string.Join("\n", templateFileLines) + "\n";
+        File.WriteAllText(_templatePath, content, new UTF8Encoding(false));
         Logger.Info("Saving changes to template file done");
     }
 }
