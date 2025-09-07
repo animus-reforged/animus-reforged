@@ -19,12 +19,6 @@ public class TweakSettings
 {
     [JsonPropertyName("umod")]
     public bool UMod { get; set; } = false;
-    
-    [JsonPropertyName("stutter_fix")]
-    public bool StutterFix { get; set; } = false;
-    
-    [JsonPropertyName("high_core_count_fix")]
-    public bool HighCoreCountFix { get; set; } = false;
 
     [JsonPropertyName("reshade")] 
     public ReShadeSettings Reshade { get; set; } = new ReShadeSettings();

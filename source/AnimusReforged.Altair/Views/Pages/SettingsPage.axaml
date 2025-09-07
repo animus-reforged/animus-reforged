@@ -148,7 +148,7 @@
             </ui:SettingsExpander>
 
             <ui:SettingsExpander Header="EaglePatch"
-                                 Description="Apply community patches and fixes">
+                                 Description="General patches and fixes">
                 <ui:SettingsExpander.IconSource>
                     <ic:SymbolIconSource Symbol="WrenchScrewdriver" />
                 </ui:SettingsExpander.IconSource>
@@ -200,61 +200,72 @@
                 </ui:SettingsExpander.Items>
             </ui:SettingsExpander>
 
-            <ui:SettingsExpander Header="Stutter fix"
-                                 Description="Patches game executable and hosts file to ignore Ubisoft's servers">
+            <ui:SettingsExpander Header="AltairFix"
+                                 Description="Additional patches and fixes related to performance and improvement">
                 <ui:SettingsExpander.IconSource>
-                    <ic:SymbolIconSource Symbol="GlobeOff" />
+                    <ic:SymbolIconSource Symbol="Patch" />
                 </ui:SettingsExpander.IconSource>
                 <ui:SettingsExpander.Footer>
-                    <ToggleSwitch IsChecked="{Binding IsStutterFixEnabled, Mode=TwoWay}" />
-                </ui:SettingsExpander.Footer>
-            </ui:SettingsExpander>
-
-            <ui:SettingsExpander Header="High Core Count Fix"
-                                 Description="Fixes the game not starting on CPU's with 32 Cores">
-                <ui:SettingsExpander.IconSource>
-                    <ic:SymbolIconSource Symbol="BugArrowCounterclockwise" />
-                </ui:SettingsExpander.IconSource>
-                <ui:SettingsExpander.Footer>
-                    <ToggleSwitch IsChecked="{Binding IsHighCoreCountFixEnabled, Mode=TwoWay}" />
-                </ui:SettingsExpander.Footer>
-            </ui:SettingsExpander>
-
-            <ui:SettingsExpander Header="Window Mode"
-                                 Description="Choose window mode for the game">
-                <ui:SettingsExpander.IconSource>
-                    <ic:SymbolIconSource Symbol="Window" />
-                </ui:SettingsExpander.IconSource>
-                <ui:SettingsExpander.Footer>
-                    <ComboBox ItemsSource="{Binding WindowModes}"
-                              SelectedIndex="{Binding SelectedWindowModeIndex}"
-                              MinWidth="100" />
+                    <ToggleSwitch IsChecked="{Binding IsEaglePatchEnabled, Mode=TwoWay}" />
                 </ui:SettingsExpander.Footer>
                 <ui:SettingsExpander.Items>
-                    <ui:SettingsExpander Header="Width"
-                                         Description="Window width (Windowed Only)"
-                                         IsEnabled="{Binding IsCustomResolutionMode}">
+                    <ui:SettingsExpander Header="Stutter fix"
+                                         Description="Patches game executable and hosts file to ignore Ubisoft's servers">
                         <ui:SettingsExpander.IconSource>
-                            <ic:SymbolIconSource Symbol="ArrowAutofitWidth" />
+                            <ic:SymbolIconSource Symbol="GlobeOff" />
                         </ui:SettingsExpander.IconSource>
                         <ui:SettingsExpander.Footer>
-                            <ComboBox ItemsSource="{Binding SupportedWidths}"
-                                      SelectedValue="{Binding SelectedWidth}"
-                                      MinWidth="100" />
+                            <ToggleSwitch IsChecked="{Binding IsStutterFixEnabled, Mode=TwoWay}" />
+                        </ui:SettingsExpander.Footer>
+                    </ui:SettingsExpander>
+                    
+                    <ui:SettingsExpander Header="High Core Count Fix"
+                                         Description="Fixes the game not starting on CPU's with 32 Cores">
+                        <ui:SettingsExpander.IconSource>
+                            <ic:SymbolIconSource Symbol="BugArrowCounterclockwise" />
+                        </ui:SettingsExpander.IconSource>
+                        <ui:SettingsExpander.Footer>
+                            <ToggleSwitch IsChecked="{Binding IsHighCoreCountFixEnabled, Mode=TwoWay}" />
                         </ui:SettingsExpander.Footer>
                     </ui:SettingsExpander>
 
-                    <ui:SettingsExpander Header="Height"
-                                         Description="Window height (Windowed Only)"
-                                         IsEnabled="{Binding IsCustomResolutionMode}">
+                    <ui:SettingsExpander Header="Window Mode"
+                                         Description="Choose window mode for the game">
                         <ui:SettingsExpander.IconSource>
-                            <ic:SymbolIconSource Symbol="ArrowAutofitHeight" />
+                            <ic:SymbolIconSource Symbol="Window" />
                         </ui:SettingsExpander.IconSource>
                         <ui:SettingsExpander.Footer>
-                            <ComboBox ItemsSource="{Binding SupportedHeights}"
-                                      SelectedValue="{Binding SelectedHeight}"
+                            <ComboBox ItemsSource="{Binding WindowModes}"
+                                      SelectedIndex="{Binding SelectedWindowModeIndex}"
                                       MinWidth="100" />
                         </ui:SettingsExpander.Footer>
+                        <ui:SettingsExpander.Items>
+                            <ui:SettingsExpander Header="Width"
+                                                 Description="Window width (Windowed Only)"
+                                                 IsEnabled="{Binding IsCustomResolutionMode}">
+                                <ui:SettingsExpander.IconSource>
+                                    <ic:SymbolIconSource Symbol="ArrowAutofitWidth" />
+                                </ui:SettingsExpander.IconSource>
+                                <ui:SettingsExpander.Footer>
+                                    <ComboBox ItemsSource="{Binding SupportedWidths}"
+                                              SelectedValue="{Binding SelectedWidth}"
+                                              MinWidth="100" />
+                                </ui:SettingsExpander.Footer>
+                            </ui:SettingsExpander>
+
+                            <ui:SettingsExpander Header="Height"
+                                                 Description="Window height (Windowed Only)"
+                                                 IsEnabled="{Binding IsCustomResolutionMode}">
+                                <ui:SettingsExpander.IconSource>
+                                    <ic:SymbolIconSource Symbol="ArrowAutofitHeight" />
+                                </ui:SettingsExpander.IconSource>
+                                <ui:SettingsExpander.Footer>
+                                    <ComboBox ItemsSource="{Binding SupportedHeights}"
+                                              SelectedValue="{Binding SelectedHeight}"
+                                              MinWidth="100" />
+                                </ui:SettingsExpander.Footer>
+                            </ui:SettingsExpander>
+                        </ui:SettingsExpander.Items>
                     </ui:SettingsExpander>
                 </ui:SettingsExpander.Items>
             </ui:SettingsExpander>

@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AnimusReforged.Altair.Views;
-using AnimusReforged.Mods.Altair;
 using AnimusReforged.Mods.Utilities;
 using AnimusReforged.Paths;
 using AnimusReforged.Utilities;
@@ -89,12 +88,6 @@ public partial class SettingsPageViewModel : ViewModelBase
 
         // Load AltairFix settings
         LoadAltairFixSettings();
-
-        // Stutter Patch
-        IsStutterFixEnabled = App.Settings.Tweaks.StutterFix;
-
-        // High Core Count Fix
-        IsHighCoreCountFixEnabled = App.Settings.Tweaks.HighCoreCountFix;
 
         _suppressUpdates = false;
     }
@@ -181,6 +174,10 @@ public partial class SettingsPageViewModel : ViewModelBase
         Logger.Info($"Window Width: {SelectedWidth}");
         SelectedHeight = _altairFixSettings.GetInt("Display", "WindowHeight");
         Logger.Info($"Window Height: {SelectedHeight}");
+        IsStutterFixEnabled = _altairFixSettings.GetBool("Misc", "ServerBlocker");
+        Logger.Info($"Stutter Fix: {IsStutterFixEnabled}");
+        IsHighCoreCountFixEnabled = _altairFixSettings.GetBool("Misc", "HighCoreCountFix");
+        Logger.Info($"High Core Count Fix: {IsHighCoreCountFixEnabled}");
     }
     
     // Saving/UI Interactions
@@ -435,27 +432,8 @@ public partial class SettingsPageViewModel : ViewModelBase
             return;
         }
         Logger.Debug($"Stutter Fix: {oldValue} -> {newValue}");
-        try
-        {
-            // Apply Patch
-            if (newValue)
-            {
-                Patcher.StutterPatch(AppPaths.AltairGameExecutable);
-            }
-            else
-            {
-                // Revert Patch
-                Patcher.StutterPatchRevert(AppPaths.AltairGameExecutable);
-            }
-        }
-        catch (Exception ex)
-        {
-            Logger.Error(ex);
-            Logger.LogExceptionDetails(ex);
-            MessageBox.Show($"Failed to apply Stutter Fix. Full Error:\n{ex}", "Error", App.MainWindow);
-        }
-        App.Settings.Tweaks.StutterFix = newValue;
-        App.AppSettings.SaveSettings();
+        _altairFixSettings.Set("Misc", "ServerBlocker", newValue);
+        _altairFixSettings.Save();
     }
 
     partial void OnIsHighCoreCountFixEnabledChanged(bool oldValue, bool newValue)
@@ -465,8 +443,8 @@ public partial class SettingsPageViewModel : ViewModelBase
             return;
         }
         Logger.Debug($"High Core Count Fix: {oldValue} -> {newValue}");
-        App.Settings.Tweaks.HighCoreCountFix = newValue;
-        App.AppSettings.SaveSettings();
+        _altairFixSettings.Set("Misc", "HighCoreCountFix", newValue);
+        _altairFixSettings.Save();
     }
 
     partial void OnSelectedWindowModeIndexChanged(int oldValue, int newValue)
