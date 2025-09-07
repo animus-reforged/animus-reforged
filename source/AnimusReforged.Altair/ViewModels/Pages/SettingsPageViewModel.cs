@@ -38,6 +38,8 @@ public partial class SettingsPageViewModel : ViewModelBase
 
     [ObservableProperty] private bool isEaglePatchEnabled;
 
+    [ObservableProperty] private bool isAltairFixEnabled;
+
     // uMod
     private uModTemplateParser _uModTemplateParser = null!;
     public ObservableCollection<ModItem> EnabledMods { get; } = [];
@@ -81,7 +83,7 @@ public partial class SettingsPageViewModel : ViewModelBase
         LoaduModSettings();
 
         // ReShade
-        IsReShadeEnabled = App.Settings.Tweaks.Reshade.Enabled;
+        IsReShadeEnabled = App.Settings.Tweaks.Reshade;
 
         // Load EaglePatch settings
         LoadEaglePatchSettings();
@@ -166,6 +168,21 @@ public partial class SettingsPageViewModel : ViewModelBase
 
     private void LoadAltairFixSettings()
     {
+        if (File.Exists(Path.Combine(AppPaths.Scripts, "AltairFix.asi")))
+        {
+            Logger.Info("AltairFix is enabled");
+            IsAltairFixEnabled = true;
+        }
+        else if (File.Exists(Path.Combine(AppPaths.Scripts, "AltairFix.asi.disabled")))
+        {
+            Logger.Info("AltairFix is disabled");
+            IsAltairFixEnabled = false;
+        }
+        else
+        {
+            Logger.Warning("AltairFix is not installed");
+            IsAltairFixEnabled = false;
+        }
         _altairFixSettings = new IniParser(AppPaths.AltairFixIni);
         SelectedWindowModeIndex = _altairFixSettings.GetInt("Display", "WindowMode");
         Logger.Info($"Window Mode: {WindowModes[SelectedWindowModeIndex]}");
@@ -174,9 +191,9 @@ public partial class SettingsPageViewModel : ViewModelBase
         Logger.Info($"Window Width: {SelectedWidth}");
         SelectedHeight = _altairFixSettings.GetInt("Display", "WindowHeight");
         Logger.Info($"Window Height: {SelectedHeight}");
-        IsStutterFixEnabled = _altairFixSettings.GetBool("Misc", "ServerBlocker");
+        IsStutterFixEnabled = _altairFixSettings.GetBool("Tweaks", "ServerBlocker");
         Logger.Info($"Stutter Fix: {IsStutterFixEnabled}");
-        IsHighCoreCountFixEnabled = _altairFixSettings.GetBool("Misc", "HighCoreCountFix");
+        IsHighCoreCountFixEnabled = _altairFixSettings.GetBool("Tweaks", "HighCoreCountFix");
         Logger.Info($"High Core Count Fix: {IsHighCoreCountFixEnabled}");
     }
     
@@ -318,7 +335,7 @@ public partial class SettingsPageViewModel : ViewModelBase
             MessageBox.Show("An error occurred while toggling ReShade. Please check file permissions.", "Error", App.MainWindow);
             return;
         }
-        App.Settings.Tweaks.Reshade.Enabled = newValue;
+        App.Settings.Tweaks.Reshade = newValue;
         App.AppSettings.SaveSettings();
     }
 
@@ -424,6 +441,40 @@ public partial class SettingsPageViewModel : ViewModelBase
         _eaglePatchSettings.Set("EaglePatchAC1", "SkipIntroVideos", newValue);
         _eaglePatchSettings.Save();
     }
+    
+    partial void OnIsAltairFixEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (_suppressUpdates)
+        {
+            return;
+        }
+
+        try
+        {
+            if (!UpdateAsiState("AltairFix.asi", newValue))
+            {
+                // If we couldn’t find the file when enabling, revert the toggle in UI
+                _suppressUpdates = true;
+                IsAltairFixEnabled = false;
+                _suppressUpdates = false;
+
+                MessageBox.Show("AltairFix couldn't be found. This could mean a corrupted AltairFix installation.", "Error", App.MainWindow);
+                return;
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error(ex, "Failed to toggle AltairFix state");
+            _suppressUpdates = true;
+            IsAltairFixEnabled = oldValue;
+            _suppressUpdates = false;
+
+            MessageBox.Show("An error occurred while toggling AltairFix. Please check file permissions.", "Error", App.MainWindow);
+            return;
+        }
+
+        Logger.Debug($"AltairFix: {oldValue} -> {newValue}");
+    }
 
     partial void OnIsStutterFixEnabledChanged(bool oldValue, bool newValue)
     {
@@ -432,7 +483,7 @@ public partial class SettingsPageViewModel : ViewModelBase
             return;
         }
         Logger.Debug($"Stutter Fix: {oldValue} -> {newValue}");
-        _altairFixSettings.Set("Misc", "ServerBlocker", newValue);
+        _altairFixSettings.Set("Tweaks", "ServerBlocker", newValue);
         _altairFixSettings.Save();
     }
 
@@ -443,7 +494,7 @@ public partial class SettingsPageViewModel : ViewModelBase
             return;
         }
         Logger.Debug($"High Core Count Fix: {oldValue} -> {newValue}");
-        _altairFixSettings.Set("Misc", "HighCoreCountFix", newValue);
+        _altairFixSettings.Set("Tweaks", "HighCoreCountFix", newValue);
         _altairFixSettings.Save();
     }
 

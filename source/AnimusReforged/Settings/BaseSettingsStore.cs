@@ -15,25 +15,12 @@ public abstract class BaseSettingsStore
         try
         {
             Assembly? assembly = Assembly.GetEntryAssembly();
-            var version = assembly?.GetName()?.Version;
-            if (version == null)
-            {
-                return "0.0.0";
-            }
-            return $"{version.Major}.{version.Minor}.{version.Build}";
+            Version? version = assembly?.GetName()?.Version;
+            return version == null ? "0.0.0" : $"{version.Major}.{version.Minor}.{version.Build}";
         }
         catch
         {
             return "0.0.0";
         }
     }
-}
-
-public class ReShadeSettings
-{
-    [JsonPropertyName("install_date")]
-    public DateTime? InstallDate { get; set; } = null;
-        
-    [JsonPropertyName("enabled")]
-    public bool Enabled { get; set; } = false;
 }

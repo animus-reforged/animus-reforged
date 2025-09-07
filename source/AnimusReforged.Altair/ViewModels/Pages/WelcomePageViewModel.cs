@@ -56,9 +56,7 @@ public partial class WelcomePageViewModel : ViewModelBase
             await ModManager.DownloadReShade(progress => ProgressBarValue = progress);
             StatusText = "Installing Reshade";
             ModManager.InstallReShade();
-            App.Settings.Tweaks.Reshade.InstallDate = DateTime.Now;
-            App.Settings.Tweaks.Reshade.Enabled = true;
-            App.AppSettings.SaveSettings();
+            App.Settings.Tweaks.Reshade = true;
 
             // Install uMod (https://github.com/animus-reforged/uMod/releases/latest/download/uMod.zip)
             StatusText = "Downloading uMod";
@@ -102,7 +100,8 @@ public partial class WelcomePageViewModel : ViewModelBase
             Logger.Info("Setup completed");
             App.Settings.SetupCompleted = true;
             StatusText = "Download Complete.";
-
+            App.AppSettings.SaveSettings();
+            
             mainVM.SetupCompleted = true;
             mainVM.Navigate("Default");
             await MessageBox.ShowAsync("Installation completed.", "Success");

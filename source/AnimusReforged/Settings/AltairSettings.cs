@@ -21,5 +21,5 @@ public class TweakSettings
     public bool UMod { get; set; } = false;
 
     [JsonPropertyName("reshade")] 
-    public ReShadeSettings Reshade { get; set; } = new ReShadeSettings();
+    public bool Reshade { get; set; } = false;
 }

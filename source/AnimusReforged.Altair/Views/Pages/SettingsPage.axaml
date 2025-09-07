@@ -206,11 +206,12 @@
                     <ic:SymbolIconSource Symbol="Patch" />
                 </ui:SettingsExpander.IconSource>
                 <ui:SettingsExpander.Footer>
-                    <ToggleSwitch IsChecked="{Binding IsEaglePatchEnabled, Mode=TwoWay}" />
+                    <ToggleSwitch IsChecked="{Binding IsAltairFixEnabled, Mode=TwoWay}" />
                 </ui:SettingsExpander.Footer>
                 <ui:SettingsExpander.Items>
                     <ui:SettingsExpander Header="Stutter fix"
-                                         Description="Patches game executable and hosts file to ignore Ubisoft's servers">
+                                         Description="Patches game executable and hosts file to ignore Ubisoft's servers"
+                                         IsEnabled="{Binding IsAltairFixEnabled}">
                         <ui:SettingsExpander.IconSource>
                             <ic:SymbolIconSource Symbol="GlobeOff" />
                         </ui:SettingsExpander.IconSource>
@@ -218,9 +219,10 @@
                             <ToggleSwitch IsChecked="{Binding IsStutterFixEnabled, Mode=TwoWay}" />
                         </ui:SettingsExpander.Footer>
                     </ui:SettingsExpander>
-                    
+
                     <ui:SettingsExpander Header="High Core Count Fix"
-                                         Description="Fixes the game not starting on CPU's with 32 Cores">
+                                         Description="Fixes the game not starting on CPU's with 32 Cores"
+                                         IsEnabled="{Binding IsAltairFixEnabled}">
                         <ui:SettingsExpander.IconSource>
                             <ic:SymbolIconSource Symbol="BugArrowCounterclockwise" />
                         </ui:SettingsExpander.IconSource>
@@ -230,7 +232,8 @@
                     </ui:SettingsExpander>
 
                     <ui:SettingsExpander Header="Window Mode"
-                                         Description="Choose window mode for the game">
+                                         Description="Choose window mode for the game"
+                                         IsEnabled="{Binding IsAltairFixEnabled}">
                         <ui:SettingsExpander.IconSource>
                             <ic:SymbolIconSource Symbol="Window" />
                         </ui:SettingsExpander.IconSource>
