@@ -9,6 +9,7 @@ public class AppPaths : Base
     public static readonly string LogFile = AbsolutePath("animusreforged.log");
     public static readonly string Scripts = AbsolutePath("scripts");
     public static readonly string uMod = AbsolutePath("uMod");
+    public static readonly string uModExecutable = Path.Combine(uMod, "uMod.exe");
     public static readonly string uModAppdata = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "uMod");
     public static readonly string uModTemplates = Path.Combine(uMod, "templates");
     public static readonly string uModSaveFiles = Path.Combine(uMod, "uMod_SaveFiles.txt");

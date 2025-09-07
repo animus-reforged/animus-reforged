@@ -5,11 +5,13 @@
               xmlns:controls="using:FluentAvalonia.UI.Controls"
               xmlns:ui="using:FluentAvalonia.UI.Windowing"
               xmlns:vm="using:AnimusReforged.Altair.ViewModels"
-              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" MinHeight="500" MinWidth="1000" Height="500" Width="1000"
+              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
               x:Class="AnimusReforged.Altair.Views.MainWindow"
               x:DataType="vm:MainWindowViewModel"
               Icon="/Assets/icon.ico"
               Background="Black"
+              MinHeight="500" MinWidth="1000" Height="500" Width="1000"
+              WindowStartupLocation="CenterScreen"
               Title="{Binding Title}"
               IsEnabled="{Binding Working, Converter={StaticResource InverseBoolConverter}}">
     <Design.DataContext>
@@ -26,13 +28,13 @@
         <!-- Navigation Items -->
         <controls:NavigationView.MenuItems>
             <controls:NavigationViewItem Content="Play"
-                                         IsEnabled="{Binding SetupCompleted}">
+                                         IsEnabled="{Binding DisableWindow}">
                 <controls:NavigationViewItem.IconSource>
                     <controls:SymbolIconSource Symbol="Play" />
                 </controls:NavigationViewItem.IconSource>
             </controls:NavigationViewItem>
 
-            <controls:NavigationViewItem Content="Settings" IsEnabled="{Binding SetupCompleted}">
+            <controls:NavigationViewItem Content="Settings" IsEnabled="{Binding DisableWindow}">
                 <controls:NavigationViewItem.IconSource>
                     <controls:SymbolIconSource Symbol="Setting" />
                 </controls:NavigationViewItem.IconSource>
@@ -40,13 +42,12 @@
         </controls:NavigationView.MenuItems>
 
         <controls:NavigationView.FooterMenuItems>
-            <controls:NavigationViewItem Content="Credits" IsEnabled="{Binding SetupCompleted}">
+            <controls:NavigationViewItem Content="Credits" IsEnabled="{Binding DisableWindow}">
                 <controls:NavigationViewItem.IconSource>
                     <controls:SymbolIconSource Symbol="ContactInfo" />
                 </controls:NavigationViewItem.IconSource>
             </controls:NavigationViewItem>
-            <controls:NavigationViewItem Content="Donate" SelectsOnInvoked="False"
-                                         IsEnabled="{Binding SetupCompleted}">
+            <controls:NavigationViewItem Content="Donate" SelectsOnInvoked="False">
                 <controls:NavigationViewItem.IconSource>
                     <controls:SymbolIconSource Symbol="Like" />
                 </controls:NavigationViewItem.IconSource>

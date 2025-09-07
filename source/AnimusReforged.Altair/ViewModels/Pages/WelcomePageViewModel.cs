@@ -102,7 +102,7 @@ public partial class WelcomePageViewModel : ViewModelBase
             StatusText = "Download Complete.";
             App.AppSettings.SaveSettings();
             
-            mainVM.SetupCompleted = true;
+            mainVM.DisableWindow = true;
             mainVM.Navigate("Default");
             await MessageBox.ShowAsync("Installation completed.", "Success");
         }

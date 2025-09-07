@@ -11,11 +11,11 @@ public partial class MainWindowViewModel : ViewModelBase
 
     [ObservableProperty] private bool working;
 
-    [ObservableProperty] private bool setupCompleted;
+    [ObservableProperty] private bool disableWindow;
 
     public MainWindowViewModel()
     {
-        SetupCompleted = App.Settings.SetupCompleted;
+        DisableWindow = App.Settings.SetupCompleted;
         Working = false;
     }
 

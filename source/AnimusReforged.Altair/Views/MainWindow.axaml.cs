@@ -24,7 +24,7 @@ public partial class MainWindow : AppWindow
     {
         if (DataContext is MainWindowViewModel vm)
         {
-            string initialPage = vm.SetupCompleted ? "Play" : "Welcome";
+            string initialPage = vm.DisableWindow ? "Default" : "Welcome";
             NavigateToPage(initialPage);
             vm.NavigationRequested += (_, destination) => NavigateToPage(destination);
         }
@@ -60,7 +60,7 @@ public partial class MainWindow : AppWindow
         NavigateToPage(e.InvokedItemContainer?.Content?.ToString());
     }
     
-    private void NavigateToPage(string? contentTag)
+    private async void NavigateToPage(string? contentTag)
     {
         if (string.IsNullOrEmpty(contentTag))
         {
@@ -74,6 +74,12 @@ public partial class MainWindow : AppWindow
                 break;
             case "Play":
                 ContentFrame.Navigate(typeof(DefaultPage), null, new DrillInNavigationTransitionInfo());
+                if (DataContext is MainWindowViewModel vm)
+                {
+                    vm.DisableWindow = false;
+                    await AnimusReforged.Launcher.Altair.Launch(App.Settings.Tweaks.UMod);
+                    vm.DisableWindow = true;
+                }
                 break;
             case "Settings":
                 ContentFrame.Navigate(typeof(SettingsPage), null, new EntranceNavigationTransitionInfo());
@@ -82,9 +88,10 @@ public partial class MainWindow : AppWindow
                 ContentFrame.Navigate(typeof(CreditsPage), null, new EntranceNavigationTransitionInfo());
                 break;
             case "Donate":
+                await MessageBox.ShowAsync("Donations are and will always be optional.\nEverything made by me on my own in my spare time will always be free and fully open source.\nDon't donate unless you can really afford it and don't donate your parents money without them knowing.\nDonations are NOT refundable.", "Information");
                 Process.Start(new ProcessStartInfo
                 {
-                    FileName = "https://www.example.com",
+                    FileName = "https://ko-fi.com/shazzaam/",
                     UseShellExecute = true
                 });
                 break;
