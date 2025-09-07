@@ -1,10 +1,13 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using AnimusReforged.Altair.ViewModels;
+using AnimusReforged.Altair.Views.Pages;
 using AnimusReforged.Paths;
 using Avalonia.Interactivity;
 using FluentAvalonia.UI.Controls;
+using FluentAvalonia.UI.Media.Animation;
 using FluentAvalonia.UI.Windowing;
 
 namespace AnimusReforged.Altair.Views;
@@ -19,6 +22,12 @@ public partial class MainWindow : AppWindow
 
     private async void OnLoaded(object? sender, RoutedEventArgs e)
     {
+        if (DataContext is MainWindowViewModel vm)
+        {
+            string initialPage = vm.SetupCompleted ? "Play" : "Welcome";
+            NavigateToPage(initialPage);
+            vm.NavigationRequested += (_, destination) => NavigateToPage(destination);
+        }
         try
         {
 #if !DEBUG
@@ -46,22 +55,42 @@ public partial class MainWindow : AppWindow
         }
     }
 
-    private void NavView_OnSelectionChanged(object? sender, NavigationViewSelectionChangedEventArgs e)
-    {
-        if (DataContext is MainWindowViewModel vm && e.SelectedItem is NavigationViewItem nvi)
-        {
-            vm.NavigateCommand.Execute(nvi.Content?.ToString() ?? "");
-        }
-    }
     private void NavView_OnItemInvoked(object? sender, NavigationViewItemInvokedEventArgs e)
     {
-        if (DataContext is MainWindowViewModel vm)
+        NavigateToPage(e.InvokedItemContainer?.Content?.ToString());
+    }
+    
+    private void NavigateToPage(string? contentTag)
+    {
+        if (string.IsNullOrEmpty(contentTag))
         {
-            string? contentTag = e.InvokedItemContainer?.Content?.ToString();
-            if (contentTag != null)
-            {
-                vm.NavigateInvokedCommand.Execute(contentTag);
-            }
+            return;
+        }
+
+        switch (contentTag)
+        {
+            case "Welcome":
+                ContentFrame.Navigate(typeof(WelcomePage), null, null);
+                break;
+            case "Play":
+                ContentFrame.Navigate(typeof(DefaultPage), null, new DrillInNavigationTransitionInfo());
+                break;
+            case "Settings":
+                ContentFrame.Navigate(typeof(SettingsPage), null, new EntranceNavigationTransitionInfo());
+                break;
+            case "Credits":
+                ContentFrame.Navigate(typeof(CreditsPage), null, new EntranceNavigationTransitionInfo());
+                break;
+            case "Donate":
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "https://www.example.com",
+                    UseShellExecute = true
+                });
+                break;
+            default:
+                ContentFrame.Navigate(typeof(DefaultPage), null, null);
+                break;
         }
     }
 }

@@ -5,28 +5,28 @@
               xmlns:controls="using:FluentAvalonia.UI.Controls"
               xmlns:ui="using:FluentAvalonia.UI.Windowing"
               xmlns:vm="using:AnimusReforged.Altair.ViewModels"
-              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" Height="580" Width="760"
+              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" MinHeight="525" MinWidth="1000"
               x:Class="AnimusReforged.Altair.Views.MainWindow"
               x:DataType="vm:MainWindowViewModel"
               Icon="/Assets/icon.ico"
+              Background="Black"
               Title="{Binding Title}"
               IsEnabled="{Binding Working, Converter={StaticResource InverseBoolConverter}}">
     <Design.DataContext>
         <vm:MainWindowViewModel />
     </Design.DataContext>
     <controls:NavigationView x:Name="NavView"
+                             Background="Black"
                              AlwaysShowHeader="False"
                              IsBackButtonVisible="False"
                              IsSettingsVisible="False"
                              PaneDisplayMode="Left"
                              OpenPaneLength="130"
-                             SelectionChanged="NavView_OnSelectionChanged"
                              ItemInvoked="NavView_OnItemInvoked">
         <!-- Navigation Items -->
         <controls:NavigationView.MenuItems>
             <controls:NavigationViewItem Content="Play"
-                                         IsEnabled="{Binding SetupCompleted}"
-                                         SelectsOnInvoked="False">
+                                         IsEnabled="{Binding SetupCompleted}">
                 <controls:NavigationViewItem.IconSource>
                     <controls:SymbolIconSource Symbol="Play" />
                 </controls:NavigationViewItem.IconSource>
@@ -53,6 +53,6 @@
             </controls:NavigationViewItem>
         </controls:NavigationView.FooterMenuItems>
 
-        <controls:Frame Content="{Binding CurrentPage}"/>
+        <controls:Frame x:Name="ContentFrame" />
     </controls:NavigationView>
 </ui:AppWindow>
