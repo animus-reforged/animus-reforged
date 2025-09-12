@@ -19,11 +19,12 @@ public class UModTests
     public void AppdataSetupTest()
     {
         // Testing fresh
-        string gamePath1 = @"E:\Games\Assassins Creed (Steam)\AssassinsCreed_Dx9.exe";
-        string gamePath2 = @"E:\Games\Assassins Creed (Steam)\AssassinsCreed_Dx9 (Patched Windowed Mode).exe";
+        string gamePath1 = @"F:\AnimusReforged\animus-reforged\source\AnimusReforged.Altair\bin\Debug\net9.0\AssassinsCreed_Dx9.exe";
+        string gamePath2 = @"F:\AnimusReforged\animus-reforged\source\AnimusReforged.Altair\bin\Debug\net9.0\AssassinsCreed_Dx9s.exe";
         UModManager.SetupAppdata(gamePath1).Wait();
         
         // Testing with existing AppData
+        UModManager.SetupAppdata(gamePath1).Wait();
         UModManager.SetupAppdata(gamePath2).Wait();
         Assert.Pass();
     }

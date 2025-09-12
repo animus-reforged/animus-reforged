@@ -12,13 +12,23 @@ public static class UModManager
         Logger.Debug($"Encoded path: {gamePath}");
         if (File.Exists(AppPaths.uModConfig))
         {
-            Logger.Debug("uMod AppData config file already exists, appending path");
-            await File.AppendAllTextAsync(AppPaths.uModConfig, Environment.NewLine + gamePath, System.Text.Encoding.Unicode);
+            Logger.Debug("uMod AppData config file already exists, checking contents");
+            string[] lines = await File.ReadAllLinesAsync(AppPaths.uModConfig, Encoding.Unicode);
+
+            if (lines.Contains(gamePath, StringComparer.OrdinalIgnoreCase))
+            {
+                Logger.Debug("Path already exists in config file, skipping append");
+            }
+            else
+            {
+                Logger.Debug("Path not found in config file, appending");
+                await File.AppendAllTextAsync(AppPaths.uModConfig, Environment.NewLine + gamePath, Encoding.Unicode);
+            }
         }
         else
         {
             Logger.Debug("Creating new uMod AppData config file (uMod_DX9.txt)");
-            await File.WriteAllTextAsync(AppPaths.uModConfig, gamePath, System.Text.Encoding.Unicode);
+            await File.WriteAllTextAsync(AppPaths.uModConfig, gamePath, Encoding.Unicode);
         }
     }
 
