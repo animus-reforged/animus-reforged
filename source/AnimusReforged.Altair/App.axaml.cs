@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -7,6 +8,7 @@ using Avalonia.Markup.Xaml;
 using AnimusReforged.Altair.ViewModels;
 using AnimusReforged.Altair.Views;
 using AnimusReforged.Settings;
+using AnimusReforged.Utilities;
 using Avalonia.Controls;
 
 namespace AnimusReforged.Altair;
@@ -17,6 +19,7 @@ public class App : Application
     public static readonly AltairSettings AppSettings = new AltairSettings();
     public static AltairSettings.AltairSettingsStore Settings => AppSettings.Settings;
     public static Window? MainWindow => Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop ? desktop.MainWindow : null;
+    public static IClassicDesktopStyleApplicationLifetime? Desktop;
     
     // Functions
     public override void Initialize()
@@ -28,13 +31,15 @@ public class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
+            Desktop = desktop;
             DisableAvaloniaDataAnnotationValidation();
-            StartupInitialization();
-            desktop.MainWindow = new MainWindow
+            StartupInitialization(ArgumentParser.Contains(Desktop.Args, "-console"));
+            Desktop.MainWindow = new MainWindow
             {
                 DataContext = new MainWindowViewModel(),
             };
-            desktop.Exit += OnExit;
+            ArgumentChecker();
+            Desktop.Exit += OnExit;
         }
 
         base.OnFrameworkInitializationCompleted();
@@ -52,10 +57,10 @@ public class App : Application
         }
     }
 
-    private void StartupInitialization()
+    private void StartupInitialization(bool showConsole)
     {
         // Logger initialization
-        Logger.Initialize();
+        Logger.Initialize(showConsole);
         Logger.Info($"Animus Reforged (Altair) v{Settings.GetVersion()} is starting up");
         
         // Unhandled exception handler
@@ -67,6 +72,18 @@ public class App : Application
                 Logger.LogExceptionDetails(ex);
             }
         };
+    }
+
+    private void ArgumentChecker()
+    {
+        if (ArgumentParser.Contains(Desktop.Args, "-skiplauncher"))
+        {
+            Desktop.MainWindow?.Hide();
+            Logger.Debug("Launching the game without UI");
+            Launcher.Altair.Launch(Settings.Tweaks.UMod);
+            Logger.Debug("Closing the application");
+            Environment.Exit(0);
+        }
     }
 
     private void OnExit(object? sender, ControlledApplicationLifetimeExitEventArgs e)

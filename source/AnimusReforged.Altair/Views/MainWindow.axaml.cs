@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AnimusReforged.Altair.ViewModels;
 using AnimusReforged.Altair.Views.Pages;
 using AnimusReforged.Paths;
+using Avalonia.Controls;
 using Avalonia.Interactivity;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Media.Animation;
@@ -77,7 +78,7 @@ public partial class MainWindow : AppWindow
                 if (DataContext is MainWindowViewModel vm)
                 {
                     vm.DisableWindow = false;
-                    await AnimusReforged.Launcher.Altair.Launch(App.Settings.Tweaks.UMod);
+                    await AnimusReforged.Launcher.Altair.LaunchAsync(App.Settings.Tweaks.UMod);
                     vm.DisableWindow = true;
                 }
                 break;

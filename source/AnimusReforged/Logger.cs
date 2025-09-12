@@ -1,4 +1,5 @@
-﻿using AnimusReforged.Paths;
+﻿using System.Runtime.InteropServices;
+using AnimusReforged.Paths;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
@@ -14,13 +15,19 @@ public static class Logger
     private static ILogger? _logger { get; set; }
 
     private static readonly LoggingLevelSwitch _levelSwitch = new LoggingLevelSwitch(LogEventLevel.Verbose);
-
     // Functions
     /// <summary>
     /// Initializes logger
     /// </summary>
     public static void Initialize(bool showConsole = false)
     {
+        if (showConsole)
+        {
+            Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
+            Console.SetError(new StreamWriter(Console.OpenStandardError()) { AutoFlush = true });
+            Console.SetIn(new StreamReader(Console.OpenStandardInput()));
+        }
+        
         // Initialize Serilog with the configuration
         _logger = new LoggerConfiguration()
             // Set a minimum log level
