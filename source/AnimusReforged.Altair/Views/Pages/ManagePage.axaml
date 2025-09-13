@@ -60,6 +60,23 @@
                         </StackPanel>
                     </ui:SettingsExpander.Footer>
                 </ui:SettingsExpander>
+                
+                <ui:SettingsExpander Header="Fix uMod Paths"
+                                     Description="Fixes paths used by uMod to load graphical mods">
+                    <ui:SettingsExpander.IconSource>
+                        <ic:SymbolIconSource Symbol="WrenchSettings" />
+                    </ui:SettingsExpander.IconSource>
+                    <ui:SettingsExpander.Footer>
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <Button Command="{Binding FixUModPathsCommand}">
+                                <ic:SymbolIcon Symbol="Patch" />
+                                <ToolTip.Tip>
+                                    <TextBlock Text="Fix uMod paths" />
+                                </ToolTip.Tip>
+                            </Button>
+                        </StackPanel>
+                    </ui:SettingsExpander.Footer>
+                </ui:SettingsExpander>
 
                 <!--TODO: Launcher update section-->
                 <ui:SettingsExpander Header="Launcher Updater"

@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using AnimusReforged.Altair.Views;
 using AnimusReforged.Mods.Altair;
+using AnimusReforged.Mods.Utilities;
+using AnimusReforged.Paths;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -103,6 +105,16 @@ public partial class ManagePageViewModel : ViewModelBase
         IsDownloading = false;
     }
 
+    [RelayCommand]
+    private async Task FixUModPaths()
+    {
+        Logger.Info("Redoing uMod paths");
+        await UModManager.SetupAppdata(AppPaths.AltairGameExecutable);
+        await UModManager.SetupSaveFile(AppPaths.AltairGameExecutable, "ac1.txt");
+    }
+
+    // TODO: Check for Launcher Updates
+    // TODO: Update Launcher
     [RelayCommand]
     private void CheckForLauncherUpdates()
     {
