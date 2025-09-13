@@ -39,6 +39,12 @@
                     <controls:SymbolIconSource Symbol="Setting" />
                 </controls:NavigationViewItem.IconSource>
             </controls:NavigationViewItem>
+            
+            <controls:NavigationViewItem Content="Manage" IsEnabled="{Binding DisableWindow}">
+                <controls:NavigationViewItem.IconSource>
+                    <controls:SymbolIconSource Symbol="Manage" />
+                </controls:NavigationViewItem.IconSource>
+            </controls:NavigationViewItem>
         </controls:NavigationView.MenuItems>
 
         <controls:NavigationView.FooterMenuItems>

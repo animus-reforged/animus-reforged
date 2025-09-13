@@ -1,0 +1,92 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AnimusReforged.Altair.ViewModels.Pages"
+             xmlns:ui="using:FluentAvalonia.UI.Controls"
+             xmlns:ic="using:FluentIcons.Avalonia.Fluent"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AnimusReforged.Altair.Views.Pages.ManagePage"
+             x:DataType="vm:ManagePageViewModel">
+    <UserControl.DataContext>
+        <vm:ManagePageViewModel />
+    </UserControl.DataContext>
+
+    <StackPanel Margin="20">
+        <!--Download Progress Bar-->
+        <ui:SettingsExpander Header="Download Progress"
+                             Margin="0,0,0,12"
+                             IsExpanded="True"
+                             IsEnabled="False"
+                             IsVisible="{Binding IsDownloading}">
+            <ui:SettingsExpander.IconSource>
+                <ic:SymbolIconSource Symbol="ArrowDownload" />
+            </ui:SettingsExpander.IconSource>
+            <ui:SettingsExpander.Items>
+                <StackPanel Margin="0,8" Spacing="8">
+                    <TextBlock FontWeight="SemiBold"
+                               HorizontalAlignment="Left"
+                               Text="{Binding DownloadStatus}" />
+                    <ProgressBar Height="8"
+                                 Minimum="0"
+                                 Maximum="100"
+                                 HorizontalAlignment="Stretch"
+                                 Value="{Binding DownloadProgress}" />
+                    <TextBlock FontSize="14"
+                               HorizontalAlignment="Right"
+                               Opacity="1" />
+                </StackPanel>
+            </ui:SettingsExpander.Items>
+        </ui:SettingsExpander>
+        <ScrollViewer>
+            <StackPanel Spacing="12">
+                <!--Option to redownload mods-->
+                <ui:SettingsExpander Header="Redownload Mods"
+                                     Description="Allows the user to update/redownload mods">
+                    <ui:SettingsExpander.IconSource>
+                        <ic:SymbolIconSource Symbol="ArrowDownload" />
+                    </ui:SettingsExpander.IconSource>
+                    <ui:SettingsExpander.Footer>
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <ComboBox ItemsSource="{Binding InstalledMods}"
+                                      SelectedIndex="{Binding SelectedModIndex}"
+                                      SelectedItem="{Binding SelectedMod}" />
+                            <Button Command="{Binding DownloadCommand}">
+                                <ic:SymbolIcon Symbol="ArrowDownload" FontSize="16" />
+                                <ToolTip.Tip>
+                                    <TextBlock Text="Download mod" />
+                                </ToolTip.Tip>
+                            </Button>
+                        </StackPanel>
+                    </ui:SettingsExpander.Footer>
+                </ui:SettingsExpander>
+
+                <!--TODO: Launcher update section-->
+                <ui:SettingsExpander Header="Launcher Updater"
+                                     Description="Check for updates for Animus Reforged Launcher"
+                                     IsVisible="False">
+                    <ui:SettingsExpander.IconSource>
+                        <ic:SymbolIconSource Symbol="PhoneUpdate" />
+                    </ui:SettingsExpander.IconSource>
+                    <ui:SettingsExpander.Footer>
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <Button Command="{Binding CheckForLauncherUpdatesCommand}">
+                                <ic:SymbolIcon Symbol="ArrowSync" FontSize="16" />
+                                <ToolTip.Tip>
+                                    <TextBlock Text="Check for updates" />
+                                </ToolTip.Tip>
+                            </Button>
+                            <Button Command="{Binding DownloadCommand}"
+                                    IsVisible="{Binding LauncherUpdateAvailable}">
+                                <ic:SymbolIcon Symbol="ArrowDownload" FontSize="16" />
+                                <ToolTip.Tip>
+                                    <TextBlock Text="Download update for Animus Reforged Altair Launcher" />
+                                </ToolTip.Tip>
+                            </Button>
+                        </StackPanel>
+                    </ui:SettingsExpander.Footer>
+                </ui:SettingsExpander>
+            </StackPanel>
+        </ScrollViewer>
+    </StackPanel>
+</UserControl>

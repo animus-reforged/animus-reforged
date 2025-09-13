@@ -76,9 +76,9 @@ public class App : Application
 
     private void ArgumentChecker()
     {
-        if (ArgumentParser.Contains(Desktop.Args, "-skiplauncher"))
+        if (ArgumentParser.Contains(Desktop?.Args, "-skiplauncher"))
         {
-            Desktop.MainWindow?.Hide();
+            Desktop?.MainWindow?.Hide();
             Logger.Debug("Launching the game without UI");
             Launcher.Altair.Launch(Settings.Tweaks.UMod);
             Logger.Debug("Closing the application");

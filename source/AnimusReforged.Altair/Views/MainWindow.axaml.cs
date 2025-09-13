@@ -82,6 +82,9 @@ public partial class MainWindow : AppWindow
                     vm.DisableWindow = true;
                 }
                 break;
+            case "Manage":
+                ContentFrame.Navigate(typeof(ManagePage), null, new EntranceNavigationTransitionInfo());
+                break;
             case "Settings":
                 ContentFrame.Navigate(typeof(SettingsPage), null, new EntranceNavigationTransitionInfo());
                 break;
