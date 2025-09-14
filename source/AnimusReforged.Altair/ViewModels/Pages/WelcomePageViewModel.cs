@@ -28,7 +28,7 @@ public partial class WelcomePageViewModel : ViewModelBase
         if (mainVM == null)
         {
             Logger.Error("Couldn't find main window view model.");
-            await MessageBox.ShowAsync("Couldn't find main window view model. Window won't be disabled.", "Error");
+            await MessageBox.ShowAsync("Couldn't find main window view model. Window won't be disabled.", MessageBoxButtons.Ok);
             return;
         }
         try
@@ -104,11 +104,11 @@ public partial class WelcomePageViewModel : ViewModelBase
             
             mainVM.DisableWindow = true;
             mainVM.Navigate("Default");
-            await MessageBox.ShowAsync("Installation completed.", "Success");
+            await MessageBox.ShowAsync("Installation completed.", MessageBoxButtons.Ok);
         }
         catch (Exception ex)
         {
-            await MessageBox.ShowAsync(ex.Message);
+            await MessageBox.ShowAsync(ex.Message, MessageBoxButtons.Ok);
         }
     }
 }

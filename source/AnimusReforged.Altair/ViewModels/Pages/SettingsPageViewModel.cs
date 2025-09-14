@@ -319,7 +319,7 @@ public partial class SettingsPageViewModel : ViewModelBase
                 IsReShadeEnabled = false;
                 _suppressUpdates = false;
 
-                MessageBox.Show("ReShade couldn't be found. This may mean a corrupted ReShade installation.", "Error", App.MainWindow);
+                MessageBox.Show("ReShade couldn't be found. This may mean a corrupted ReShade installation.", MessageBoxButtons.Ok);
                 return;
             }
         }
@@ -332,7 +332,7 @@ public partial class SettingsPageViewModel : ViewModelBase
             IsReShadeEnabled = oldValue;
             _suppressUpdates = false;
 
-            MessageBox.Show("An error occurred while toggling ReShade. Please check file permissions.", "Error", App.MainWindow);
+            MessageBox.Show("An error occurred while toggling ReShade. Please check file permissions.", MessageBoxButtons.Ok);
             return;
         }
         App.Settings.Tweaks.Reshade = newValue;
@@ -355,7 +355,7 @@ public partial class SettingsPageViewModel : ViewModelBase
                 IsEaglePatchEnabled = false;
                 _suppressUpdates = false;
 
-                MessageBox.Show("EaglePatch couldn't be found. This could mean a corrupted EaglePatch installation.", "Error", App.MainWindow);
+                MessageBox.Show("EaglePatch couldn't be found. This could mean a corrupted EaglePatch installation.", MessageBoxButtons.Ok);
                 return;
             }
         }
@@ -366,7 +366,7 @@ public partial class SettingsPageViewModel : ViewModelBase
             IsEaglePatchEnabled = oldValue;
             _suppressUpdates = false;
 
-            MessageBox.Show("An error occurred while toggling EaglePatch. Please check file permissions.", "Error", App.MainWindow);
+            MessageBox.Show("An error occurred while toggling EaglePatch. Please check file permissions.", MessageBoxButtons.Ok);
             return;
         }
 
@@ -458,7 +458,7 @@ public partial class SettingsPageViewModel : ViewModelBase
                 IsAltairFixEnabled = false;
                 _suppressUpdates = false;
 
-                MessageBox.Show("AltairFix couldn't be found. This could mean a corrupted AltairFix installation.", "Error", App.MainWindow);
+                MessageBox.Show("AltairFix couldn't be found. This could mean a corrupted AltairFix installation.", MessageBoxButtons.Ok);
                 return;
             }
         }
@@ -469,7 +469,7 @@ public partial class SettingsPageViewModel : ViewModelBase
             IsAltairFixEnabled = oldValue;
             _suppressUpdates = false;
 
-            MessageBox.Show("An error occurred while toggling AltairFix. Please check file permissions.", "Error", App.MainWindow);
+            MessageBox.Show("An error occurred while toggling AltairFix. Please check file permissions.", MessageBoxButtons.Ok);
             return;
         }
 

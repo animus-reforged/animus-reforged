@@ -46,7 +46,7 @@ public partial class ManagePageViewModel : ViewModelBase
         if (mainVM == null)
         {
             Logger.Error("Couldn't find main window view model.");
-            await MessageBox.ShowAsync("Couldn't find main window view model. Window won't be disabled.", "Error");
+            await MessageBox.ShowAsync("Couldn't find main window view model. Window won't be disabled.", MessageBoxButtons.Ok);
             return;
         }
         mainVM.DisableWindow = false;
@@ -99,7 +99,7 @@ public partial class ManagePageViewModel : ViewModelBase
         {
             Logger.Error($"Error during download of {SelectedMod}");
             Logger.LogExceptionDetails(ex);
-            await MessageBox.ShowAsync(ex.Message);
+            await MessageBox.ShowAsync(ex.Message, MessageBoxButtons.Ok);
         }
         mainVM.DisableWindow = true;
         IsDownloading = false;

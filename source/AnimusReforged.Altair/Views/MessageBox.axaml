@@ -22,12 +22,29 @@
                    MaxWidth="400"
                    FontSize="14"
                    LineHeight="20" />
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="OK"
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+            <Button x:Name="OkButton"
+                    Content="OK"
                     Width="80"
                     Height="32"
                     Command="{Binding OkCommand}"
                     IsDefault="True" />
+            <Button x:Name="CancelButton"
+                    Content="Cancel"
+                    Width="80"
+                    Height="32"
+                    Command="{Binding CancelCommand}" />
+            <Button x:Name="YesButton"
+                    Content="Yes"
+                    Width="80"
+                    Height="32"
+                    Command="{Binding YesCommand}"
+                    IsDefault="True" />
+            <Button x:Name="NoButton"
+                    Content="No"
+                    Width="80"
+                    Height="32"
+                    Command="{Binding NoCommand}" />
         </StackPanel>
     </StackPanel>
 </ui:AppWindow>

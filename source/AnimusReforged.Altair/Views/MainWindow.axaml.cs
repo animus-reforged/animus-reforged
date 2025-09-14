@@ -51,7 +51,7 @@ public partial class MainWindow : AppWindow
         if (!File.Exists(AppPaths.AltairGameExecutable))
         {
             Logger.Error("Missing game executable, terminating");
-            await MessageBox.ShowAsync($"Game executable not found. Please make sure you have the game installed and the executable is in the game folder next to the {Path.GetFileName(AppPaths.AltairGameExecutable)}.", "Error", App.MainWindow);
+            await MessageBox.ShowAsync($"Game executable not found. Please make sure you have the game installed and the executable is in the game folder next to the {Path.GetFileName(AppPaths.AltairGameExecutable)}.", MessageBoxButtons.Ok);
             Environment.Exit(0);
         }
     }
@@ -92,12 +92,15 @@ public partial class MainWindow : AppWindow
                 ContentFrame.Navigate(typeof(CreditsPage), null, new EntranceNavigationTransitionInfo());
                 break;
             case "Donate":
-                await MessageBox.ShowAsync("Donations are and will always be optional.\nEverything made by me on my own in my spare time will always be free and fully open source.\nDon't donate unless you can really afford it and don't donate your parents money without them knowing.\nDonations are NOT refundable.", "Information");
-                Process.Start(new ProcessStartInfo
+                bool result = await MessageBox.ShowAsync("Donations are and will always be optional.\nEverything made by me on my own in my spare time will always be free and fully open source.\nDon't donate unless you can really afford it and don't donate your parents money without them knowing.\nDonations are NOT refundable.", MessageBoxButtons.OkCancel);
+                if (result)
                 {
-                    FileName = "https://ko-fi.com/shazzaam/",
-                    UseShellExecute = true
-                });
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "https://ko-fi.com/shazzaam/",
+                        UseShellExecute = true
+                    });
+                }
                 break;
             default:
                 ContentFrame.Navigate(typeof(DefaultPage), null, null);

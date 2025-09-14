@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AnimusReforged.Altair.ViewModels;
 using Avalonia.Controls;
 using FluentAvalonia.UI.Windowing;
@@ -7,24 +8,55 @@ namespace AnimusReforged.Altair.Views;
 
 public partial class MessageBox : AppWindow
 {
+    // Variables
+    private Button? _okButton;
+    private Button? _cancelButton;
+    private Button? _yesButton;
+    private Button? _noButton;
+
+    // Constructors
     public MessageBox()
     {
         InitializeComponent();
         TitleBar.Height = 0;
+
+        _okButton = this.FindControl<Button>("OkButton");
+        _cancelButton = this.FindControl<Button>("CancelButton");
+        _yesButton = this.FindControl<Button>("YesButton");
+        _noButton = this.FindControl<Button>("NoButton");
     }
 
-    public MessageBox(string message, string title = "Message") : this()
+    public MessageBox(string message, MessageBoxButtons buttons = MessageBoxButtons.Ok, string title = "Message") : this()
     {
-        MessageBoxViewModel viewModel = new MessageBoxViewModel(message);
+        MessageBoxViewModel viewModel = new MessageBoxViewModel(message, buttons);
         viewModel.RequestClose += (_, result) => Close(result);
         DataContext = viewModel;
         Title = title;
+
+        UpdateButtonVisibility(viewModel.Buttons);
     }
 
-    // Static method for easy usage throughout the app
-    public static void Show(string message, string title = "Message", Window? owner = null)
+    // Methods
+    private void UpdateButtonVisibility(MessageBoxButtons buttons)
     {
-        MessageBox messageBox = new MessageBox(message, title);
+        _okButton?.SetCurrentValue(IsVisibleProperty, buttons == MessageBoxButtons.Ok || buttons == MessageBoxButtons.OkCancel);
+        _cancelButton?.SetCurrentValue(IsVisibleProperty, buttons == MessageBoxButtons.OkCancel || buttons == MessageBoxButtons.YesNoCancel);
+        _yesButton?.SetCurrentValue(IsVisibleProperty, buttons == MessageBoxButtons.YesNo || buttons == MessageBoxButtons.YesNoCancel);
+        _noButton?.SetCurrentValue(IsVisibleProperty, buttons == MessageBoxButtons.YesNo || buttons == MessageBoxButtons.YesNoCancel);
+    }
+
+    protected override void OnDataContextChanged(EventArgs e)
+    {
+        base.OnDataContextChanged(e);
+        if (DataContext is MessageBoxViewModel vm)
+        {
+            UpdateButtonVisibility(vm.Buttons);
+        }
+    }
+
+    public static void Show(string message, MessageBoxButtons buttons = MessageBoxButtons.Ok, string title = "Message", Window? owner = null)
+    {
+        MessageBox messageBox = new MessageBox(message, buttons, title);
         if (owner != null)
         {
             messageBox.ShowDialog(owner);
@@ -38,31 +70,24 @@ public partial class MessageBox : AppWindow
             }
             else
             {
-                messageBox.Show(); // Fallback to non-modal if no main window
+                messageBox.Show();
             }
         }
     }
 
-    // Async version for when you need to wait for the result
-    public static async Task<bool> ShowAsync(string message, string title = "Message", Window? owner = null)
+    public static async Task<bool> ShowAsync(string message, MessageBoxButtons buttons = MessageBoxButtons.Ok, string title = "Message", Window? owner = null)
     {
-        MessageBox messageBox = new MessageBox(message, title);
+        MessageBox messageBox = new MessageBox(message, buttons, title);
         if (owner != null)
         {
             return await messageBox.ShowDialog<bool>(owner);
         }
-        else
+        Window? mainWindow = App.MainWindow;
+        if (mainWindow != null)
         {
-            Window? mainWindow = App.MainWindow;
-            if (mainWindow != null)
-            {
-                return await messageBox.ShowDialog<bool>(mainWindow);
-            }
-            else
-            {
-                messageBox.Show(); // Fallback to non-modal if no main window
-                return true; // Always returns true for non-dialog mode
-            }
+            return await messageBox.ShowDialog<bool>(mainWindow);
         }
+        messageBox.Show();
+        return true;
     }
 }
