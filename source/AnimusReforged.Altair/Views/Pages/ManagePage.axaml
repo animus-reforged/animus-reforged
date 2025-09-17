@@ -34,7 +34,8 @@
                                  Value="{Binding DownloadProgress}" />
                     <TextBlock FontSize="14"
                                HorizontalAlignment="Right"
-                               Opacity="1" />
+                               Opacity="1"
+                               Text="{Binding DownloadProgress, StringFormat={}{0}%}"/>
                 </StackPanel>
             </ui:SettingsExpander.Items>
         </ui:SettingsExpander>
