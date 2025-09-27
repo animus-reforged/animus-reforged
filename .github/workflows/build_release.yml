@@ -1,0 +1,67 @@
+name: Build Release
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+      - dev
+      - develop
+  push:
+    branches:
+      - main
+      - dev
+      - develop
+    paths:
+      - "source/**"
+      - "test/**"
+
+jobs:
+  build:
+    if: |
+      github.repository == 'animus-reforged/animus-reforged' &&
+      (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev' || github.ref == 'refs/heads/develop') &&
+      (github.event_name == 'workflow_dispatch' || github.event_name == 'push' ||
+        (github.event_name == 'pull_request' && github.event.pull_request.merged == true))
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        targetplatform: [x64]
+        ChannelName: [Release]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "78475878+shazzaam7@users.noreply.github.com"
+          git config --global user.name "Shazzaam7"
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Restore NuGet packages
+        run: dotnet restore ".\source\AnimusReforged.Altair\AnimusReforged.Altair.csproj"
+
+      - name: Build AnimusReforged Altair
+        run: |
+          dotnet publish `
+          -c Release `
+          -r win-x64 `
+          --self-contained false `
+          -p:PublishSingleFile=true `
+          -p:IncludeNativeLibrariesForSelfExtract=true `
+          -p:IncludeAllContentForSelfExtract=false `
+          -p:DebugType=none `
+          -o publish `
+          ".\source\AnimusReforged.Altair\AnimusReforged.Altair.csproj"
+
+      - name: Upload Release as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AnimusReforgedAltair
+          path: publish/
