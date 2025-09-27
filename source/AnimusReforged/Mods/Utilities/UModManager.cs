@@ -22,7 +22,7 @@ public static class UModManager
             else
             {
                 Logger.Debug("Path not found in config file, appending");
-                await File.AppendAllTextAsync(AppPaths.uModConfig, Environment.NewLine + gamePath, Encoding.Unicode);
+                await File.AppendAllTextAsync(AppPaths.uModConfig, gamePath, Encoding.Unicode);
             }
         }
         else
