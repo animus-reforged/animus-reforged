@@ -89,7 +89,7 @@ public class IniParser
             // Handle key-value pairs
             else if (trimmedLine.Contains("="))
             {
-                string[] valueLine = trimmedLine.Split('=', 2); // Split only on first '=' to handle values with '='
+                string[] valueLine = trimmedLine.Split('=', 2); // Split only on the first '=' to handle values with '='
                 string key = valueLine[0].Trim();
                 string value = valueLine.Length > 1 ? valueLine[1].Trim() : "";
 

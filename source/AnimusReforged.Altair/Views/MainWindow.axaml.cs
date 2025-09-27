@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AnimusReforged.Altair.ViewModels;
 using AnimusReforged.Altair.Views.Pages;
 using AnimusReforged.Paths;
-using Avalonia.Controls;
 using Avalonia.Interactivity;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Media.Animation;

@@ -35,6 +35,7 @@ public partial class ManagePageViewModel : ViewModelBase
         IsDownloading = false;
         DownloadProgress = 0;
         SelectedModIndex = 0;
+        SelectedMod = InstalledMods[SelectedModIndex];
         LauncherUpdateAvailable = false;
     }
 

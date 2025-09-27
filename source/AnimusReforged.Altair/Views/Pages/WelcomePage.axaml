@@ -83,7 +83,6 @@
                     <Button Content="Install"
                             HorizontalAlignment="Right"
                             Margin="0,12,0,0"
-                            Classes="accent"
                             Command="{Binding InstallCommand}" />
                 </ui:SettingsExpander.Items>
             </ui:SettingsExpander>

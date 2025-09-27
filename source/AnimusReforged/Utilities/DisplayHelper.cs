@@ -56,7 +56,7 @@ public static class DisplayHelper
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            HashSet<(int Width, int Height)> resolutionPairs = new();
+            HashSet<(int Width, int Height)> resolutionPairs = new HashSet<(int Width, int Height)>();
 
             DEVMODE devMode = new DEVMODE();
             int modeIndex = 0;
