@@ -1,6 +1,6 @@
 ﻿namespace AnimusReforged.Paths;
 
-public class AppPaths : Base
+public abstract class AppPaths : Base
 {
     public static readonly string Base = _basePath;
     public static readonly string ConfigFile = AbsolutePath("config.json");
