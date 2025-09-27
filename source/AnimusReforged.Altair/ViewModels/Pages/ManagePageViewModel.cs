@@ -134,6 +134,36 @@ public partial class ManagePageViewModel : ViewModelBase
         await UModManager.SetupSaveFile(AppPaths.AltairGameExecutable, "ac1.txt");
     }
 
+    [RelayCommand]
+    private async Task Uninstall()
+    {
+        // Uninstall mods
+        Logger.Info("Uninstalling mods");
+        ModManager.UninstallAsiLoader();
+        
+        // Ask the user if he wants to delete uMod configuration folder
+        bool deleteUModConfig = await MessageBox.ShowAsync("Do you want to remove uMod configuration folder?", MessageBoxButtons.YesNo, "Uninstall uMod configuration folder?");
+        ModManager.UninstalluMod(deleteUModConfig);
+        
+        // Restore the original game executable if the backup exists
+        if (File.Exists(AppPaths.AltairGameExecutable + ".bak"))
+        {
+            Logger.Info("Restoring the original game executable without LAA patch applied");
+            File.Copy(AppPaths.AltairGameExecutable + ".bak", AppPaths.AltairGameExecutable, true);
+            File.Delete(AppPaths.AltairGameExecutable + ".bak");
+        }
+        else
+        {
+            Logger.Warning("Couldn't find backup of the original game executable");
+        }
+        App.Settings.SetupCompleted = false;
+        App.AppSettings.SaveSettings();
+        await MessageBox.ShowAsync("AnimusReforged has been successfully uninstalled.\nNow you can remove the AnimusReforged executable.", MessageBoxButtons.Ok, "Successful uninstallation");
+        
+        // Close the launcher
+        Environment.Exit(0);
+    }
+
     // TODO: Check for Launcher Updates
     // TODO: Update Launcher
     [RelayCommand]

@@ -35,7 +35,7 @@
                     <TextBlock FontSize="14"
                                HorizontalAlignment="Right"
                                Opacity="1"
-                               Text="{Binding DownloadProgress, StringFormat={}{0}%}"/>
+                               Text="{Binding DownloadProgress, StringFormat={}{0}%}" />
                 </StackPanel>
             </ui:SettingsExpander.Items>
         </ui:SettingsExpander>
@@ -61,7 +61,7 @@
                         </StackPanel>
                     </ui:SettingsExpander.Footer>
                 </ui:SettingsExpander>
-                
+
                 <ui:SettingsExpander Header="Fix uMod Paths"
                                      Description="Fixes paths used by uMod to load graphical mods">
                     <ui:SettingsExpander.IconSource>
@@ -79,7 +79,23 @@
                     </ui:SettingsExpander.Footer>
                 </ui:SettingsExpander>
 
-                <!--TODO: Launcher update section-->
+                <ui:SettingsExpander Header="Uninstall mods"
+                                     Description="Removes everything used by AnimusReforged from game directory">
+                    <ui:SettingsExpander.IconSource>
+                        <ic:SymbolIconSource Symbol="TrayItemRemove" />
+                    </ui:SettingsExpander.IconSource>
+                    <ui:SettingsExpander.Footer>
+                        <StackPanel Orientation="Horizontal" Spacing="12">
+                            <Button Content="Uninstall" Command="{Binding UninstallCommand}">
+                                <ToolTip.Tip>
+                                    <TextBlock Text="Uninstall" />
+                                </ToolTip.Tip>
+                            </Button>
+                        </StackPanel>
+                    </ui:SettingsExpander.Footer>
+                </ui:SettingsExpander>
+
+                <!--TODO: Launcher update section
                 <ui:SettingsExpander Header="Launcher Updater"
                                      Description="Check for updates for Animus Reforged Launcher"
                                      IsVisible="False">
@@ -103,7 +119,7 @@
                             </Button>
                         </StackPanel>
                     </ui:SettingsExpander.Footer>
-                </ui:SettingsExpander>
+                </ui:SettingsExpander>-->
             </StackPanel>
         </ScrollViewer>
     </StackPanel>

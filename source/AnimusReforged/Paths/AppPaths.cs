@@ -21,4 +21,5 @@ public class AppPaths : Base
     public static readonly string AltairEaglePatchIni = Path.Combine(Scripts, "EaglePatchAC1.ini");
     public static readonly string AltairFixIni = Path.Combine(Scripts, "AltairFix.ini");
     public static readonly string AltairuModTemplateFile = Path.Combine(uModTemplates, "ac1.txt");
+    public static readonly string AsiLoaderFile = AbsolutePath("dinput8.dll");
 }

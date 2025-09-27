@@ -32,6 +32,27 @@ public static class UModManager
         }
     }
 
+    public static void RemoveGameFromAppdata(string gamePath)
+    {
+        if (!File.Exists(AppPaths.uModConfig))
+        {
+            Logger.Error("Couldn't find uMod config file");
+            return;
+        }
+        string[] lines = File.ReadAllLines(AppPaths.uModConfig, Encoding.Unicode);
+        string[] updatedLines = lines.Where(line => !string.Equals(line.Trim(), gamePath, StringComparison.OrdinalIgnoreCase)).ToArray();
+
+        if (updatedLines.Length != lines.Length)
+        {
+            File.WriteAllLines(AppPaths.uModConfig, updatedLines, Encoding.Unicode);
+            Logger.Debug($"Removed {gamePath} from uMod config file");
+        }
+        else
+        {
+            Logger.Warning($"'{gamePath}' was not found in the config file");
+        }
+    }
+
     public static async Task SetupSaveFile(string gamePath, string templateName)
     {
         Directory.CreateDirectory(AppPaths.uModTemplates);

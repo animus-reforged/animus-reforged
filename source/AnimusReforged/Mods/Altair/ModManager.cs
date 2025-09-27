@@ -58,6 +58,31 @@ public static class ModManager
         Directory.CreateDirectory(AppPaths.Scripts);
     }
 
+    public static void UninstallAsiLoader()
+    {
+        Logger.Info("Uninstalling ASI Loader");
+        if (File.Exists(AppPaths.AsiLoaderFile))
+        {
+            Logger.Debug($"ASI Loader File found ({AppPaths.AsiLoaderFile})");
+            Logger.Info("Deleting ASI Loader File");
+            File.Delete(AppPaths.AsiLoaderFile);
+        }
+        else
+        {
+            Logger.Warning("ASI Loader File not found (Could be already uninstalled)");
+        }
+        if (Directory.Exists(AppPaths.Scripts))
+        {
+            Logger.Debug($"ASI Scripts folder found ({AppPaths.Scripts})");
+            Logger.Info("Deleting ASI Scripts folder");
+            Directory.Delete(AppPaths.Scripts, true);
+        }
+        else
+        {
+            Logger.Warning("ASI Scripts folder not found (Could be already uninstalled)");
+        }
+    }
+
     // EaglePatch
     public static async Task DownloadEaglePatch(Action<int> progressCallback)
     {
@@ -96,7 +121,7 @@ public static class ModManager
             throw new Exception("Failed to extract EaglePatch mod");
         }
     }
-    
+
     // AltairFix
     public static async Task DownloadAltairFix(Action<int> progressCallback)
     {
@@ -116,7 +141,7 @@ public static class ModManager
         }
         Logger.Info("Download complete");
     }
-    
+
     public static void InstallAltairFix()
     {
         Logger.Info("Extracting AltairFix");
@@ -135,7 +160,7 @@ public static class ModManager
             throw new Exception("Failed to extract AltairFix");
         }
     }
-    
+
     // ReShade
     public static async Task DownloadReShade(Action<int> progressCallback)
     {
@@ -155,7 +180,7 @@ public static class ModManager
         }
         Logger.Info("Download complete");
     }
-    
+
     public static void InstallReShade()
     {
         Logger.Info("Extracting ReShade");
@@ -214,6 +239,41 @@ public static class ModManager
             throw new Exception("Failed to extract uMod");
         }
         Directory.CreateDirectory(AppPaths.Mods);
+    }
+
+    public static void UninstalluMod(bool deleteConfigFile = false)
+    {
+        Logger.Info("Uninstalling uMod");
+        if (Directory.Exists(AppPaths.uMod))
+        {
+            Logger.Debug($"uMod folder found ({AppPaths.uMod})");
+            Logger.Info("Deleting uMod folder");
+            Directory.Delete(AppPaths.uMod, true);
+        }
+        else
+        {
+            Logger.Warning("uMod folder not found (Could be already uninstalled)");
+        }
+        if (Directory.Exists(AppPaths.Mods))
+        {
+            Logger.Debug($"Mods folder found ({AppPaths.AltairOverhaulMod})");
+            Logger.Info("Deleting Mods folder");
+            Directory.Delete(AppPaths.Mods, true);
+        }
+        else
+        {
+            Logger.Warning("Mods folder not found (Could be already uninstalled)");
+        }
+        if (deleteConfigFile)
+        {
+            Logger.Info($"Deleting uMod config folder ({AppPaths.uModAppdata})");
+            Directory.Delete(AppPaths.uModAppdata, true);
+        }
+        else
+        {
+            Logger.Info("Deleting game entry from uMod config file");
+            UModManager.RemoveGameFromAppdata(AppPaths.AltairGameExecutable);
+        }
     }
 
     // Overhaul
