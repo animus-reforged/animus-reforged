@@ -1,0 +1,20 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="AnimusReforged.Altair.App"
+             xmlns:converters="clr-namespace:AnimusReforged.Altair.Converters"
+             xmlns:local="using:AnimusReforged.Altair"
+             xmlns:styling="clr-namespace:FluentAvalonia.Styling;assembly=FluentAvalonia"
+             RequestedThemeVariant="Default">
+
+    <Application.DataTemplates>
+        <local:ViewLocator />
+    </Application.DataTemplates>
+
+    <Application.Resources>
+        <converters:InverseBoolConverter x:Key="InverseBoolConverter"></converters:InverseBoolConverter>
+    </Application.Resources>
+
+    <Application.Styles>
+        <styling:FluentAvaloniaTheme />
+    </Application.Styles>
+</Application>

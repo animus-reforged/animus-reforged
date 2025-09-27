@@ -1,0 +1,277 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AnimusReforged.Altair.ViewModels.Pages"
+             xmlns:ui="using:FluentAvalonia.UI.Controls"
+             xmlns:ic="using:FluentIcons.Avalonia.Fluent"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AnimusReforged.Altair.Views.Pages.SettingsPage"
+             x:DataType="vm:SettingsPageViewModel">
+    <UserControl.DataContext>
+        <vm:SettingsPageViewModel />
+    </UserControl.DataContext>
+    <ScrollViewer>
+        <StackPanel Spacing="12" Margin="20">
+            <ui:SettingsExpander Header="uMod"
+                                 Description="Enable texture modification support">
+                <ui:SettingsExpander.IconSource>
+                    <ic:SymbolIconSource Symbol="Wrench" />
+                </ui:SettingsExpander.IconSource>
+                <ui:SettingsExpander.Footer>
+                    <ToggleSwitch IsChecked="{Binding IsUModEnabled, Mode=TwoWay}" />
+                </ui:SettingsExpander.Footer>
+                <ui:SettingsExpander.Items>
+                    <!-- Enabled Mods -->
+                    <ui:SettingsExpander Header="Enabled Mods"
+                                         Description="Currently active modifications"
+                                         IsEnabled="{Binding IsUModEnabled}">
+                        <ui:SettingsExpander.IconSource>
+                            <ic:SymbolIconSource Symbol="Checkmark" />
+                        </ui:SettingsExpander.IconSource>
+                        <ui:SettingsExpander.Footer>
+                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                <Button Command="{Binding AddModCommand}">
+                                    <ic:SymbolIcon Symbol="Add" FontSize="16" />
+                                    <ToolTip.Tip>
+                                        <TextBlock Text="Add mod from your computer" />
+                                    </ToolTip.Tip>
+                                </Button>
+                            </StackPanel>
+                        </ui:SettingsExpander.Footer>
+                        <ui:SettingsExpander.Items>
+                            <ListBox ItemsSource="{Binding EnabledMods}"
+                                     BorderThickness="0"
+                                     SelectionMode="Single">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid ColumnDefinitions="*,Auto" Margin="4">
+                                            <TextBlock Text="{Binding Name}"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="14"
+                                                       Background="Transparent">
+                                                <ToolTip.Tip>
+                                                    <TextBlock Text="{Binding FullPath}" />
+                                                </ToolTip.Tip>
+                                            </TextBlock>
+                                            <StackPanel Orientation="Horizontal" Spacing="6" Grid.Column="1">
+                                                <Button Command="{Binding DataContext.MoveModUpCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}">
+                                                    <ic:SymbolIcon Symbol="ArrowUp" FontSize="16" />
+                                                    <ToolTip.Tip>
+                                                        <TextBlock Text="Move Up" />
+                                                    </ToolTip.Tip>
+                                                </Button>
+                                                <Button Command="{Binding DataContext.MoveModDownCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}">
+                                                    <ic:SymbolIcon Symbol="ArrowDown" FontSize="16" />
+                                                    <ToolTip.Tip>
+                                                        <TextBlock Text="Move Down" />
+                                                    </ToolTip.Tip>
+                                                </Button>
+                                                <Button Command="{Binding DataContext.DisableModCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}">
+                                                    <ic:SymbolIcon Symbol="Dismiss" FontSize="16" />
+                                                    <ToolTip.Tip>
+                                                        <TextBlock Text="Disable the mod" />
+                                                    </ToolTip.Tip>
+                                                </Button>
+                                                <Button Command="{Binding DataContext.RemoveModCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}">
+                                                    <ic:SymbolIcon Symbol="Delete" FontSize="16" />
+                                                    <ToolTip.Tip>
+                                                        <TextBlock Text="Delete the mod from your computer" />
+                                                    </ToolTip.Tip>
+                                                </Button>
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </ui:SettingsExpander.Items>
+                    </ui:SettingsExpander>
+
+                    <!-- Disabled Mods -->
+                    <ui:SettingsExpander Header="Disabled Mods"
+                                         Description="Mods that are present but not active"
+                                         IsEnabled="{Binding IsUModEnabled}">
+                        <ui:SettingsExpander.IconSource>
+                            <ic:SymbolIconSource Symbol="Dismiss" />
+                        </ui:SettingsExpander.IconSource>
+                        <ui:SettingsExpander.Items>
+                            <ListBox ItemsSource="{Binding DisabledMods}"
+                                     BorderThickness="0">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid ColumnDefinitions="*,Auto" Margin="4">
+                                            <TextBlock Text="{Binding Name}"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="14"
+                                                       Background="Transparent">
+                                                <ToolTip.Tip>
+                                                    <TextBlock Text="{Binding FullPath}" />
+                                                </ToolTip.Tip>
+                                            </TextBlock>
+                                            <StackPanel Orientation="Horizontal" Spacing="6" Grid.Column="1">
+                                                <Button Command="{Binding DataContext.EnableModCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}">
+                                                    <ic:SymbolIcon Symbol="Checkmark" FontSize="16" />
+                                                    <ToolTip.Tip>
+                                                        <TextBlock Text="Enable mod" />
+                                                    </ToolTip.Tip>
+                                                </Button>
+                                                <Button Command="{Binding DataContext.RemoveModCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                        CommandParameter="{Binding}">
+                                                    <ic:SymbolIcon Symbol="Delete" FontSize="16" />
+                                                    <ToolTip.Tip>
+                                                        <TextBlock Text="Delete the mod from your computer" />
+                                                    </ToolTip.Tip>
+                                                </Button>
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </ui:SettingsExpander.Items>
+                    </ui:SettingsExpander>
+                </ui:SettingsExpander.Items>
+            </ui:SettingsExpander>
+
+            <ui:SettingsExpander Header="ReShade"
+                                 Description="Enable post-processing effects">
+                <ui:SettingsExpander.IconSource>
+                    <ic:SymbolIconSource Symbol="Camera" />
+                </ui:SettingsExpander.IconSource>
+                <ui:SettingsExpander.Footer>
+                    <ToggleSwitch IsChecked="{Binding IsReShadeEnabled, Mode=TwoWay}" />
+                </ui:SettingsExpander.Footer>
+            </ui:SettingsExpander>
+
+            <ui:SettingsExpander Header="EaglePatch"
+                                 Description="General patches and fixes">
+                <ui:SettingsExpander.IconSource>
+                    <ic:SymbolIconSource Symbol="WrenchScrewdriver" />
+                </ui:SettingsExpander.IconSource>
+                <!-- Footer = main toggle -->
+                <ui:SettingsExpander.Footer>
+                    <ToggleSwitch IsChecked="{Binding IsEaglePatchEnabled, Mode=TwoWay}" />
+                </ui:SettingsExpander.Footer>
+
+                <!-- Nested EaglePatch sub-settings -->
+                <ui:SettingsExpander.Items>
+                    <ui:SettingsExpander Header="Keyboard Layout"
+                                         HorizontalAlignment="Stretch"
+                                         Description="Select keyboard layout"
+                                         IsEnabled="{Binding IsEaglePatchEnabled}">
+                        <ui:SettingsExpander.IconSource>
+                            <ic:SymbolIconSource Symbol="Keyboard" />
+                        </ui:SettingsExpander.IconSource>
+                        <ui:SettingsExpander.Footer>
+                            <ComboBox MinWidth="150"
+                                      ItemsSource="{Binding KeyboardLayouts}"
+                                      SelectedIndex="{Binding SelectedKeyboardLayoutIndex}"
+                                      HorizontalAlignment="Right" />
+                        </ui:SettingsExpander.Footer>
+                    </ui:SettingsExpander>
+
+                    <ui:SettingsExpander Header="PS3 Controls"
+                                         HorizontalAlignment="Stretch"
+                                         Description="Swap triggers and bumpers for PS3-style controls"
+                                         IsEnabled="{Binding IsEaglePatchEnabled}">
+                        <ui:SettingsExpander.IconSource>
+                            <ic:SymbolIconSource Symbol="XboxController" />
+                        </ui:SettingsExpander.IconSource>
+                        <ui:SettingsExpander.Footer>
+                            <ToggleSwitch IsChecked="{Binding IsPs3ControlsEnabled, Mode=TwoWay}" />
+                        </ui:SettingsExpander.Footer>
+                    </ui:SettingsExpander>
+
+                    <ui:SettingsExpander Header="Skip Intro Videos"
+                                         HorizontalAlignment="Stretch"
+                                         Description="Automatically skip startup videos"
+                                         IsEnabled="{Binding IsEaglePatchEnabled}">
+                        <ui:SettingsExpander.IconSource>
+                            <ic:SymbolIconSource Symbol="FastForward" />
+                        </ui:SettingsExpander.IconSource>
+                        <ui:SettingsExpander.Footer>
+                            <ToggleSwitch IsChecked="{Binding IsSkipIntroVideosEnabled, Mode=TwoWay}" />
+                        </ui:SettingsExpander.Footer>
+                    </ui:SettingsExpander>
+                </ui:SettingsExpander.Items>
+            </ui:SettingsExpander>
+
+            <ui:SettingsExpander Header="AltairFix"
+                                 Description="Additional patches and fixes related to performance and improvement">
+                <ui:SettingsExpander.IconSource>
+                    <ic:SymbolIconSource Symbol="Patch" />
+                </ui:SettingsExpander.IconSource>
+                <ui:SettingsExpander.Footer>
+                    <ToggleSwitch IsChecked="{Binding IsAltairFixEnabled, Mode=TwoWay}" />
+                </ui:SettingsExpander.Footer>
+                <ui:SettingsExpander.Items>
+                    <ui:SettingsExpander Header="Stutter fix"
+                                         Description="Patches game executable and hosts file to ignore Ubisoft's servers"
+                                         IsEnabled="{Binding IsAltairFixEnabled}">
+                        <ui:SettingsExpander.IconSource>
+                            <ic:SymbolIconSource Symbol="GlobeOff" />
+                        </ui:SettingsExpander.IconSource>
+                        <ui:SettingsExpander.Footer>
+                            <ToggleSwitch IsChecked="{Binding IsStutterFixEnabled, Mode=TwoWay}" />
+                        </ui:SettingsExpander.Footer>
+                    </ui:SettingsExpander>
+
+                    <ui:SettingsExpander Header="High Core Count Fix"
+                                         Description="Fixes the game not starting on CPU's with 32 Cores"
+                                         IsEnabled="{Binding IsAltairFixEnabled}">
+                        <ui:SettingsExpander.IconSource>
+                            <ic:SymbolIconSource Symbol="BugArrowCounterclockwise" />
+                        </ui:SettingsExpander.IconSource>
+                        <ui:SettingsExpander.Footer>
+                            <ToggleSwitch IsChecked="{Binding IsHighCoreCountFixEnabled, Mode=TwoWay}" />
+                        </ui:SettingsExpander.Footer>
+                    </ui:SettingsExpander>
+
+                    <ui:SettingsExpander Header="Window Mode"
+                                         Description="Choose window mode for the game"
+                                         IsEnabled="{Binding IsAltairFixEnabled}">
+                        <ui:SettingsExpander.IconSource>
+                            <ic:SymbolIconSource Symbol="Window" />
+                        </ui:SettingsExpander.IconSource>
+                        <ui:SettingsExpander.Footer>
+                            <ComboBox ItemsSource="{Binding WindowModes}"
+                                      SelectedIndex="{Binding SelectedWindowModeIndex}"
+                                      MinWidth="100" />
+                        </ui:SettingsExpander.Footer>
+                        <ui:SettingsExpander.Items>
+                            <ui:SettingsExpander Header="Width"
+                                                 Description="Window width (Windowed Only)"
+                                                 IsEnabled="{Binding IsCustomResolutionMode}">
+                                <ui:SettingsExpander.IconSource>
+                                    <ic:SymbolIconSource Symbol="ArrowAutofitWidth" />
+                                </ui:SettingsExpander.IconSource>
+                                <ui:SettingsExpander.Footer>
+                                    <ComboBox ItemsSource="{Binding SupportedWidths}"
+                                              SelectedValue="{Binding SelectedWidth}"
+                                              MinWidth="100" />
+                                </ui:SettingsExpander.Footer>
+                            </ui:SettingsExpander>
+
+                            <ui:SettingsExpander Header="Height"
+                                                 Description="Window height (Windowed Only)"
+                                                 IsEnabled="{Binding IsCustomResolutionMode}">
+                                <ui:SettingsExpander.IconSource>
+                                    <ic:SymbolIconSource Symbol="ArrowAutofitHeight" />
+                                </ui:SettingsExpander.IconSource>
+                                <ui:SettingsExpander.Footer>
+                                    <ComboBox ItemsSource="{Binding SupportedHeights}"
+                                              SelectedValue="{Binding SelectedHeight}"
+                                              MinWidth="100" />
+                                </ui:SettingsExpander.Footer>
+                            </ui:SettingsExpander>
+                        </ui:SettingsExpander.Items>
+                    </ui:SettingsExpander>
+                </ui:SettingsExpander.Items>
+            </ui:SettingsExpander>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

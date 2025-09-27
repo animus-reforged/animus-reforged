@@ -1,0 +1,65 @@
+<ui:AppWindow xmlns="https://github.com/avaloniaui"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:controls="using:FluentAvalonia.UI.Controls"
+              xmlns:ui="using:FluentAvalonia.UI.Windowing"
+              xmlns:vm="using:AnimusReforged.Altair.ViewModels"
+              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+              x:Class="AnimusReforged.Altair.Views.MainWindow"
+              x:DataType="vm:MainWindowViewModel"
+              Icon="/Assets/icon.ico"
+              Background="Black"
+              MinHeight="500" MinWidth="1000" Height="500" Width="1000"
+              WindowStartupLocation="CenterScreen"
+              Title="{Binding Title}"
+              IsEnabled="{Binding Working, Converter={StaticResource InverseBoolConverter}}">
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+    <controls:NavigationView x:Name="NavView"
+                             Background="Black"
+                             AlwaysShowHeader="False"
+                             IsBackButtonVisible="False"
+                             IsSettingsVisible="False"
+                             PaneDisplayMode="Left"
+                             OpenPaneLength="130"
+                             ItemInvoked="NavView_OnItemInvoked">
+        <!-- Navigation Items -->
+        <controls:NavigationView.MenuItems>
+            <controls:NavigationViewItem Content="Play"
+                                         IsEnabled="{Binding DisableWindow}">
+                <controls:NavigationViewItem.IconSource>
+                    <controls:SymbolIconSource Symbol="Play" />
+                </controls:NavigationViewItem.IconSource>
+            </controls:NavigationViewItem>
+
+            <controls:NavigationViewItem Content="Settings" IsEnabled="{Binding DisableWindow}">
+                <controls:NavigationViewItem.IconSource>
+                    <controls:SymbolIconSource Symbol="Setting" />
+                </controls:NavigationViewItem.IconSource>
+            </controls:NavigationViewItem>
+            
+            <controls:NavigationViewItem Content="Manage" IsEnabled="{Binding DisableWindow}">
+                <controls:NavigationViewItem.IconSource>
+                    <controls:SymbolIconSource Symbol="Manage" />
+                </controls:NavigationViewItem.IconSource>
+            </controls:NavigationViewItem>
+        </controls:NavigationView.MenuItems>
+
+        <controls:NavigationView.FooterMenuItems>
+            <controls:NavigationViewItem Content="Credits" IsEnabled="{Binding DisableWindow}">
+                <controls:NavigationViewItem.IconSource>
+                    <controls:SymbolIconSource Symbol="ContactInfo" />
+                </controls:NavigationViewItem.IconSource>
+            </controls:NavigationViewItem>
+            <controls:NavigationViewItem Content="Donate" SelectsOnInvoked="False">
+                <controls:NavigationViewItem.IconSource>
+                    <controls:SymbolIconSource Symbol="Like" />
+                </controls:NavigationViewItem.IconSource>
+            </controls:NavigationViewItem>
+        </controls:NavigationView.FooterMenuItems>
+
+        <controls:Frame x:Name="ContentFrame" />
+    </controls:NavigationView>
+</ui:AppWindow>
