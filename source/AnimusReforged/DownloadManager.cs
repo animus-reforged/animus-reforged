@@ -25,6 +25,7 @@ public class DownloadManager
     
     public async Task DownloadFileAsync(string url, string savePath, CancellationToken cancellationToken = default)
     {
+        Directory.CreateDirectory(AppPaths.Downloads);
         try
         {
             using HttpResponseMessage response = await _httpClient.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
