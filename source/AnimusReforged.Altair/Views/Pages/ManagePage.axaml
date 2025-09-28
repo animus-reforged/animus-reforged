@@ -69,8 +69,7 @@
                     </ui:SettingsExpander.IconSource>
                     <ui:SettingsExpander.Footer>
                         <StackPanel Orientation="Horizontal" Spacing="12">
-                            <Button Command="{Binding FixUModPathsCommand}">
-                                <ic:SymbolIcon Symbol="Patch" />
+                            <Button Content="Fix" Command="{Binding FixUModPathsCommand}">
                                 <ToolTip.Tip>
                                     <TextBlock Text="Fix uMod paths" />
                                 </ToolTip.Tip>
