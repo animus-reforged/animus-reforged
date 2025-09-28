@@ -60,6 +60,6 @@
             </controls:NavigationViewItem>
         </controls:NavigationView.FooterMenuItems>
 
-        <controls:Frame x:Name="ContentFrame" />
+        <controls:Frame x:Name="ContentFrame" CacheSize="0"/>
     </controls:NavigationView>
 </ui:AppWindow>
