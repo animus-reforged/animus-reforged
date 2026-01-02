@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimusReforged", "source\AnimusReforged\AnimusReforged.csproj", "{07CC9E61-9528-450D-A26D-47E2EDE776D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimusReforged.Altair", "source\AnimusReforged.Altair\AnimusReforged.Altair.csproj", "{3D71B697-9E5A-4102-B6D8-9B63DAA0AF78}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{07CC9E61-9528-450D-A26D-47E2EDE776D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07CC9E61-9528-450D-A26D-47E2EDE776D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07CC9E61-9528-450D-A26D-47E2EDE776D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07CC9E61-9528-450D-A26D-47E2EDE776D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D71B697-9E5A-4102-B6D8-9B63DAA0AF78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D71B697-9E5A-4102-B6D8-9B63DAA0AF78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D71B697-9E5A-4102-B6D8-9B63DAA0AF78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D71B697-9E5A-4102-B6D8-9B63DAA0AF78}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
