@@ -18,22 +18,23 @@
                              IsSettingsVisible="False"
                              PaneDisplayMode="Left"
                              OpenPaneLength="130"
-                             IsPaneToggleButtonVisible="True">
+                             IsPaneToggleButtonVisible="True"
+                             ItemInvoked="NavView_OnItemInvoked">
         <!-- Navigation Items -->
         <controls:NavigationView.MenuItems>
-            <controls:NavigationViewItem Content="Play">
+            <controls:NavigationViewItem Content="Play" Tag="Play">
                 <controls:NavigationViewItem.IconSource>
                     <ic:SymbolIconSource Symbol="Play" />
                 </controls:NavigationViewItem.IconSource>
             </controls:NavigationViewItem>
 
-            <controls:NavigationViewItem Content="Settings">
+            <controls:NavigationViewItem Content="Settings" Tag="Settings">
                 <controls:NavigationViewItem.IconSource>
                     <ic:SymbolIconSource Symbol="Settings" />
                 </controls:NavigationViewItem.IconSource>
             </controls:NavigationViewItem>
 
-            <controls:NavigationViewItem Content="Manage">
+            <controls:NavigationViewItem Content="Manage" Tag="Manage">
                 <controls:NavigationViewItem.IconSource>
                     <ic:SymbolIconSource Symbol="Apps" />
                 </controls:NavigationViewItem.IconSource>
@@ -41,12 +42,12 @@
         </controls:NavigationView.MenuItems>
 
         <controls:NavigationView.FooterMenuItems>
-            <controls:NavigationViewItem Content="Credits">
+            <controls:NavigationViewItem Content="Credits" Tag="Credits">
                 <controls:NavigationViewItem.IconSource>
                     <ic:SymbolIconSource Symbol="ContactCard" />
                 </controls:NavigationViewItem.IconSource>
             </controls:NavigationViewItem>
-            <controls:NavigationViewItem Content="Donate" SelectsOnInvoked="False">
+            <controls:NavigationViewItem Content="Donate" Tag="Donate" SelectsOnInvoked="False">
                 <controls:NavigationViewItem.IconSource>
                     <ic:SymbolIconSource Symbol="Heart" />
                 </controls:NavigationViewItem.IconSource>

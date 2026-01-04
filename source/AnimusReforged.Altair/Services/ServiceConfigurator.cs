@@ -20,6 +20,9 @@ public static class ServiceConfigurator
     public static IServiceProvider ConfigureServices()
     {
         ServiceCollection services = new ServiceCollection();
+        
+        // Register Services
+        services.AddSingleton<NavigationService>();
 
         // Register ViewModels
         services.AddSingleton<MainWindowViewModel>();
