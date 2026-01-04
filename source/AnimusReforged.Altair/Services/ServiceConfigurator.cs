@@ -23,6 +23,7 @@ public static class ServiceConfigurator
 
         // Register ViewModels
         services.AddSingleton<MainWindowViewModel>();
+        services.AddSingleton<MainViewModel>();
 
         // Register Views/Windows
         services.AddSingleton<MainWindow>();
