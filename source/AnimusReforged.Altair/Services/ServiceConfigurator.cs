@@ -1,5 +1,6 @@
 using System;
 using AnimusReforged.Altair.ViewModels;
+using AnimusReforged.Altair.ViewModels.Pages;
 using AnimusReforged.Altair.Views;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,13 +21,15 @@ public static class ServiceConfigurator
     public static IServiceProvider ConfigureServices()
     {
         ServiceCollection services = new ServiceCollection();
-        
+
         // Register Services
         services.AddSingleton<NavigationService>();
 
         // Register ViewModels
         services.AddSingleton<MainWindowViewModel>();
         services.AddSingleton<MainViewModel>();
+        services.AddSingleton<WelcomePageViewModel>();
+        services.AddSingleton<CreditsPageViewModel>();
 
         // Register Views/Windows
         services.AddSingleton<MainWindow>();

@@ -1,0 +1,92 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AnimusReforged.Altair.ViewModels.Pages"
+             xmlns:ui="using:FluentAvalonia.UI.Controls"
+             xmlns:ic="using:FluentIcons.Avalonia.Fluent"
+             xmlns:pages="clr-namespace:AnimusReforged.Altair.ViewModels.Pages"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AnimusReforged.Altair.Views.Pages.WelcomePage"
+             x:DataType="pages:WelcomePageViewModel">
+    <UserControl.DataContext>
+        <vm:WelcomePageViewModel />
+    </UserControl.DataContext>
+    <ScrollViewer>
+        <StackPanel Spacing="20" Margin="20">
+            <!-- Welcome Header -->
+            <StackPanel Spacing="8">
+                <TextBlock Text="Welcome to Animus Reforged"
+                           FontSize="24"
+                           FontWeight="Bold" />
+                <TextBlock Text="The ultimate enhancement suite for Assassin's Creed"
+                           FontSize="14"
+                           Opacity="0.8" />
+            </StackPanel>
+
+            <!-- Features Overview -->
+            <ui:SettingsExpander Header="Features"
+                                 Description="What Animus Reforged offers">
+                <ui:SettingsExpander.IconSource>
+                    <ic:SymbolIconSource Symbol="Star" />
+                </ui:SettingsExpander.IconSource>
+
+                <ui:SettingsExpander.Items>
+                    <StackPanel Spacing="12" Margin="0,12">
+                        <!-- Feature 1 -->
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <ic:SymbolIcon Symbol="Checkmark" />
+                            <TextBlock Text="Texture modding support via uMod"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+
+                        <!-- Feature 2 -->
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <ic:SymbolIcon Symbol="Checkmark" />
+                            <TextBlock Text="Post-processing effects with ReShade"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+
+                        <!-- Feature 3 -->
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <ic:SymbolIcon Symbol="Checkmark" />
+                            <TextBlock Text="Community patches and fixes"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </StackPanel>
+                </ui:SettingsExpander.Items>
+            </ui:SettingsExpander>
+
+            <!-- Installation Section -->
+            <ui:SettingsExpander Header="Installation"
+                                 Description="Download and install required components"
+                                 IsExpanded="True">
+                <ui:SettingsExpander.IconSource>
+                    <ic:SymbolIconSource Symbol="ArrowDownload" />
+                </ui:SettingsExpander.IconSource>
+
+                <ui:SettingsExpander.Items>
+                    <!-- Download Progress -->
+                    <StackPanel Spacing="8" Margin="0,12">
+                        <TextBlock Text="{Binding StatusText}"
+                                   FontWeight="SemiBold" />
+                        <ProgressBar Height="8"
+                                     Minimum="0"
+                                     Maximum="100"
+                                     Value="{Binding ProgressBarValue}" />
+                        <TextBlock FontSize="14"
+                                   Opacity="1"
+                                   HorizontalAlignment="Right"
+                                   Text="{Binding ProgressBarValue, StringFormat={}{0}%}" />
+                    </StackPanel>
+
+                    <!-- Install Button -->
+                    <Button Content="Install"
+                            HorizontalAlignment="Right"
+                            Margin="0,12,0,0"
+                            Command="{Binding InstallCommand}" />
+                </ui:SettingsExpander.Items>
+            </ui:SettingsExpander>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
