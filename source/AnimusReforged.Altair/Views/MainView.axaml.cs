@@ -25,6 +25,7 @@ public partial class MainView : UserControl
         _navigationService = App.Services.GetRequiredService<NavigationService>();
         _navigationService.SetContentFrame(ContentFrame);
         _navigationService.SetNavigationView(NavView);
+        
     }
 
     // Functions

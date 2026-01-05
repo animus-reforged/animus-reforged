@@ -6,10 +6,12 @@
                   xmlns:window="clr-namespace:FluentAvalonia.UI.Windowing;assembly=FluentAvalonia"
                   xmlns:views="clr-namespace:AnimusReforged.Altair.Views"
                   mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                  MinHeight="500" MinWidth="1000" Height="500" Width="1000"
                   x:Class="AnimusReforged.Altair.Views.MainWindow"
                   x:DataType="vm:MainWindowViewModel"
                   Icon="/Assets/icon.ico"
-                  Title="AnimusReforged.Altair">
+                  Title="AnimusReforged.Altair"
+                  IsEnabled="{Binding DisableWindow, Converter={StaticResource InverseBoolConverter}}">
 
     <Design.DataContext>
         <vm:MainWindowViewModel />
