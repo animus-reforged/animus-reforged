@@ -1,4 +1,5 @@
 using System;
+using AnimusReforged.Altair.Services.UI;
 using AnimusReforged.Altair.ViewModels;
 using AnimusReforged.Altair.ViewModels.Pages;
 using AnimusReforged.Altair.Views;
@@ -24,12 +25,14 @@ public static class ServiceConfigurator
 
         // Register Services
         services.AddSingleton<NavigationService>();
+        services.AddSingleton<IMessageBoxService, MessageBoxService>();
 
         // Register ViewModels
         services.AddSingleton<MainWindowViewModel>();
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<WelcomePageViewModel>();
         services.AddSingleton<CreditsPageViewModel>();
+        services.AddSingleton<MessageBoxExampleViewModel>();
 
         // Register Views/Windows
         services.AddSingleton<MainWindow>();
