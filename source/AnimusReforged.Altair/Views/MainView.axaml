@@ -5,8 +5,10 @@
              xmlns:controls="using:FluentAvalonia.UI.Controls"
              xmlns:ic="using:FluentIcons.Avalonia.Fluent"
              xmlns:vm="using:AnimusReforged.Altair.ViewModels"
+             xmlns:viewModels="clr-namespace:AnimusReforged.Altair.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="AnimusReforged.Altair.Views.MainView">
+             x:Class="AnimusReforged.Altair.Views.MainView"
+             x:DataType="viewModels:MainViewModel">
     <Design.DataContext>
         <vm:MainViewModel />
     </Design.DataContext>
@@ -22,19 +24,19 @@
                              ItemInvoked="NavView_OnItemInvoked">
         <!-- Navigation Items -->
         <controls:NavigationView.MenuItems>
-            <controls:NavigationViewItem Content="Play" Tag="Play">
+            <controls:NavigationViewItem Content="Play" Tag="Play" IsEnabled="{Binding FirstSetup}">
                 <controls:NavigationViewItem.IconSource>
                     <ic:SymbolIconSource Symbol="Play" />
                 </controls:NavigationViewItem.IconSource>
             </controls:NavigationViewItem>
 
-            <controls:NavigationViewItem Content="Settings" Tag="Settings">
+            <controls:NavigationViewItem Content="Settings" Tag="Settings" IsEnabled="{Binding FirstSetup}">
                 <controls:NavigationViewItem.IconSource>
                     <ic:SymbolIconSource Symbol="Settings" />
                 </controls:NavigationViewItem.IconSource>
             </controls:NavigationViewItem>
 
-            <controls:NavigationViewItem Content="Manage" Tag="Manage">
+            <controls:NavigationViewItem Content="Manage" Tag="Manage" IsEnabled="{Binding FirstSetup}">
                 <controls:NavigationViewItem.IconSource>
                     <ic:SymbolIconSource Symbol="Apps" />
                 </controls:NavigationViewItem.IconSource>
@@ -42,7 +44,7 @@
         </controls:NavigationView.MenuItems>
 
         <controls:NavigationView.FooterMenuItems>
-            <controls:NavigationViewItem Content="Credits" Tag="Credits">
+            <controls:NavigationViewItem Content="Credits" Tag="Credits" IsEnabled="{Binding FirstSetup}">
                 <controls:NavigationViewItem.IconSource>
                     <ic:SymbolIconSource Symbol="ContactCard" />
                 </controls:NavigationViewItem.IconSource>
