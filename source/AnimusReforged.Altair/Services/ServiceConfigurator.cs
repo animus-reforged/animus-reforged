@@ -3,6 +3,8 @@ using AnimusReforged.Altair.Services.UI;
 using AnimusReforged.Altair.ViewModels;
 using AnimusReforged.Altair.ViewModels.Pages;
 using AnimusReforged.Altair.Views;
+using AnimusReforged.Logging;
+using AnimusReforged.Settings;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AnimusReforged.Altair.Services;
@@ -11,7 +13,7 @@ namespace AnimusReforged.Altair.Services;
 /// Provides centralized service configuration and registration for the Altair application,
 /// managing dependency injection container setup and service lifecycle management.
 /// </summary>
-public static class ServiceConfigurator
+public class ServiceConfigurator
 {
     /// <summary>
     /// Configures and registers all application services with the dependency injection container.
@@ -26,6 +28,27 @@ public static class ServiceConfigurator
         // Register Services
         services.AddSingleton<NavigationService>();
         services.AddSingleton<IMessageBoxService, MessageBoxService>();
+
+        // Register AltairSettings with automatic initialization
+        services.AddSingleton<AltairSettings>(serviceProvider =>
+        {
+            AltairSettings settings = new AltairSettings();
+
+            // Initialize settings during registration
+            try
+            {
+                // Load settings at startup (this will create defaults if file doesn't exist)
+                AltairSettings.AltairSettingsStore loadedSettings = settings.Settings; // This triggers lazy loading
+            }
+            catch (Exception ex)
+            {
+                Logger.Error<ServiceConfigurator>("Failed to initialize settings during registration");
+                Logger.LogExceptionDetails<ServiceConfigurator>(ex);
+                // Settings will fall back to defaults, which is handled by the settings system
+            }
+
+            return settings;
+        });
 
         // Register ViewModels
         services.AddSingleton<MainWindowViewModel>();

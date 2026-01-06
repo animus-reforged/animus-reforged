@@ -9,6 +9,7 @@ using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using AnimusReforged.Altair.Views;
 using AnimusReforged.Logging;
+using AnimusReforged.Settings;
 using Avalonia.Threading;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -61,6 +62,9 @@ public partial class App : Application
                 Logger.LogExceptionDetails<App>(ex);
                 throw;
             }
+            
+            // Initial loading of settings
+            AltairSettings settings = Services.GetRequiredService<AltairSettings>();
 
             // Get MainWindow
             Logger.Debug<App>("Resolving MainWindow from services");
@@ -71,7 +75,7 @@ public partial class App : Application
             mainWindow.Opened += (_, _) =>
             {
                 Logger.Info<App>("Launching AnimusReforged Altair");
-                Logger.Info<App>($"Version: ");
+                Logger.Info<App>($"Version: v{settings.Settings.GetVersion()}");
                 Logger.Debug<App>("Main window opened");
             };
 
