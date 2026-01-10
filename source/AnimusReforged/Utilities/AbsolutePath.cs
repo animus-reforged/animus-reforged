@@ -50,6 +50,12 @@ public static class AbsolutePath
     }
 
     /// <summary>
+    /// Base directory for the app
+    /// </summary>
+    /// <returns>Absolute path to the directory where the application is located</returns>
+    public static string BaseDirectory() => _baseDirectory;
+
+    /// <summary>
     /// Converts a relative path into an absolute path using the application's base directory.
     /// </summary>
     /// <param name="relativePath">A path relative to the application's base directory.</param>
