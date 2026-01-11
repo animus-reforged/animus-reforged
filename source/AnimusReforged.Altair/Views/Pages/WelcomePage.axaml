@@ -26,7 +26,8 @@
 
             <!-- Features Overview -->
             <ui:SettingsExpander Header="Features"
-                                 Description="What Animus Reforged offers">
+                                 Description="What Animus Reforged offers"
+                                 IsExpanded="True">
                 <ui:SettingsExpander.IconSource>
                     <ic:SymbolIconSource Symbol="Star" />
                 </ui:SettingsExpander.IconSource>
