@@ -25,6 +25,10 @@ public partial class MainView : UserControl
         InitializeComponent();
         _viewModel = App.Services.GetRequiredService<MainViewModel>();
         DataContext = _viewModel;
+        Loaded += async (_, _) =>
+        {
+            await _viewModel.CheckInstallation();
+        };
 
         // Setup navigation service
         _navigationService = App.Services.GetRequiredService<NavigationService>();
@@ -45,6 +49,14 @@ public partial class MainView : UserControl
 
         string initialPage = _settings.Settings.SetupCompleted ? "Default" : "Welcome";
         _navigationService.NavigateToTag(initialPage);
+        
+        Loaded += async (_, _) =>
+        {
+            if (_settings.Settings.SetupCompleted)
+            {
+                await _viewModel.CheckInstallation();
+            }
+        };
     }
 
     // Functions
