@@ -1,5 +1,6 @@
 using System.Text;
 using AnimusReforged.Logging;
+using AnimusReforged.Utilities;
 
 namespace AnimusReforged.Mods.Core;
 
@@ -22,17 +23,17 @@ public class UModManager
         ArgumentException.ThrowIfNullOrWhiteSpace(gamePath);
 
         Logger.Debug<UModManager>("Setting up uMod AppData");
-        Directory.CreateDirectory(UModConstants.UModAppdata);
+        Directory.CreateDirectory(FilePaths.UModAppdata);
         Logger.Debug<UModManager>($"Game path: {gamePath}");
 
-        if (File.Exists(UModConstants.UModConfig))
+        if (File.Exists(FilePaths.UModConfig))
         {
             await AppendGamePathIfMissing(gamePath, cancellationToken).ConfigureAwait(false);
         }
         else
         {
             Logger.Debug<UModManager>("Creating new uMod AppData config file");
-            await File.WriteAllTextAsync(UModConstants.UModConfig, gamePath, UnicodeNoBom, cancellationToken).ConfigureAwait(false);
+            await File.WriteAllTextAsync(FilePaths.UModConfig, gamePath, UnicodeNoBom, cancellationToken).ConfigureAwait(false);
         }
     }
 
@@ -45,7 +46,7 @@ public class UModManager
     {
         Logger.Debug<UModManager>("Checking existing config file");
 
-        string[] lines = await File.ReadAllLinesAsync(UModConstants.UModConfig, UnicodeNoBom, cancellationToken).ConfigureAwait(false);
+        string[] lines = await File.ReadAllLinesAsync(FilePaths.UModConfig, UnicodeNoBom, cancellationToken).ConfigureAwait(false);
 
         HashSet<string> existingPaths = new HashSet<string>(lines, StringComparer.OrdinalIgnoreCase);
 
@@ -56,7 +57,7 @@ public class UModManager
         else
         {
             Logger.Debug<UModManager>("Appending path to config file");
-            await File.AppendAllTextAsync(UModConstants.UModConfig, gamePath, UnicodeNoBom, cancellationToken).ConfigureAwait(false);
+            await File.AppendAllTextAsync(FilePaths.UModConfig, gamePath, UnicodeNoBom, cancellationToken).ConfigureAwait(false);
         }
     }
 
@@ -70,13 +71,13 @@ public class UModManager
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(gamePath);
 
-        if (!File.Exists(UModConstants.UModConfig))
+        if (!File.Exists(FilePaths.UModConfig))
         {
             Logger.Error<UModManager>("uMod config file not found");
             return;
         }
 
-        string[] lines = await File.ReadAllLinesAsync(UModConstants.UModConfig, UnicodeNoBom, cancellationToken).ConfigureAwait(false);
+        string[] lines = await File.ReadAllLinesAsync(FilePaths.UModConfig, UnicodeNoBom, cancellationToken).ConfigureAwait(false);
 
         // Filter out matching lines
         string[] updatedLines = lines
@@ -85,7 +86,7 @@ public class UModManager
 
         if (updatedLines.Length < lines.Length)
         {
-            await File.WriteAllLinesAsync(UModConstants.UModConfig, updatedLines, UnicodeNoBom, cancellationToken).ConfigureAwait(false);
+            await File.WriteAllLinesAsync(FilePaths.UModConfig, updatedLines, UnicodeNoBom, cancellationToken).ConfigureAwait(false);
             Logger.Debug<UModManager>($"Removed '{gamePath}' from uMod config");
         }
         else
@@ -107,17 +108,17 @@ public class UModManager
         ArgumentException.ThrowIfNullOrWhiteSpace(gamePath);
         ArgumentException.ThrowIfNullOrWhiteSpace(templateName);
 
-        Directory.CreateDirectory(UModConstants.UModTemplates);
+        Directory.CreateDirectory(FilePaths.UModTemplates);
 
         // Ensure status file exists
-        if (!File.Exists(UModConstants.UModStatusFile))
+        if (!File.Exists(FilePaths.UModStatusFile))
         {
             Logger.Debug<UModManager>("Creating uMod status file");
-            await File.WriteAllTextAsync(UModConstants.UModStatusFile, "Enabled=1", Encoding.ASCII, cancellationToken).ConfigureAwait(false);
+            await File.WriteAllTextAsync(FilePaths.UModStatusFile, "Enabled=1", Encoding.ASCII, cancellationToken).ConfigureAwait(false);
         }
 
         Logger.Debug<UModManager>("Setting up uMod template");
-        string templatePath = Path.Combine(UModConstants.UModTemplates, templateName);
+        string templatePath = Path.Combine(FilePaths.UModTemplates, templateName);
 
         // Build template content
         string content = BuildTemplateContent(modFilePaths);
@@ -126,7 +127,7 @@ public class UModManager
         // Append to save files
         string saveFileEntry = $"{gamePath}|{templatePath}\n";
         Logger.Debug<UModManager>($"Save file entry: {saveFileEntry}");
-        await File.AppendAllTextAsync(UModConstants.UModSaveFiles, saveFileEntry, UnicodeNoBom, cancellationToken).ConfigureAwait(false);
+        await File.AppendAllTextAsync(FilePaths.UModSaveFiles, saveFileEntry, UnicodeNoBom, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>

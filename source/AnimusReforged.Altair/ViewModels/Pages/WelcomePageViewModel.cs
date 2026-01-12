@@ -121,14 +121,14 @@ public partial class WelcomePageViewModel : ViewModelBase
             // Applying 4GB Patch (Large Address Aware)
             StatusText = "Applying 4GB Patch (Large Address Aware)";
             Logger.Info<WelcomePageViewModel>("Applying 4GB Patch (Large Address Aware) to AssassinsCreed_Dx9.exe");
-            Patcher.LargeAddressAwarePatch(AbsolutePath.GetFullPath("AssassinsCreed_Dx9.exe"));
+            Patcher.LargeAddressAwarePatch(FilePaths.AltairExecutable);
             Logger.Info<WelcomePageViewModel>("4GB Patch applied successfully");
 
             // Delete the downloads directory recursively
-            if (Directory.Exists(AbsolutePath.GetFullPath("downloads")))
+            if (Directory.Exists(FilePaths.DownloadsDirectory))
             {
                 Logger.Info<WelcomePageViewModel>("Deleting downloads directory");
-                Directory.Delete(AbsolutePath.GetFullPath("downloads"), true);
+                Directory.Delete(FilePaths.DownloadsDirectory, true);
                 Logger.Info<WelcomePageViewModel>("Downloads directory deleted successfully");
             }
             else

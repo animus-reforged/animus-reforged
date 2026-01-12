@@ -49,9 +49,9 @@ public class ModManager
     }
 
     private static readonly DownloadManager DownloadManagerInstance = new DownloadManager();
-    private static readonly string DownloadsDirectoryPath = AbsolutePath.GetFullPath("downloads");
-    private static readonly string ScriptsDirectoryPath = AbsolutePath.GetFullPath("scripts");
-    private static readonly string OverhaulDirectoryPath = AbsolutePath.GetFullPath(["mods", "Overhaul"]);
+    private static readonly string DownloadsDirectoryPath = FilePaths.DownloadsDirectory;
+    private static readonly string ScriptsDirectoryPath = FilePaths.ScriptsDirectory;
+    private static readonly string OverhaulDirectoryPath = FilePaths.OverhaulDirectory;
 
     /// <summary>
     /// Initializes the mod manager by loading the Altair manifest asynchronously.
@@ -207,8 +207,8 @@ public class ModManager
     /// </summary>
     public static void InstallUMod()
     {
-        Directory.CreateDirectory(UModConstants.UModLocation);
-        ExtractMod(ModIdentifiers.UMod, UModConstants.UModLocation);
+        Directory.CreateDirectory(FilePaths.UModLocation);
+        ExtractMod(ModIdentifiers.UMod, FilePaths.UModLocation);
     }
 
     #endregion
@@ -241,9 +241,9 @@ public class ModManager
     /// <returns>A task representing the asynchronous setup operation</returns>
     public static async Task SetupUMod()
     {
-        await UModManager.SetupAppdata(AbsolutePath.GetFullPath("AssassinsCreed_Dx9.exe"));
-        string[] uModMods = [Path.Combine(OverhaulDirectoryPath, "Overhaul.tpf")];
-        await UModManager.SetupSaveFile(AbsolutePath.GetFullPath("AssassinsCreed_Dx9.exe"), "ac1.txt", uModMods);
+        await UModManager.SetupAppdata(FilePaths.AltairExecutable);
+        string[] uModMods = [FilePaths.OverhaulTpfFile];
+        await UModManager.SetupSaveFile(FilePaths.AltairExecutable, "ac1.txt", uModMods);
     }
 
     #endregion

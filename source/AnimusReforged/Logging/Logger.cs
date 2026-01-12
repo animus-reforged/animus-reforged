@@ -18,7 +18,7 @@ public static class Logger
     private static readonly LoggingConfiguration _config;
 
     // Constants
-    private static readonly string LOG_FILE = AbsolutePath.GetFullPath("logs/altair.log");
+    private static readonly string LOG_FILE = FilePaths.LogFile;
 
     // Constructor
     static Logger()

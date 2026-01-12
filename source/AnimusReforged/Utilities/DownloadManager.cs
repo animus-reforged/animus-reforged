@@ -7,7 +7,7 @@ namespace AnimusReforged.Utilities;
 /// </summary>
 public class DownloadManager : IDisposable
 {
-    private readonly string _downloadPath = AbsolutePath.GetFullPath("downloads");
+    private readonly string _downloadPath = FilePaths.DownloadsDirectory;
     private readonly HttpClient _httpClient = new HttpClient { Timeout = TimeSpan.FromSeconds(60) };
     private bool _disposed = false;
 

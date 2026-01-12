@@ -12,7 +12,7 @@ namespace AnimusReforged.Settings.Core;
 public abstract class AbstractSettings<T> : ISettingsService<T> where T : class, new()
 {
     private readonly JsonSerializerOptions _jsonSerializerOptions;
-    private readonly string _settingsPath = AbsolutePath.GetFullPath("config/config.json");
+    private readonly string _settingsPath = FilePaths.SettingsFile;
     private T? _settings;
     private readonly Lock _lock = new Lock();
     private bool _settingsLoaded = false;
