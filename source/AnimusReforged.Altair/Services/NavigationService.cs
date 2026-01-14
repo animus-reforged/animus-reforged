@@ -1,8 +1,12 @@
 using System;
+using System.Threading.Tasks;
+using AnimusReforged.Altair.ViewModels;
 using AnimusReforged.Altair.Views.Pages;
 using AnimusReforged.Logging;
+using AnimusReforged.Settings;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Media.Animation;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AnimusReforged.Altair.Services;
 
@@ -59,11 +63,11 @@ public class NavigationService
     /// </summary>
     /// <param name="navigationViewItem"></param>
     /// <param name="contentFrame"></param>
-    public void Navigate(NavigationViewItem navigationViewItem, Frame? contentFrame = null)
+    public async void Navigate(NavigationViewItem navigationViewItem, Frame? contentFrame = null)
     {
         string tag = navigationViewItem.Tag?.ToString() ?? string.Empty;
         Logger.Debug<NavigationService>($"Navigate called to: {tag}");
-        NavigateToTag(tag, contentFrame);
+        await NavigateToTag(tag, contentFrame);
     }
 
     /// <summary>
@@ -71,7 +75,7 @@ public class NavigationService
     /// </summary>
     /// <param name="tag">Tag of the page we're trying to navigate to</param>
     /// <param name="contentFrame">ContentFrame where we want to show the Avalonia Page, optional param and uses _contentFrame if it's null</param>
-    public void NavigateToTag(string tag, Frame? contentFrame = null)
+    public async Task NavigateToTag(string tag, Frame? contentFrame = null)
     {
         Frame? frame = contentFrame ?? _contentFrame;
 
@@ -90,6 +94,11 @@ public class NavigationService
                 break;
             case "Play":
                 frame.Navigate(typeof(DefaultPage), null, new DrillInNavigationTransitionInfo());
+                MainWindowViewModel _mainWindowViewModel = App.Services.GetRequiredService<MainWindowViewModel>();
+                AltairSettings _altairSettings = App.Services.GetRequiredService<AltairSettings>();
+                _mainWindowViewModel.DisableWindow = true;
+                await Launcher.Altair.LaunchAsync(_altairSettings.Settings.Tweaks.UMod);
+                _mainWindowViewModel.DisableWindow = false;
                 break;
             case "Manage":
                 break;

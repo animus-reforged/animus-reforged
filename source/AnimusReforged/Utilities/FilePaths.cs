@@ -24,6 +24,7 @@ namespace AnimusReforged.Utilities
         
         // UMod specific paths
         public static readonly string UModLocation = AbsolutePath.GetFullPath("uMod");
+        public static readonly string UModExecutable = Path.Combine(UModLocation, "uMod.exe");
         public static readonly string UModAppdata = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "uMod");
         public static readonly string UModConfig = Path.Combine(UModAppdata, "uMod_DX9.txt");
         public static readonly string UModTemplates = Path.Combine(UModLocation, "templates");
