@@ -2,6 +2,7 @@ using AnimusReforged.Logging;
 using AnimusReforged.Models;
 using AnimusReforged.Models.Mods;
 using AnimusReforged.Mods.Core;
+using AnimusReforged.Settings;
 using AnimusReforged.Utilities;
 
 namespace AnimusReforged.Mods.Altair;
@@ -12,42 +13,6 @@ namespace AnimusReforged.Mods.Altair;
 /// </summary>
 public class ModManager
 {
-    /// <summary>
-    /// Contains constant identifiers for different mod types supported by the manager.
-    /// </summary>
-    public static class ModIdentifiers
-    {
-        /// <summary>
-        /// Identifier for the ASI loader mod
-        /// </summary>
-        public const string AsiLoader = "asi_loader";
-
-        /// <summary>
-        /// Identifier for the Eagle patch mod
-        /// </summary>
-        public const string EaglePatch = "eagle_patch";
-
-        /// <summary>
-        /// Identifier for the Altair fix mod
-        /// </summary>
-        public const string AltairFix = "altair_fix";
-
-        /// <summary>
-        /// Identifier for the ReShade mod
-        /// </summary>
-        public const string ReShade = "reshade";
-
-        /// <summary>
-        /// Identifier for the UMod mod
-        /// </summary>
-        public const string UMod = "umod";
-
-        /// <summary>
-        /// Identifier for the overhaul mod
-        /// </summary>
-        public const string Overhaul = "overhaul";
-    }
-
     private static readonly DownloadManager DownloadManagerInstance = new DownloadManager();
     private static readonly string DownloadsDirectoryPath = FilePaths.DownloadsDirectory;
     private static readonly string ScriptsDirectoryPath = FilePaths.ScriptsDirectory;
@@ -247,4 +212,25 @@ public class ModManager
     }
 
     #endregion
+    
+    
+    /// <summary>
+    /// Updates the installed mod version in the settings based on the manifest.
+    /// This method can be called from the UI layer where services are accessible.
+    /// </summary>
+    /// <param name="modIdentifier">The unique identifier of the mod</param>
+    /// <param name="settings">The AltairSettings instance to update</param>
+    public static void UpdateInstalledModVersion(string modIdentifier, AltairSettings settings)
+    {
+        try
+        {
+            ModDefinition mod = ManifestService.GetMod(modIdentifier);
+            settings.UpdateInstalledModVersion(modIdentifier, mod.Version);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error<ModManager>($"Failed to update installed mod version for {modIdentifier}");
+            Logger.LogExceptionDetails<ModManager>(ex);
+        }
+    }
 }

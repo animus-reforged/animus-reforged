@@ -5,6 +5,7 @@ namespace AnimusReforged.Settings;
 
 /// <summary>
 /// Manages Altair-specific application settings with loading, saving, and access functionality.
+/// Includes methods for updating installed mod versions.
 /// </summary>
 public class AltairSettings : AbstractSettings<AltairSettings.AltairSettingsStore>
 {
@@ -18,6 +19,36 @@ public class AltairSettings : AbstractSettings<AltairSettings.AltairSettingsStor
         /// </summary>
         [JsonPropertyName("tweaks")]
         public TweakSettings Tweaks { get; set; } = new TweakSettings();
+
+        /// <summary>
+        /// Gets or sets the installed mod versions, mapping mod IDs to their installed versions.
+        /// </summary>
+        [JsonPropertyName("installed_mod_versions")]
+        public Dictionary<string, string> InstalledModVersions { get; set; } = new Dictionary<string, string>();
+    }
+
+    /// <summary>
+    /// Updates the installed version for a specific mod.
+    /// </summary>
+    /// <param name="modId">The unique identifier of the mod</param>
+    /// <param name="version">The version of the mod that was installed</param>
+    public void UpdateInstalledModVersion(string modId, string version)
+    {
+        Settings.InstalledModVersions[modId] = version;
+    }
+
+    /// <summary>
+    /// Gets the installed version of a specific mod, if available.
+    /// </summary>
+    /// <param name="modId">The unique identifier of the mod</param>
+    /// <returns>The installed version of the mod, or null if not installed</returns>
+    public string? GetInstalledModVersion(string modId)
+    {
+        if (Settings.InstalledModVersions.TryGetValue(modId, out string? version))
+        {
+            return version;
+        }
+        return null;
     }
 }
 

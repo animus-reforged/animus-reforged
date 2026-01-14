@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using AnimusReforged.Altair.Services.UI;
 using AnimusReforged.Logging;
+using AnimusReforged.Models.Mods;
 using AnimusReforged.Mods.Altair;
 using AnimusReforged.Mods.Core;
 using AnimusReforged.Settings;
@@ -54,6 +55,7 @@ public partial class WelcomePageViewModel : ViewModelBase
             StatusText = "Installing ASI Loader";
             Logger.Info<WelcomePageViewModel>("Installing ASI Loader");
             ModManager.InstallAsiLoader();
+            ModManager.UpdateInstalledModVersion(ModIdentifiers.AsiLoader, _settings);
             Logger.Info<WelcomePageViewModel>("ASI Loader installation completed");
 
             // Install EaglePatch
@@ -65,6 +67,7 @@ public partial class WelcomePageViewModel : ViewModelBase
             StatusText = "Installing EaglePatch mod";
             Logger.Info<WelcomePageViewModel>("Installing EaglePatch mod");
             ModManager.InstallEaglePatch();
+            ModManager.UpdateInstalledModVersion(ModIdentifiers.EaglePatch, _settings);
             Logger.Info<WelcomePageViewModel>("EaglePatch installation completed");
 
             // Install AltairFix
@@ -76,6 +79,7 @@ public partial class WelcomePageViewModel : ViewModelBase
             StatusText = "Installing AltairFix";
             Logger.Info<WelcomePageViewModel>("Installing AltairFix");
             ModManager.InstallAltairFix();
+            ModManager.UpdateInstalledModVersion(ModIdentifiers.AltairFix, _settings);
             Logger.Info<WelcomePageViewModel>("AltairFix installation completed");
 
             // Install ReShade
@@ -88,6 +92,7 @@ public partial class WelcomePageViewModel : ViewModelBase
             Logger.Info<WelcomePageViewModel>("Installing ReShade");
             ModManager.InstallReShade();
             _settings.Settings.Tweaks.Reshade = true;
+            ModManager.UpdateInstalledModVersion(ModIdentifiers.ReShade, _settings);
             Logger.Info<WelcomePageViewModel>("ReShade installation completed");
 
             // Install uMod
@@ -99,6 +104,7 @@ public partial class WelcomePageViewModel : ViewModelBase
             StatusText = "Installing uMod";
             Logger.Info<WelcomePageViewModel>("Installing uMod");
             ModManager.InstallUMod();
+            ModManager.UpdateInstalledModVersion(ModIdentifiers.UMod, _settings);
             Logger.Info<WelcomePageViewModel>("uMod installation completed");
 
             // Install Overhaul
@@ -110,6 +116,7 @@ public partial class WelcomePageViewModel : ViewModelBase
             StatusText = "Installing Overhaul mod";
             Logger.Info<WelcomePageViewModel>("Installing Overhaul mod");
             ModManager.InstallOverhaul();
+            ModManager.UpdateInstalledModVersion(ModIdentifiers.Overhaul, _settings);
             Logger.Info<WelcomePageViewModel>("Overhaul mod installation completed");
 
             // Setup uMod and Overhaul
