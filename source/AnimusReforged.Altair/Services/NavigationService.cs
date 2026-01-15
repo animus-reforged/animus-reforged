@@ -63,7 +63,7 @@ public class NavigationService
     /// </summary>
     /// <param name="navigationViewItem"></param>
     /// <param name="contentFrame"></param>
-    public async void Navigate(NavigationViewItem navigationViewItem, Frame? contentFrame = null)
+    public async Task Navigate(NavigationViewItem navigationViewItem, Frame? contentFrame = null)
     {
         string tag = navigationViewItem.Tag?.ToString() ?? string.Empty;
         Logger.Debug<NavigationService>($"Navigate called to: {tag}");

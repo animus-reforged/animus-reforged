@@ -43,12 +43,12 @@ public partial class MainView : UserControl
             string targetPage = _settings.Settings.SetupCompleted ? "Default" : "Welcome";
             Dispatcher.UIThread.Post(() =>
             {
-                _navigationService.NavigateToTag(targetPage);
+                _navigationService.NavigateToTag(targetPage).Wait();
             });
         };
 
         string initialPage = _settings.Settings.SetupCompleted ? "Default" : "Welcome";
-        _navigationService.NavigateToTag(initialPage);
+        _navigationService.NavigateToTag(initialPage).Wait();
         
         Loaded += async (_, _) =>
         {
@@ -60,11 +60,19 @@ public partial class MainView : UserControl
     }
 
     // Functions
-    private void NavView_OnItemInvoked(object? sender, NavigationViewItemInvokedEventArgs e)
+    private async void NavView_OnItemInvoked(object? sender, NavigationViewItemInvokedEventArgs e)
     {
-        if (e.InvokedItemContainer is NavigationViewItem selectedItem)
+        try
         {
-            _navigationService.Navigate(selectedItem, ContentFrame);
+            if (e.InvokedItemContainer is NavigationViewItem selectedItem)
+            {
+                await _navigationService.Navigate(selectedItem, ContentFrame);
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error<MainView>("Failed to navigate to page");
+            Logger.LogExceptionDetails<MainView>(ex);
         }
     }
 }
