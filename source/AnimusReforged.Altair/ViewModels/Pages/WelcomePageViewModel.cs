@@ -91,7 +91,6 @@ public partial class WelcomePageViewModel : ViewModelBase
             StatusText = "Installing Reshade";
             Logger.Info<WelcomePageViewModel>("Installing ReShade");
             ModManager.InstallReShade();
-            _settings.Settings.Tweaks.Reshade = true;
             ModManager.UpdateInstalledModVersion(ModIdentifiers.ReShade, _settings);
             Logger.Info<WelcomePageViewModel>("ReShade installation completed");
 

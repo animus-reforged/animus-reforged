@@ -62,10 +62,4 @@ public class TweakSettings
     /// </summary>
     [JsonPropertyName("umod")]
     public bool UMod { get; set; } = false;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether Reshade is enabled.
-    /// </summary>
-    [JsonPropertyName("reshade")]
-    public bool Reshade { get; set; } = false;
 }
