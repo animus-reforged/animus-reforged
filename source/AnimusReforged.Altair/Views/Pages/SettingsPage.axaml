@@ -1,0 +1,219 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AnimusReforged.Altair.ViewModels.Pages"
+             xmlns:ic="using:FluentIcons.Avalonia.Fluent"
+             mc:Ignorable="d"
+             x:Class="AnimusReforged.Altair.Views.Pages.SettingsPage"
+             x:DataType="vm:SettingsPageViewModel">
+
+    <ScrollViewer>
+        <StackPanel Spacing="16" Margin="24">
+            <!-- ReShade -->
+            <Border BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderThickness="2"
+                    CornerRadius="4"
+                    Padding="12">
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <ic:SymbolIcon Symbol="CameraEdit" Margin="0,0,12,0" />
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="ReShade" FontWeight="SemiBold" />
+                        <TextBlock Text="Enable post-processing effects"
+                                   FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                    </StackPanel>
+                    <ToggleSwitch Grid.Column="2" IsChecked="{Binding IsReShadeEnabled, Mode=TwoWay}" />
+                </Grid>
+            </Border>
+
+            <!-- AltairFix -->
+            <Expander>
+                <Expander.Header>
+                    <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,12">
+                        <ic:SymbolIcon Symbol="Patch" Margin="0,0,12,0" />
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="AltairFix" FontWeight="SemiBold" />
+                            <TextBlock Text="Additional patches and fixes related to performance and improvement"
+                                       FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                        </StackPanel>
+                        <ToggleSwitch Grid.Column="2" IsChecked="{Binding IsAltairFixEnabled, Mode=TwoWay}" />
+                    </Grid>
+                </Expander.Header>
+
+                <StackPanel Spacing="8">
+                    <!-- StutterFix -->
+                    <Border BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                            BorderThickness="2"
+                            CornerRadius="4"
+                            Padding="12"
+                            IsEnabled="{Binding IsAltairFixEnabled}">
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <ic:SymbolIcon Symbol="Bug" Margin="0,0,12,0" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="Stutter fix" FontWeight="SemiBold" />
+                                <TextBlock Text="Patches game executable and hosts file to ignore Ubisoft's servers"
+                                           FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="2" IsChecked="{Binding IsStutterFixEnabled, Mode=TwoWay}" />
+                        </Grid>
+                    </Border>
+
+                    <!-- HighCoreCount Fix -->
+                    <Border BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                            BorderThickness="2"
+                            CornerRadius="4"
+                            Padding="12"
+                            IsEnabled="{Binding IsAltairFixEnabled}">
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <ic:SymbolIcon Symbol="Settings" Margin="0,0,12,0" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="High Core Count Fix" FontWeight="SemiBold" />
+                                <TextBlock Text="Fixes the game not starting on CPU's with 32 Cores"
+                                           FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="2" IsChecked="{Binding IsHighCoreCountFixEnabled, Mode=TwoWay}" />
+                        </Grid>
+                    </Border>
+
+                    <!-- Window Mode -->
+                    <Expander IsEnabled="{Binding IsAltairFixEnabled}" IsExpanded="True">
+                        <Expander.Header>
+                            <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,12">
+                                <ic:SymbolIcon Symbol="Window" Margin="0,0,12,0" />
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Text="Window Mode" FontWeight="SemiBold" />
+                                    <TextBlock Text="Choose window mode for the game"
+                                               FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                                </StackPanel>
+                                <ComboBox Grid.Column="2"
+                                          ItemsSource="{Binding WindowModes}"
+                                          SelectedIndex="{Binding SelectedWindowModeIndex}"
+                                          MinWidth="100" />
+                            </Grid>
+                        </Expander.Header>
+
+                        <StackPanel Spacing="8" Margin="36,8,0,0">
+                            <!-- Window Width -->
+                            <Border BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                    BorderThickness="2"
+                                    CornerRadius="4"
+                                    Padding="12"
+                                    IsEnabled="{Binding IsCustomResolutionMode}">
+                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                    <ic:SymbolIcon Symbol="ArrowAutofitWidth" Margin="0,0,12,0" />
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock Text="Width" FontWeight="SemiBold" />
+                                        <TextBlock Text="Window width (Windowed Only)"
+                                                   FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                                    </StackPanel>
+                                    <ComboBox Grid.Column="2"
+                                              ItemsSource="{Binding SupportedWidths}"
+                                              SelectedValue="{Binding SelectedWidth}"
+                                              MinWidth="100" />
+                                </Grid>
+                            </Border>
+
+                            <!-- Window Height -->
+                            <Border BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                    BorderThickness="2"
+                                    CornerRadius="4"
+                                    Padding="12"
+                                    IsEnabled="{Binding IsCustomResolutionMode}">
+                                <Grid ColumnDefinitions="Auto,*,Auto">
+                                    <ic:SymbolIcon Symbol="ArrowAutofitHeight" Margin="0,0,12,0" />
+                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                        <TextBlock Text="Height" FontWeight="SemiBold" />
+                                        <TextBlock Text="Window height (Windowed Only)"
+                                                   FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                                    </StackPanel>
+                                    <ComboBox Grid.Column="2"
+                                              ItemsSource="{Binding SupportedHeights}"
+                                              SelectedValue="{Binding SelectedHeight}"
+                                              MinWidth="100" />
+                                </Grid>
+                            </Border>
+                        </StackPanel>
+                    </Expander>
+                </StackPanel>
+            </Expander>
+
+            <!-- EaglePatch -->
+            <Expander>
+                <Expander.Header>
+                    <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,12">
+                        <ic:SymbolIcon Symbol="WrenchScrewdriver" Margin="0,0,12,0" />
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="EaglePatch" FontWeight="SemiBold" />
+                            <TextBlock Text="General patches and fixes"
+                                       FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                        </StackPanel>
+                        <ToggleSwitch Grid.Column="2" IsChecked="{Binding IsEaglePatchEnabled, Mode=TwoWay}" />
+                    </Grid>
+                </Expander.Header>
+                <StackPanel Spacing="8">
+                    <!-- Keyboard Layout -->
+                    <Border BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                            BorderThickness="2"
+                            CornerRadius="4"
+                            Padding="12"
+                            IsEnabled="{Binding IsEaglePatchEnabled}">
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <ic:SymbolIcon Symbol="Keyboard" Margin="0,0,12,0" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="Keyboard Layout" FontWeight="SemiBold" />
+                                <TextBlock Text="Select keyboard layout"
+                                           FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                            </StackPanel>
+                            <ComboBox Grid.Column="2"
+                                      ItemsSource="{Binding KeyboardLayouts}"
+                                      SelectedIndex="{Binding SelectedKeyboardLayoutIndex}"
+                                      MinWidth="150" />
+                        </Grid>
+                    </Border>
+
+                    <!-- PS3 Controls -->
+                    <Border BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                            BorderThickness="2"
+                            CornerRadius="4"
+                            Padding="12"
+                            IsEnabled="{Binding IsEaglePatchEnabled}">
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <ic:SymbolIcon Symbol="XboxController" Margin="0,0,12,0" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="PS3 Controls" FontWeight="SemiBold" />
+                                <TextBlock Text="Swap triggers and bumpers for PS3-style controls"
+                                           FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="2" IsChecked="{Binding IsPs3ControlsEnabled, Mode=TwoWay}" />
+                        </Grid>
+                    </Border>
+
+                    <!-- Skip Video Intros -->
+                    <Border BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                            BorderThickness="2"
+                            CornerRadius="4"
+                            Padding="12"
+                            IsEnabled="{Binding IsEaglePatchEnabled}">
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <ic:SymbolIcon Symbol="XboxController" Margin="0,0,12,0" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="Skip Video Intros" FontWeight="SemiBold" />
+                                <TextBlock Text="Automatically skip startup videos"
+                                           FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                            </StackPanel>
+                            <ToggleSwitch Grid.Column="2" IsChecked="{Binding IsSkipIntroVideoEnabled, Mode=TwoWay}" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </Expander>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

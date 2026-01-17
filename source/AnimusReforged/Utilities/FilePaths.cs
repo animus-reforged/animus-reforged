@@ -21,6 +21,8 @@ namespace AnimusReforged.Utilities
         // Specific file paths
         public static readonly string LogFile = Path.Combine(LogsDirectory, "altair.log");
         public static readonly string SettingsFile = Path.Combine(ConfigDirectory, "config.json");
+        public static readonly string AltairFixSettingsFile = Path.Combine(ScriptsDirectory, "AltairFix.ini");
+        public static readonly string EaglePatchSettingsFile = Path.Combine(ScriptsDirectory, "EaglePatchAC1.ini");
         
         // UMod specific paths
         public static readonly string UModLocation = AbsolutePath.GetFullPath("uMod");

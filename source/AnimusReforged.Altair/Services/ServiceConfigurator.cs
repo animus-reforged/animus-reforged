@@ -54,6 +54,7 @@ public class ServiceConfigurator
         services.AddSingleton<MainWindowViewModel>();
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<WelcomePageViewModel>();
+        services.AddSingleton<SettingsPageViewModel>();
         services.AddSingleton<CreditsPageViewModel>();
         services.AddSingleton<MessageBoxExampleViewModel>();
 

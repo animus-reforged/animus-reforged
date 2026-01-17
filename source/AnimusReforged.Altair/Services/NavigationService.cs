@@ -103,6 +103,7 @@ public class NavigationService
             case "Manage":
                 break;
             case "Settings":
+                frame.Navigate(typeof(SettingsPage), null, new EntranceNavigationTransitionInfo());
                 break;
             case "Credits":
                 frame.Navigate(typeof(CreditsPage), null, new EntranceNavigationTransitionInfo());
