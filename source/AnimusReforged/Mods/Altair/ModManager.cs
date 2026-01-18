@@ -1,3 +1,4 @@
+using System.Linq;
 using AnimusReforged.Logging;
 using AnimusReforged.Models;
 using AnimusReforged.Models.Mods;
@@ -108,6 +109,42 @@ public class ModManager
         Directory.CreateDirectory(ScriptsDirectoryPath);
     }
 
+    /// <summary>
+    /// Uninstalls the ASI loader mod by removing its files and cleaning up configurations.
+    /// </summary>
+    public static void UninstallAsiLoader()
+    {
+        Logger.Info<ModManager>("Uninstalling ASI Loader");
+
+        // Find and remove ASI loader files from the base directory
+        if (File.Exists(FilePaths.AsiLoader))
+        {
+            Logger.Debug<ModManager>($"ASI Loader File found ({FilePaths.AsiLoader})");
+            Logger.Info<ModManager>("Deleting ASI Loader File");
+            File.Delete(FilePaths.AsiLoader);
+        }
+        else
+        {
+            Logger.Warning<ModManager>("ASI Loader File not found (Could be already uninstalled)");
+        }
+
+        // Remove scripts directory if it exists
+        if (Directory.Exists(ScriptsDirectoryPath))
+        {
+            try
+            {
+                Directory.Delete(ScriptsDirectoryPath, true);
+                Logger.Debug<ModManager>($"Deleted scripts directory: {ScriptsDirectoryPath}");
+            }
+            catch (Exception ex)
+            {
+                Logger.Warning<ModManager>($"Could not delete scripts directory {ScriptsDirectoryPath}: {ex.Message}");
+            }
+        }
+
+        Logger.Info<ModManager>("ASI loader uninstalled successfully");
+    }
+
     #endregion
 
     #region Eagle Patch Methods
@@ -175,6 +212,41 @@ public class ModManager
         Directory.CreateDirectory(FilePaths.UModLocation);
         ExtractMod(ModIdentifiers.UMod, FilePaths.UModLocation);
     }
+    
+    public static async Task UninstalluMod(bool deleteConfigFile = false)
+    {
+        Logger.Info<ModManager>("Uninstalling uMod");
+        if (Directory.Exists(FilePaths.UModLocation))
+        {
+            Logger.Debug<ModManager>($"uMod folder found ({FilePaths.UModLocation})");
+            Logger.Info<ModManager>("Deleting uMod folder");
+            Directory.Delete(FilePaths.UModLocation, true);
+        }
+        else
+        {
+            Logger.Warning<ModManager>("uMod folder not found (Could be already uninstalled)");
+        }
+        if (Directory.Exists(FilePaths.ModsDirectory))
+        {
+            Logger.Info<ModManager>("Deleting Mods folder");
+            Directory.Delete(FilePaths.ModsDirectory, true);
+        }
+        else
+        {
+            Logger.Warning<ModManager>("Mods folder not found (Could be already uninstalled)");
+        }
+        if (deleteConfigFile)
+        {
+            Logger.Info<ModManager>($"Deleting uMod config folder ({FilePaths.UModAppdata})");
+            Directory.Delete(FilePaths.UModAppdata, true);
+        }
+        else
+        {
+            Logger.Info<ModManager>("Deleting game entry from uMod config file");
+            await UModManager.RemoveGameFromAppdata(FilePaths.AltairExecutable);
+        }
+    }
+
 
     #endregion
 
@@ -212,8 +284,85 @@ public class ModManager
     }
 
     #endregion
-    
-    
+
+    #region Update Methods
+
+    /// <summary>
+    /// Downloads a specific mod by its identifier asynchronously with progress reporting.
+    /// </summary>
+    /// <param name="modIdentifier">The unique identifier of the mod to download</param>
+    /// <param name="progressCallback">A callback function to report download progress (0-100)</param>
+    /// <returns>A task representing the asynchronous download operation</returns>
+    public static async Task DownloadModByIdAsync(string modIdentifier, Action<int> progressCallback)
+    {
+        ModDefinition mod = ManifestService.GetMod(modIdentifier);
+        Logger.Info<ModManager>($"Downloading {mod.Name}");
+
+        DownloadManagerInstance.ProgressChanged += progressCallback;
+        string savePath = Path.Combine(DownloadsDirectoryPath, Path.GetFileName(mod.Url));
+        Logger.Debug<ModManager>($"Save path: {savePath}");
+
+        try
+        {
+            await DownloadManagerInstance.DownloadFileAsync(mod.Url, savePath);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error<ModManager>($"Failed to download {mod.Name}");
+            Logger.LogExceptionDetails<ModManager>(ex);
+            throw new Exception($"Failed to download {mod.Name}", ex);
+        }
+        finally
+        {
+            DownloadManagerInstance.ProgressChanged -= progressCallback;
+        }
+
+        Logger.Info<ModManager>("Download complete");
+    }
+
+    /// <summary>
+    /// Extracts a mod by its identifier to the appropriate location based on the mod type.
+    /// </summary>
+    /// <param name="modIdentifier">The unique identifier of the mod to extract</param>
+    /// <returns>A task representing the asynchronous extraction operation</returns>
+    public static void ExtractModById(string modIdentifier)
+    {
+        ModDefinition mod = ManifestService.GetMod(modIdentifier);
+        Logger.Info<ModManager>($"Extracting {mod.Name}");
+
+        string archivePath = Path.Combine(DownloadsDirectoryPath, Path.GetFileName(mod.Url));
+        Logger.Debug<ModManager>($"Archive location: {archivePath}");
+
+        switch (modIdentifier)
+        {
+            case ModIdentifiers.AsiLoader:
+                ExtractMod(ModIdentifiers.AsiLoader, AbsolutePath.BaseDirectory());
+                Directory.CreateDirectory(ScriptsDirectoryPath);
+                break;
+            case ModIdentifiers.EaglePatch:
+                ExtractMod(ModIdentifiers.EaglePatch, ScriptsDirectoryPath, [".ini", ".asi"]);
+                break;
+            case ModIdentifiers.AltairFix:
+                ExtractMod(ModIdentifiers.AltairFix, ScriptsDirectoryPath, [".ini", ".asi"]);
+                break;
+            case ModIdentifiers.ReShade:
+                ExtractMod(ModIdentifiers.ReShade, ScriptsDirectoryPath);
+                break;
+            case ModIdentifiers.UMod:
+                Directory.CreateDirectory(FilePaths.UModLocation);
+                ExtractMod(ModIdentifiers.UMod, FilePaths.UModLocation);
+                break;
+            case ModIdentifiers.Overhaul:
+                Directory.CreateDirectory(OverhaulDirectoryPath);
+                ExtractMod(ModIdentifiers.Overhaul, OverhaulDirectoryPath);
+                break;
+            default:
+                throw new ArgumentException($"Unknown mod identifier: {modIdentifier}");
+        }
+    }
+
+    #endregion
+
     /// <summary>
     /// Updates the installed mod version in the settings based on the manifest.
     /// This method can be called from the UI layer where services are accessible.

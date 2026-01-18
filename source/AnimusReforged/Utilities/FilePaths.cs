@@ -36,5 +36,6 @@ namespace AnimusReforged.Utilities
         // Mod file paths
         public static readonly string OverhaulDirectory = Path.Combine(ModsDirectory, "Overhaul");
         public static readonly string OverhaulTpfFile = Path.Combine(OverhaulDirectory, "Overhaul.tpf");
+        public static readonly string AsiLoader = AbsolutePath.GetFullPath("dinput8.dll");
     }
 }

@@ -101,6 +101,7 @@ public class NavigationService
                 _mainWindowViewModel.DisableWindow = false;
                 break;
             case "Manage":
+                frame.Navigate(typeof(ManagePage), null, new EntranceNavigationTransitionInfo());
                 break;
             case "Settings":
                 frame.Navigate(typeof(SettingsPage), null, new EntranceNavigationTransitionInfo());

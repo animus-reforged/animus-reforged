@@ -1,0 +1,155 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:AnimusReforged.Altair.ViewModels.Pages"
+             xmlns:models="using:AnimusReforged.Models.Mods"
+             xmlns:ic="using:FluentIcons.Avalonia.Fluent"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="AnimusReforged.Altair.Views.Pages.ManagePage"
+             x:DataType="vm:ManagePageViewModel">
+    <StackPanel Spacing="16" Margin="24">
+        <!-- Download Progress Section -->
+        <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8"
+                Padding="16"
+                IsVisible="{Binding IsDownloading}">
+            <StackPanel Spacing="12">
+                <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                    <ic:SymbolIcon Symbol="ArrowDownload"
+                                   Foreground="{DynamicResource SystemAccentColorPrimaryBrush}"
+                                   VerticalAlignment="Center" />
+                    <TextBlock Text="Download Progress"
+                               FontWeight="SemiBold"
+                               FontSize="16"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+
+                <StackPanel Margin="0,8" Spacing="8">
+                    <TextBlock FontWeight="SemiBold"
+                               HorizontalAlignment="Left"
+                               FontSize="14"
+                               Text="{Binding DownloadStatus}" />
+                    <ProgressBar Height="6"
+                                 Minimum="0"
+                                 Maximum="100"
+                                 HorizontalAlignment="Stretch"
+                                 CornerRadius="3"
+                                 Value="{Binding DownloadProgress}" />
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                Spacing="8">
+                        <TextBlock FontSize="12"
+                                   Opacity="0.8"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding DownloadProgress, StringFormat={}{0}%}" />
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Manage Section -->
+        <ScrollViewer>
+            <StackPanel Spacing="16">
+                <!-- Check for updates -->
+                <Expander IsExpanded="{Binding HasUpdatableMods}">
+                    <Expander.Header>
+                        <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,12">
+                            <ic:SymbolIcon Symbol="WrenchScrewdriver" Margin="0,0,12,0" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="Check for updates" FontWeight="SemiBold" />
+                                <TextBlock Text="{Binding UpdateCheckStatus}"
+                                           FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                            </StackPanel>
+                            <Button Grid.Column="2" Command="{Binding CheckForUpdatesCommand}">
+                                <ic:SymbolIcon Symbol="ArrowClockwise" FontSize="16" />
+                                <ToolTip.Tip>
+                                    <TextBlock Text="Check for updates" />
+                                </ToolTip.Tip>
+                            </Button>
+                        </Grid>
+                    </Expander.Header>
+                    <StackPanel Spacing="8">
+                        <ItemsControl ItemsSource="{Binding UpdatableMods}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="models:UpdatableMod">
+                                    <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                                            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="4"
+                                            Padding="8"
+                                            Margin="0,4">
+                                        <Grid ColumnDefinitions="*,Auto" Margin="0,4">
+                                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+                                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                                    <TextBlock Text="{Binding CurrentVersion, StringFormat='Current: {0}'}"
+                                                               FontSize="12"
+                                                               Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                                                    <TextBlock Text="{Binding LatestVersion, StringFormat='Latest: {0}'}"
+                                                               FontSize="12"
+                                                               Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                                                </StackPanel>
+                                            </StackPanel>
+                                            <Button Grid.Column="1" Content="Update"
+                                                    Command="{Binding $parent[UserControl].((vm:ManagePageViewModel)DataContext).UpdateModCommand}"
+                                                    CommandParameter="{Binding .}"
+                                                    IsEnabled="{Binding IsNotUpdating}" />
+
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Expander>
+
+                <!-- Fix uMod Paths -->
+                <Border BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderThickness="2"
+                        CornerRadius="4"
+                        Padding="12">
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <ic:SymbolIcon Symbol="XboxController" Margin="0,0,12,0" />
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="Fix uMod Paths" FontWeight="SemiBold" />
+                            <TextBlock Text="Fixes paths used by uMod to load graphical mods"
+                                       FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                        </StackPanel>
+                        <Button Grid.Column="2" Command="{Binding FixUModPathsCommand}">
+                            <ic:SymbolIcon Symbol="Sanitize" FontSize="16" />
+                            <ToolTip.Tip>
+                                <TextBlock Text="Fix uMod paths" />
+                            </ToolTip.Tip>
+                        </Button>
+                    </Grid>
+                </Border>
+                
+                <!-- Uninstall -->
+                <Border BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        BorderThickness="2"
+                        CornerRadius="4"
+                        Padding="12">
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <ic:SymbolIcon Symbol="TrayItemRemove" Margin="0,0,12,0" />
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="Uninstall" FontWeight="SemiBold" />
+                            <TextBlock Text="Removes all mods used by AnimusReforged"
+                                       FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                        </StackPanel>
+                        <Button Grid.Column="2" Command="{Binding UninstallCommand}">
+                            <ic:SymbolIcon Symbol="BinRecycle" FontSize="16" />
+                            <ToolTip.Tip>
+                                <TextBlock Text="Uninstall" />
+                            </ToolTip.Tip>
+                        </Button>
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </StackPanel>
+</UserControl>
