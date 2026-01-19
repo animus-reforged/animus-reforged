@@ -57,7 +57,12 @@ public class UModManager
         else
         {
             Logger.Debug<UModManager>("Appending path to config file");
-            await File.AppendAllTextAsync(FilePaths.UModConfig, gamePath, UnicodeNoBom, cancellationToken).ConfigureAwait(false);
+
+            string fileContent = await File.ReadAllTextAsync(FilePaths.UModConfig, UnicodeNoBom, cancellationToken).ConfigureAwait(false);
+            bool endsWithNewline = fileContent.EndsWith(Environment.NewLine) || fileContent.EndsWith("\n") || fileContent.EndsWith("\r\n");
+
+            string textToAppend = endsWithNewline ? gamePath : Environment.NewLine + gamePath;
+            await File.AppendAllTextAsync(FilePaths.UModConfig, textToAppend, UnicodeNoBom, cancellationToken).ConfigureAwait(false);
         }
     }
 
