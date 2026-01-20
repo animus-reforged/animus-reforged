@@ -39,12 +39,15 @@ public partial class MainView : UserControl
         _viewModel.FirstSetup = _settings.Settings.SetupCompleted;
         _settings.SettingsChanged += (_, _) =>
         {
-            _viewModel.FirstSetup = _settings.Settings.SetupCompleted;
-            string targetPage = _settings.Settings.SetupCompleted ? "Default" : "Welcome";
-            Dispatcher.UIThread.Post(() =>
+            if (!_settings.Settings.SetupCompleted)
             {
-                _navigationService.NavigateToTag(targetPage).Wait();
-            });
+                _viewModel.FirstSetup = _settings.Settings.SetupCompleted;
+                string targetPage = _settings.Settings.SetupCompleted ? "Default" : "Welcome";
+                Dispatcher.UIThread.Post(() =>
+                {
+                    _navigationService.NavigateToTag(targetPage).Wait();
+                });
+            }
         };
 
         string initialPage = _settings.Settings.SetupCompleted ? "Default" : "Welcome";
