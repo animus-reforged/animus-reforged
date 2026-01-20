@@ -5,7 +5,7 @@ namespace AnimusReforged.Tests;
 [TestFixture]
 public class IniFileTests
 {
-    private const string TestIniFile = "IniFileTest.ini";
+    private const string TestIniFile = "Assets/IniFileTest.ini";
     private const string TempIniFile = "TempTest.ini";
     
     [SetUp]

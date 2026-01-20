@@ -25,8 +25,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="IniFileTest.ini">
+      <None Update="IniFileTests\IniFileTest.ini">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\IniFileTest.ini">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>
 
