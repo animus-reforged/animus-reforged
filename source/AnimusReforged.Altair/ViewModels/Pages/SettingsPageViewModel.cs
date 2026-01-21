@@ -2,11 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using AnimusReforged.Altair.Services.UI;
 using AnimusReforged.Logging;
+using AnimusReforged.Models.Mods;
+using AnimusReforged.Mods.Core;
+using AnimusReforged.Settings;
 using AnimusReforged.Utilities;
 using AnimusReforged.Utilities.Ini;
+using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AnimusReforged.Altair.ViewModels.Pages;
@@ -15,8 +22,15 @@ public partial class SettingsPageViewModel : ViewModelBase
 {
     // Variables
     private readonly IMessageBoxService _messageBoxService;
+    private AltairSettings _settings { get; set; }
     private bool _suppressUpdates;
-    
+
+    // uMod
+    private UModTemplateFile _templateFile = null!;
+    [ObservableProperty] private bool isuModEnabled;
+    public ObservableCollection<UModItem> EnabledMods { get; } = [];
+    public ObservableCollection<UModItem> DisabledMods { get; } = [];
+
     // ReShade
     [ObservableProperty] private bool isReShadeEnabled;
 
@@ -34,7 +48,7 @@ public partial class SettingsPageViewModel : ViewModelBase
 
     public ObservableCollection<int> SupportedHeights { get; } = [];
     [ObservableProperty] private int selectedHeight;
-    
+
     // EaglePatch
     private IniFile _eaglePatchSettings = null!;
     [ObservableProperty] private bool isEaglePatchEnabled;
@@ -47,8 +61,10 @@ public partial class SettingsPageViewModel : ViewModelBase
     public SettingsPageViewModel()
     {
         _messageBoxService = App.Services.GetRequiredService<IMessageBoxService>();
+        _settings = App.Services.GetRequiredService<AltairSettings>();
         _suppressUpdates = true;
         PopulateSupportedResolutions();
+        LoaduModSettings();
         LoadReShadeSettings();
         LoadAltairFixSettings();
         LoadEaglePatchSettings();
@@ -69,6 +85,37 @@ public partial class SettingsPageViewModel : ViewModelBase
         foreach (int height in heights)
         {
             SupportedHeights.Add(height);
+        }
+    }
+
+    private void LoaduModSettings()
+    {
+        IsuModEnabled = _settings.Settings.Tweaks.UMod;
+        string templateFileLocation = Path.Combine(FilePaths.UModTemplates, "ac1.txt");
+        _templateFile = new UModTemplateFile(templateFileLocation, FilePaths.ModsDirectory);
+        IReadOnlyList<string> enabledMods;
+        IReadOnlyList<string> disabledMods;
+        try
+        {
+            (enabledMods, disabledMods) = _templateFile.LoadMods();
+        }
+        catch (Exception ex)
+        {
+            Logger.Error<SettingsPageViewModel>("Failed to download Ultimate ASI Loader");
+            Logger.LogExceptionDetails<SettingsPageViewModel>(ex);
+            return;
+        }
+        EnabledMods.Clear();
+        DisabledMods.Clear();
+
+        foreach (string mod in enabledMods)
+        {
+            EnabledMods.Add(new UModItem { FullPath = mod });
+        }
+
+        foreach (string mod in disabledMods)
+        {
+            DisabledMods.Add(new UModItem { FullPath = mod });
         }
     }
 
@@ -153,6 +200,28 @@ public partial class SettingsPageViewModel : ViewModelBase
     }
 
     // Saving UI Functions
+    partial void OnIsuModEnabledChanged(bool oldValue, bool newValue)
+    {
+        if (_suppressUpdates)
+        {
+            return;
+        }
+        try
+        {
+            _settings.Settings.Tweaks.UMod = IsuModEnabled;
+            _settings.SaveSettings();
+        }
+        catch (Exception ex)
+        {
+            Logger.Error<SettingsPageViewModel>("Failed to change IsuModEnabled tweak");
+            Logger.LogExceptionDetails<SettingsPageViewModel>(ex);
+            IsuModEnabled = oldValue;
+            _messageBoxService.ShowErrorAsync("Error changing IsuModEnabled", "An error occurred while changing IsuModEnabled.");
+            return;
+        }
+        Logger.Debug<SettingsPageViewModel>($"uMod: {oldValue} -> {newValue}");
+    }
+
     private bool UpdateAsiState(string asiFileName, bool enable)
     {
         string asiPath = Path.Combine(FilePaths.ScriptsDirectory, asiFileName);
@@ -183,7 +252,7 @@ public partial class SettingsPageViewModel : ViewModelBase
         // Already disabled — that’s fine too
         return true;
     }
-    
+
     partial void OnIsReShadeEnabledChanged(bool oldValue, bool newValue)
     {
         if (_suppressUpdates)
@@ -385,7 +454,7 @@ public partial class SettingsPageViewModel : ViewModelBase
         }
         Logger.Debug<SettingsPageViewModel>($"EaglePatch: {oldValue} -> {newValue}");
     }
-    
+
     partial void OnSelectedKeyboardLayoutIndexChanged(int oldValue, int newValue)
     {
         if (_suppressUpdates)
@@ -407,7 +476,7 @@ public partial class SettingsPageViewModel : ViewModelBase
         }
         Logger.Debug<SettingsPageViewModel>($"Keyboard Layout: {oldValue} -> {newValue}");
     }
-    
+
     partial void OnIsPs3ControlsEnabledChanged(bool oldValue, bool newValue)
     {
         if (_suppressUpdates)
@@ -429,7 +498,7 @@ public partial class SettingsPageViewModel : ViewModelBase
         }
         Logger.Debug<SettingsPageViewModel>($"PS3 Controls: {oldValue} -> {newValue}");
     }
-    
+
     partial void OnIsSkipIntroVideoEnabledChanged(bool oldValue, bool newValue)
     {
         if (_suppressUpdates)
@@ -450,5 +519,156 @@ public partial class SettingsPageViewModel : ViewModelBase
             return;
         }
         Logger.Debug<SettingsPageViewModel>($"Skip Intro Videos: {oldValue} -> {newValue}");
+    }
+
+    // Commands
+    [RelayCommand]
+    private async Task AddMod()
+    {
+        try
+        {
+            // Check if we have StorageProvider
+            if (App.MainWindow?.StorageProvider is not { } storageProvider)
+            {
+                Logger.Warning<SettingsPageViewModel>("Storage provider is not available");
+                return;
+            }
+
+            // Create file picker
+            FilePickerOpenOptions options = new FilePickerOpenOptions
+            {
+                Title = "Select Texture Mod",
+                AllowMultiple = true,
+                FileTypeFilter = new List<FilePickerFileType>
+                {
+                    new FilePickerFileType("Texture Package Files") { Patterns = ["*.tpf"] }
+                }
+            };
+            IReadOnlyList<IStorageFile> files = await storageProvider.OpenFilePickerAsync(options);
+
+            foreach (IStorageFile file in files)
+            {
+                // Copy the file to the Mods folder
+                string oldFilePath = file.Path.LocalPath;
+                string newFilePath = Path.Combine(FilePaths.ModsDirectory, Path.GetFileName(oldFilePath));
+                File.Copy(oldFilePath, newFilePath, true);
+
+                // Check if the mod is already loaded into the UI lists
+                if (EnabledMods.Any(mod => mod.FullPath == newFilePath) || DisabledMods.Any(mod => mod.FullPath == newFilePath))
+                {
+                    Logger.Warning<SettingsPageViewModel>($"Mod is already in the UI ({newFilePath})");
+                    continue;
+                }
+
+                // If it's not, load it yourself
+                UModItem mod = new UModItem { FullPath = newFilePath };
+                EnabledMods.Add(mod);
+                Logger.Info<SettingsPageViewModel>($"Added mod: {mod.FullPath}");
+            }
+
+            _templateFile.SaveEnabledMods(EnabledMods.ToList());
+        }
+        catch (Exception ex)
+        {
+            Logger.Error<SettingsPageViewModel>("Failed to add mod(s)");
+            Logger.LogExceptionDetails<SettingsPageViewModel>(ex);
+        }
+    }
+
+    [RelayCommand]
+    private void MoveModUp(UModItem mod)
+    {
+        try
+        {
+            int index = EnabledMods.IndexOf(mod);
+            if (index <= 0)
+            {
+                return;
+            }
+            EnabledMods.Move(index, index - 1);
+            _templateFile.SaveEnabledMods(EnabledMods.ToList());
+        }
+        catch (Exception ex)
+        {
+            Logger.Error<SettingsPageViewModel>("Failed to move mod up");
+            Logger.LogExceptionDetails<SettingsPageViewModel>(ex);
+        }
+    }
+
+    [RelayCommand]
+    private void MoveModDown(UModItem mod)
+    {
+        try
+        {
+            int index = EnabledMods.IndexOf(mod);
+            if (index >= EnabledMods.Count - 1)
+            {
+                return;
+            }
+            EnabledMods.Move(index, index + 1);
+            _templateFile.SaveEnabledMods(EnabledMods.ToList());
+        }
+        catch (Exception ex)
+        {
+            Logger.Error<SettingsPageViewModel>("Failed to move mod down");
+            Logger.LogExceptionDetails<SettingsPageViewModel>(ex);
+        }
+    }
+
+    [RelayCommand]
+    private void EnableMod(UModItem mod)
+    {
+        try
+        {
+            if (DisabledMods.Remove(mod))
+            {
+                EnabledMods.Add(mod);
+                _templateFile.SaveEnabledMods(EnabledMods.ToList());
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error<SettingsPageViewModel>("Failed to enable mod");
+            Logger.LogExceptionDetails<SettingsPageViewModel>(ex);
+        }
+    }
+
+    [RelayCommand]
+    private void DisableMod(UModItem mod)
+    {
+        try
+        {
+            if (EnabledMods.Remove(mod))
+            {
+                Logger.Info<SettingsPageViewModel>($"Disabled mod: {mod.FullPath}");
+                DisabledMods.Add(mod);
+                _templateFile.SaveEnabledMods(EnabledMods.ToList());
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error<SettingsPageViewModel>("Failed to disable mod");
+            Logger.LogExceptionDetails<SettingsPageViewModel>(ex);
+        }
+    }
+
+    [RelayCommand]
+    private void RemoveMod(UModItem mod)
+    {
+        try
+        {
+            if (!EnabledMods.Remove(mod))
+            {
+                DisabledMods.Remove(mod);
+            }
+            File.Delete(mod.FullPath);
+            Logger.Info<SettingsPageViewModel>($"Removed mod: {mod.FullPath}");
+            _templateFile.SaveEnabledMods(EnabledMods.ToList());
+        }
+        catch (Exception ex)
+        {
+            Logger.Error<SettingsPageViewModel>("Failed to remove mod");
+            Logger.LogExceptionDetails<SettingsPageViewModel>(ex);
+        }
     }
 }

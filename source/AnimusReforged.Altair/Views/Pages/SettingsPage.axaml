@@ -10,6 +10,142 @@
 
     <ScrollViewer>
         <StackPanel Spacing="16" Margin="24">
+            <!-- uMod -->
+            <Expander>
+                <Expander.Header>
+                    <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,12">
+                        <ic:SymbolIcon Symbol="WindowWrench" Margin="0,0,12,0" />
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="uMod" FontWeight="SemiBold" />
+                            <TextBlock Text="Enable texture modification support"
+                                       FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                        </StackPanel>
+                        <ToggleSwitch Grid.Column="2" IsChecked="{Binding IsuModEnabled, Mode=TwoWay}" />
+                    </Grid>
+                </Expander.Header>
+
+                <StackPanel Spacing="8">
+                    <!-- Enabled Mods -->
+                    <Expander IsEnabled="{Binding IsuModEnabled}">
+                        <Expander.Header>
+                            <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,12">
+                                <ic:SymbolIcon Symbol="CheckmarkCircle" Margin="0,0,12,0" />
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Text="Enabled Mods" FontWeight="SemiBold" />
+                                    <TextBlock Text="Currently active modifications"
+                                               FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                                </StackPanel>
+                                <Button Grid.Column="2" Command="{Binding AddModCommand}"
+                                        CommandParameter="{Binding}">
+                                    <ic:SymbolIcon Symbol="AddCircle" FontSize="16" />
+                                    <ToolTip.Tip>
+                                        <TextBlock Text="Add mod" />
+                                    </ToolTip.Tip>
+                                </Button>
+                            </Grid>
+                        </Expander.Header>
+
+                        <ListBox BorderThickness="0"
+                                 SelectionMode="Single"
+                                 ItemsSource="{Binding EnabledMods}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="*,Auto" Margin="4">
+                                        <TextBlock Text="{Binding Name}"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="14"
+                                                   Background="Transparent">
+                                            <ToolTip.Tip>
+                                                <TextBlock Text="{Binding FullPath}" />
+                                            </ToolTip.Tip>
+                                        </TextBlock>
+                                        <StackPanel Orientation="Horizontal" Spacing="6" Grid.Column="1">
+                                            <Button Command="{Binding $parent[UserControl].((vm:SettingsPageViewModel)DataContext).MoveModUpCommand}"
+                                                    CommandParameter="{Binding}">
+                                                <ic:SymbolIcon Symbol="ArrowUp" FontSize="16" />
+                                                <ToolTip.Tip>
+                                                    <TextBlock Text="Move Up" />
+                                                </ToolTip.Tip>
+                                            </Button>
+                                            <Button Command="{Binding $parent[UserControl].((vm:SettingsPageViewModel)DataContext).MoveModDownCommand}"
+                                                    CommandParameter="{Binding}">
+                                                <ic:SymbolIcon Symbol="ArrowDown" FontSize="16" />
+                                                <ToolTip.Tip>
+                                                    <TextBlock Text="Move Down" />
+                                                </ToolTip.Tip>
+                                            </Button>
+                                            <Button Command="{Binding $parent[UserControl].((vm:SettingsPageViewModel)DataContext).DisableModCommand}"
+                                                    CommandParameter="{Binding}">
+                                                <ic:SymbolIcon Symbol="Dismiss" FontSize="16" />
+                                                <ToolTip.Tip>
+                                                    <TextBlock Text="Disable the mod" />
+                                                </ToolTip.Tip>
+                                            </Button>
+                                            <Button Command="{Binding $parent[UserControl].((vm:SettingsPageViewModel)DataContext).RemoveModCommand}"
+                                                    CommandParameter="{Binding}">
+                                                <ic:SymbolIcon Symbol="Delete" FontSize="16" />
+                                                <ToolTip.Tip>
+                                                    <TextBlock Text="Delete the mod from your computer" />
+                                                </ToolTip.Tip>
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Expander>
+
+                    <!-- Disabled Mods-->
+                    <Expander IsEnabled="{Binding IsuModEnabled}">
+                        <Expander.Header>
+                            <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,12">
+                                <ic:SymbolIcon Symbol="DismissCircle" Margin="0,0,12,0" />
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Text="Disabled Mods" FontWeight="SemiBold" />
+                                    <TextBlock Text="Mods that are present but not active"
+                                               FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                                </StackPanel>
+                            </Grid>
+                        </Expander.Header>
+
+                        <ListBox BorderThickness="0"
+                                 SelectionMode="Single"
+                                 ItemsSource="{Binding DisabledMods}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="*,Auto" Margin="4">
+                                        <TextBlock Text="{Binding Name}"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="14"
+                                                   Background="Transparent">
+                                            <ToolTip.Tip>
+                                                <TextBlock Text="{Binding FullPath}" />
+                                            </ToolTip.Tip>
+                                        </TextBlock>
+                                        <StackPanel Orientation="Horizontal" Spacing="6" Grid.Column="1">
+                                            <Button Command="{Binding $parent[UserControl].((vm:SettingsPageViewModel)DataContext).EnableModCommand}"
+                                                    CommandParameter="{Binding}">
+                                                <ic:SymbolIcon Symbol="Checkmark" FontSize="16" />
+                                                <ToolTip.Tip>
+                                                    <TextBlock Text="Enable mod" />
+                                                </ToolTip.Tip>
+                                            </Button>
+                                            <Button Command="{Binding $parent[UserControl].((vm:SettingsPageViewModel)DataContext).RemoveModCommand}"
+                                                    CommandParameter="{Binding}">
+                                                <ic:SymbolIcon Symbol="Delete" FontSize="16" />
+                                                <ToolTip.Tip>
+                                                    <TextBlock Text="Delete the mod from your computer" />
+                                                </ToolTip.Tip>
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Expander>
+                </StackPanel>
+            </Expander>
+
             <!-- ReShade -->
             <Border BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                     Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
