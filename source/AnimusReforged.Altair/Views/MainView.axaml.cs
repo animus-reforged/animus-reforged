@@ -39,7 +39,7 @@ public partial class MainView : UserControl
         _viewModel.FirstSetup = _settings.Settings.Setup.Completed;
         _settings.SettingsChanged += (_, _) =>
         {
-            if (!_settings.Settings.Setup.Completed)
+            if (!_viewModel.FirstSetup)
             {
                 _viewModel.FirstSetup = _settings.Settings.Setup.Completed;
                 string targetPage = _settings.Settings.Setup.Completed ? "Default" : "Welcome";
