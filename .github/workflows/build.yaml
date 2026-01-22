@@ -1,0 +1,55 @@
+name: Build Release
+
+permissions:
+  contents: write
+  actions: read
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [closed]
+    paths:
+      - "source/**"
+  push:
+    paths:
+      - "source/**"
+
+jobs:
+  build:
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
+
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore "source/AnimusReforged.Altair/AnimusReforged.Altair.csproj"
+
+      - name: Build
+        run: |
+          dotnet publish "source/AnimusReforged.Altair/AnimusReforged.Altair.csproj" -c Release
+
+      - name: Run Unit Tests
+        run: dotnet test "tests/AnimusReforged.Tests/AnimusReforged.Tests.csproj" -c Release --no-build --verbosity normal
+
+      - name: Publish
+        run: dotnet publish source\AnimusReforged.Altair\AnimusReforged.Altair.csproj -c Release -r win-x64 --self-contained false /p:PublishSingleFile=false /p:DebugType=None /p:DebugSymbols=false -o publish
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: Altair
+          path: ./publish/
+          if-no-files-found: error
