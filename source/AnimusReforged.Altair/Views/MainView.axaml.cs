@@ -36,13 +36,13 @@ public partial class MainView : UserControl
         _navigationService.SetNavigationView(NavView);
         
         _settings = App.Services.GetRequiredService<AltairSettings>();
-        _viewModel.FirstSetup = _settings.Settings.SetupCompleted;
+        _viewModel.FirstSetup = _settings.Settings.Setup.Completed;
         _settings.SettingsChanged += (_, _) =>
         {
-            if (!_settings.Settings.SetupCompleted)
+            if (!_settings.Settings.Setup.Completed)
             {
-                _viewModel.FirstSetup = _settings.Settings.SetupCompleted;
-                string targetPage = _settings.Settings.SetupCompleted ? "Default" : "Welcome";
+                _viewModel.FirstSetup = _settings.Settings.Setup.Completed;
+                string targetPage = _settings.Settings.Setup.Completed ? "Default" : "Welcome";
                 Dispatcher.UIThread.Post(() =>
                 {
                     _navigationService.NavigateToTag(targetPage).Wait();
@@ -50,12 +50,12 @@ public partial class MainView : UserControl
             }
         };
 
-        string initialPage = _settings.Settings.SetupCompleted ? "Default" : "Welcome";
+        string initialPage = _settings.Settings.Setup.Completed ? "Default" : "Welcome";
         _navigationService.NavigateToTag(initialPage).Wait();
         
         Loaded += async (_, _) =>
         {
-            if (_settings.Settings.SetupCompleted)
+            if (_settings.Settings.Setup.Completed)
             {
                 await _viewModel.CheckInstallation();
             }

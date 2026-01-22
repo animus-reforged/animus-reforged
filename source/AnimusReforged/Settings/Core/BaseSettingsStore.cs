@@ -9,10 +9,10 @@ namespace AnimusReforged.Settings.Core;
 public abstract class BaseSettingsStore
 {
     /// <summary>
-    /// Gets or sets a value indicating whether the initial setup has been completed.
+    /// Stores indicator and executable location required for the program to work
     /// </summary>
-    [JsonPropertyName("setup_completed")]
-    public bool SetupCompleted { get; set; } = false;
+    [JsonPropertyName("setup")]
+    public SetupSettings Setup { get; set; } = new SetupSettings();
 
     /// <summary>
     /// Gets the version of the application from the assembly information.
@@ -31,4 +31,18 @@ public abstract class BaseSettingsStore
             return "0.0.0";
         }
     }
+}
+
+/// <summary>
+/// Contains setup-related settings for the application.
+/// This includes the setup completion status and the location of the game executable.
+/// </summary>
+public class SetupSettings
+{
+    /// <summary>
+    /// Gets or sets a value indicating whether the initial setup process has been completed.
+    /// This is used to determine if the application should show the setup wizard on startup.
+    /// </summary>
+    [JsonPropertyName("completed")]
+    public bool Completed { get; set; } = false;
 }

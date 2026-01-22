@@ -10,6 +10,7 @@ using AnimusReforged.Mods.Altair;
 using AnimusReforged.Mods.Core;
 using AnimusReforged.Models.Mods;
 using AnimusReforged.Settings;
+using AnimusReforged.Settings.Core;
 using AnimusReforged.Utilities;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -221,7 +222,7 @@ public partial class ManagePageViewModel : ViewModelBase
         }
 
         // Resetting config file
-        _settings.Settings.SetupCompleted = false;
+        _settings.Settings.Setup = new SetupSettings();
         _settings.Settings.InstalledModVersions = new Dictionary<string, string>();
         await _settings.SaveSettingsAsync();
         await _messageBoxService.ShowInfoAsync("Success", "AnimusReforged has been successfully uninstalled!\nNow you can remove the AnimusReforged executable.");

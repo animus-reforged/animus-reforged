@@ -142,7 +142,7 @@ public partial class WelcomePageViewModel : ViewModelBase
                 Logger.Info<WelcomePageViewModel>("Downloads directory does not exist, skipping deletion");
             }
 
-            _settings.Settings.SetupCompleted = true;
+            _settings.Settings.Setup.Completed = true;
             await _settings.SaveSettingsAsync();
             Logger.Info<WelcomePageViewModel>("Settings saved and setup marked as completed");
 
