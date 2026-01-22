@@ -10,7 +10,7 @@
                   x:Class="AnimusReforged.Altair.Views.MainWindow"
                   x:DataType="vm:MainWindowViewModel"
                   Icon="/Assets/icon.ico"
-                  Title="AnimusReforged.Altair"
+                  Title="Animus Reforged (Altair)"
                   IsEnabled="{Binding DisableWindow, Converter={StaticResource InverseBoolConverter}}">
 
     <Design.DataContext>
