@@ -19,6 +19,7 @@
                              IsBackButtonVisible="False"
                              IsSettingsVisible="False"
                              PaneDisplayMode="Left"
+                             IsPaneOpen="False"
                              OpenPaneLength="130"
                              IsPaneToggleButtonVisible="True"
                              ItemInvoked="NavView_OnItemInvoked">
