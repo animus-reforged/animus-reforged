@@ -1,5 +1,7 @@
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using AnimusReforged.Altair.Services.UI;
 using AnimusReforged.Altair.ViewModels;
 using AnimusReforged.Altair.Views.Pages;
 using AnimusReforged.Logging;
@@ -110,6 +112,18 @@ public class NavigationService
                 frame.Navigate(typeof(CreditsPage), null, new EntranceNavigationTransitionInfo());
                 break;
             case "Donate":
+                IMessageBoxService messageBoxService = App.Services.GetRequiredService<IMessageBoxService>();
+                ContentDialogResult result = await messageBoxService.ShowCustomDialogAsync("Confirmation",
+                    "Donations are and will always be optional.\nEverything made by me on my own in my spare time will always be free and fully open source.\nDon't donate unless you can really afford it and don't donate your parents money without them knowing.\nDonations are NOT refundable.",
+                    "Continue", "Cancel");
+                if (result == ContentDialogResult.Primary)
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "https://ko-fi.com/shazzaam/",
+                        UseShellExecute = true
+                    });
+                }
                 break;
             default:
                 frame.Navigate(typeof(DefaultPage), null, null);
