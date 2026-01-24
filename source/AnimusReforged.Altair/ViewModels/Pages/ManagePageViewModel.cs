@@ -202,29 +202,69 @@ public partial class ManagePageViewModel : ViewModelBase
         }
         
         // Uninstall mods
-        Logger.Info<ManagePageViewModel>("Uninstalling mods");
-        ModManager.UninstallAsiLoader();
+        try
+        {
+            Logger.Info<ManagePageViewModel>("Uninstalling mods");
+            ModManager.UninstallAsiLoader();
+        }
+        catch (Exception ex)
+        {
+            Logger.Error<ManagePageViewModel>("Uninstalling ASI Loader & Mods failed");
+            Logger.LogExceptionDetails<ManagePageViewModel>(ex);
+            await _messageBoxService.ShowErrorAsync("Failure", "Uninstalling ASI Loader & Mods failed");
+            return;
+        }
 
         // Uninstall uMod
         bool deleteuModConfig = await _messageBoxService.ShowConfirmationAsync("Confirmation", "Do you want to remove uMod configuration folder?");
-        await ModManager.UninstalluMod(deleteuModConfig);
+        try
+        {
+            await ModManager.UninstalluMod(deleteuModConfig);
+        }
+        catch (Exception ex)
+        {
+            Logger.Error<ManagePageViewModel>("Uninstalling uMod failed");
+            Logger.LogExceptionDetails<ManagePageViewModel>(ex);
+            await _messageBoxService.ShowErrorAsync("Failure", "Uninstalling uMod failed");
+            return;
+        }
 
         // Restore original executable
-        if (File.Exists(FilePaths.AltairExecutable + ".bak"))
+        try
         {
-            Logger.Info<ManagePageViewModel>("Restoring the original game executable without LAA patch applied");
-            File.Copy(FilePaths.AltairExecutable + ".bak", FilePaths.AltairExecutable, true);
-            File.Delete(FilePaths.AltairExecutable + ".bak");
+            if (File.Exists(FilePaths.AltairExecutable + ".bak"))
+            {
+                Logger.Info<ManagePageViewModel>("Restoring the original game executable without LAA patch applied");
+                File.Copy(FilePaths.AltairExecutable + ".bak", FilePaths.AltairExecutable, true);
+                File.Delete(FilePaths.AltairExecutable + ".bak");
+            }
+            else
+            {
+                Logger.Warning<ManagePageViewModel>("Couldn't find backup of the original game executable");
+            }
         }
-        else
+        catch (Exception ex)
         {
-            Logger.Warning<ManagePageViewModel>("Couldn't find backup of the original game executable");
+            Logger.Error<ManagePageViewModel>("Restoring the original game executable failed");
+            Logger.LogExceptionDetails<ManagePageViewModel>(ex);
+            await _messageBoxService.ShowErrorAsync("Failure", "Restoring the original game executable failed");
+            return;
         }
 
         // Resetting config file
-        _settings.Settings.Setup = new SetupSettings();
-        _settings.Settings.InstalledModVersions = new Dictionary<string, string>();
-        await _settings.SaveSettingsAsync();
+        try
+        {
+            _settings.Settings.Setup = new SetupSettings();
+            _settings.Settings.InstalledModVersions = new Dictionary<string, string>();
+            await _settings.SaveSettingsAsync();
+        }
+        catch (Exception ex)
+        {
+            Logger.Error<ManagePageViewModel>("Resetting the configuration file failed");
+            Logger.LogExceptionDetails<ManagePageViewModel>(ex);
+            await _messageBoxService.ShowErrorAsync("Failure", "Resetting the configuration file failed.");
+            return;
+        }
         await _messageBoxService.ShowInfoAsync("Success", "AnimusReforged has been successfully uninstalled!\nNow you can remove the AnimusReforged executable.");
         
         // Close the launcher
