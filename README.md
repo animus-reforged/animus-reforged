@@ -24,6 +24,10 @@
   <img src="assets/screenshots/2.png" alt="Default Page">
 </p>
 
+<p align="center">
+  <a href="assets/screenshots/games/README.md">View Before/After Comparison</a>
+</p>
+
 ---
 
 ## 🧾 Overview
