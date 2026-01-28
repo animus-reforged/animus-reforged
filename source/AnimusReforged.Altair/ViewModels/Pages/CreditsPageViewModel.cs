@@ -61,14 +61,6 @@ public partial class CreditsPageViewModel : ViewModelBase
 
         new CreditItem
         {
-            Title = "sony33d",
-            Description = "For icon used in Discord Rich Presence",
-            Url = "https://www.deviantart.com/sony33d/art/Assassin-s-Creed-Icon-Pack-PNG-ICO-555468864",
-            Icon = Symbol.Emoji
-        },
-
-        new CreditItem
-        {
             Title = "00031",
             Description = "For creating banner and upscaling background image",
             Url = "https://www.nexusmods.com/users/70787823",
