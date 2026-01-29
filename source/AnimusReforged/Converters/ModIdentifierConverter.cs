@@ -1,9 +1,8 @@
-using System;
 using System.Globalization;
 using AnimusReforged.Mods.Altair;
 using Avalonia.Data.Converters;
 
-namespace AnimusReforged.Altair.Converters;
+namespace AnimusReforged.Converters;
 
 public class ModIdentifierConverter : IValueConverter
 {
