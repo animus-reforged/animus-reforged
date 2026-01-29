@@ -7,6 +7,7 @@
     <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
     <Application.Resources>
         <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+        <converters:ModIdentifierConverter x:Key="ModIdentifierConverter" />
     </Application.Resources>
     <Application.Styles>
         <style:FluentAvaloniaTheme PreferSystemTheme="True" PreferUserAccentColor="True" />

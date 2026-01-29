@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
 using AnimusReforged.Models;
@@ -35,6 +36,10 @@ public partial class ManagePageViewModel : ViewModelBase
     [ObservableProperty] private ObservableCollection<UpdatableMod> updatableMods = [];
     [ObservableProperty] private bool hasUpdatableMods;
 
+    // Redownload Mod Section
+    [ObservableProperty] private ObservableCollection<string> availableMods = [];
+    [ObservableProperty] private string? selectedMod;
+
     // Constructor
     public ManagePageViewModel()
     {
@@ -45,6 +50,14 @@ public partial class ManagePageViewModel : ViewModelBase
         IsDownloading = false;
         DownloadProgress = 0;
         HasUpdatableMods = false;
+
+        // Initialize available mods with all known mod identifiers
+        AvailableMods.Add(ModIdentifiers.AsiLoader);
+        AvailableMods.Add(ModIdentifiers.EaglePatch);
+        AvailableMods.Add(ModIdentifiers.AltairFix);
+        AvailableMods.Add(ModIdentifiers.ReShade);
+        AvailableMods.Add(ModIdentifiers.UMod);
+        AvailableMods.Add(ModIdentifiers.Overhaul);
     }
 
     [RelayCommand]
@@ -166,6 +179,62 @@ public partial class ManagePageViewModel : ViewModelBase
     }
 
     [RelayCommand]
+    private async Task RedownloadSelectedMod()
+    {
+        if (string.IsNullOrEmpty(SelectedMod))
+        {
+            await _messageBoxService.ShowWarningAsync("No Mod Selected", "Please select a mod from the dropdown to redownload.");
+            return;
+        }
+
+        try
+        {
+            Logger.Info<ManagePageViewModel>($"Redownloading mod: {SelectedMod}");
+
+            // Show download progress section
+            IsDownloading = true;
+            DownloadStatus = $"Redownloading {ModIdentifiers.GetModName(SelectedMod)}...";
+            DownloadProgress = 0;
+
+            _mainWindowViewModel.DisableWindow = true;
+            
+            await ModManager.InitializeAsync();
+
+            // Download the selected mod
+            await ModManager.DownloadModByIdAsync(SelectedMod, progress => DownloadProgress = progress);
+
+            // Extract and install the mod
+            ModManager.ExtractModById(SelectedMod);
+
+            // Update the installed version in settings
+            ModManager.UpdateInstalledModVersion(SelectedMod, _settings);
+
+            DownloadStatus = $"{ModIdentifiers.GetModName(SelectedMod)} redownloaded successfully!";
+            DownloadProgress = 100;
+
+            // Hide progress section after a short delay
+            await _settings.SaveSettingsAsync();
+            IsDownloading = false;
+            _mainWindowViewModel.DisableWindow = false;
+
+            // Show success message
+            await _messageBoxService.ShowInfoAsync("Redownload Successful", $"{ModIdentifiers.GetModName(SelectedMod)} has been redownloaded and installed successfully!");
+        }
+        catch (Exception ex)
+        {
+            Logger.Error<ManagePageViewModel>($"Error redownloading mod {SelectedMod}: {ex.Message}");
+            IsDownloading = false;
+            DownloadStatus = $"Error redownloading {ModIdentifiers.GetModName(SelectedMod)}";
+            _mainWindowViewModel.DisableWindow = false;
+            await _messageBoxService.ShowErrorAsync("Redownload Failed", $"An error occurred while redownloading {ModIdentifiers.GetModName(SelectedMod)}: {ex.Message}");
+        }
+        finally
+        {
+            SelectedMod = null;
+        }
+    }
+
+    [RelayCommand]
     private async Task FixUModPaths()
     {
         Logger.Info<ManagePageViewModel>("Redoing uMod paths");
@@ -200,7 +269,7 @@ public partial class ManagePageViewModel : ViewModelBase
             Logger.Info<ManagePageViewModel>("Uninstallation cancelled");
             return;
         }
-        
+
         // Uninstall mods
         try
         {
@@ -266,7 +335,7 @@ public partial class ManagePageViewModel : ViewModelBase
             return;
         }
         await _messageBoxService.ShowInfoAsync("Success", "AnimusReforged has been successfully uninstalled!\nNow you can remove the AnimusReforged executable.");
-        
+
         // Close the launcher
         Environment.Exit(0);
     }

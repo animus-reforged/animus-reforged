@@ -34,4 +34,23 @@ public static class ModIdentifiers
     /// Identifier for the overhaul mod
     /// </summary>
     public const string Overhaul = "overhaul";
+
+    /// <summary>
+    /// Converts ModIdentifier to a formatted string
+    /// </summary>
+    /// <param name="modIdentifier">ModIdentifier</param>
+    /// <returns>ModIdentifier as a properly formatted string, if it can't find correct conversion returns ModIdentifier</returns>
+    public static string GetModName(string modIdentifier)
+    {
+        return modIdentifier switch
+        {
+            AsiLoader => "ASI Loader",
+            EaglePatch => "Eagle Patch",
+            AltairFix => "Altair Fix",
+            ReShade => "ReShade",
+            UMod => "UMod",
+            Overhaul => "Overhaul",
+            _ => modIdentifier
+        };
+    }
 }
