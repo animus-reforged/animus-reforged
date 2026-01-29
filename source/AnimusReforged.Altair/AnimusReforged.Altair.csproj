@@ -13,18 +13,18 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.3.10" />
-        <PackageReference Include="Avalonia.Desktop" Version="11.3.10" />
-        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.10" />
-        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.10" />
+        <PackageReference Include="Avalonia" Version="11.3.11" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.3.11" />
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.11" />
+        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.11" />
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-        <PackageReference Include="Avalonia.Diagnostics" Version="11.3.10">
+        <PackageReference Include="Avalonia.Diagnostics" Version="11.3.11">
             <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
             <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="FluentAvaloniaUI" Version="2.4.1" />
-        <PackageReference Include="FluentIcons.Avalonia.Fluent" Version="2.0.316.1" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.1" />
+        <PackageReference Include="FluentAvaloniaUI" Version="2.5.0" />
+        <PackageReference Include="FluentIcons.Avalonia.Fluent" Version="2.0.317" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.2" />
     </ItemGroup>
 
     <ItemGroup>
