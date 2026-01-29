@@ -61,7 +61,7 @@ public partial class CreditsPageViewModel : ViewModelBase
 
         new CreditItem
         {
-            Title = "00031",
+            Title = "Claudio",
             Description = "For creating banner and upscaling background image",
             Url = "https://www.nexusmods.com/users/70787823",
             Icon = Symbol.ImageSparkle

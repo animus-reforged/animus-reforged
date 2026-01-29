@@ -66,7 +66,7 @@
                             <Button Grid.Column="2" Command="{Binding CheckForUpdatesCommand}">
                                 <ic:SymbolIcon Symbol="ArrowClockwise" FontSize="16" />
                                 <ToolTip.Tip>
-                                    <TextBlock Text="Check for updates" />
+                                    <TextBlock Text="Check for mod updates" />
                                 </ToolTip.Tip>
                             </Button>
                         </Grid>
