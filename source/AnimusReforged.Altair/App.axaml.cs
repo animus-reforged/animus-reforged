@@ -10,6 +10,7 @@ using Avalonia.Markup.Xaml;
 using AnimusReforged.Altair.Views;
 using AnimusReforged.Logging;
 using AnimusReforged.Settings;
+using AnimusReforged.Utilities;
 using Avalonia.Threading;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -130,6 +131,8 @@ public partial class App : Application
             desktop.MainWindow = mainWindow;
 
             Logger.Info<App>("Application initialization completed successfully");
+            
+            ArgumentChecker();
         }
         else
         {
@@ -153,6 +156,19 @@ public partial class App : Application
         {
             // If logging fails, we can't do much about it
             // Just ensure we don't throw from the exception handler
+        }
+    }
+
+    private void ArgumentChecker()
+    {
+        if (ArgumentParser.Contains(Desktop?.Args, "-skiplauncher"))
+        {
+            Desktop?.MainWindow?.Hide();
+            Logger.Debug<App>("Launching the game without the UI");
+            AltairSettings _settings = Services.GetRequiredService<AltairSettings>();
+            Launcher.Altair.Launch(_settings.Settings.Tweaks.UMod);
+            Logger.Debug<App>("Closing the application");
+            Environment.Exit(0);
         }
     }
 
