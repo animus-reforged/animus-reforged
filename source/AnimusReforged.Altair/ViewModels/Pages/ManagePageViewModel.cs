@@ -77,8 +77,10 @@ public partial class ManagePageViewModel : ViewModelBase
             UpdatableMods.Add(mod);
         }
         HasUpdatableMods = UpdatableMods.Count > 0;
-        DownloadStatus = $"{UpdatableMods.Count} update(s) available";
-        UpdateCheckStatus = $"{UpdatableMods.Count} update(s) available. Click for more info";
+        DownloadStatus = !HasUpdatableMods ? "No updates available" : $"{UpdatableMods.Count} update(s) available";
+        UpdateCheckStatus = !HasUpdatableMods
+            ? "No updates available"
+            : $"{UpdatableMods.Count} update(s) available. Click for more info";
     }
 
     [RelayCommand]
@@ -177,6 +179,12 @@ public partial class ManagePageViewModel : ViewModelBase
 
             HasUpdatableMods = UpdatableMods.Count > 0;
             DownloadStatus = $"{updatableMod.Name} updated successfully!";
+
+            // Update the update check status to reflect the new count of remaining updatable mods
+            UpdateCheckStatus = !HasUpdatableMods
+                ? "No updates available"
+                : $"{UpdatableMods.Count} update(s) available. Click for more info";
+
             DownloadProgress = 100;
 
             // Hide progress section after a short delay
