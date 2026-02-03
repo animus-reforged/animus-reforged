@@ -15,6 +15,12 @@ public abstract class BaseSettingsStore
     public SetupSettings Setup { get; set; } = new SetupSettings();
 
     /// <summary>
+    /// Gets or sets the date when the last update check was performed.
+    /// </summary>
+    [JsonPropertyName("last_update_check_date")]
+    public DateTime? LastUpdateCheckDate { get; set; } = null;
+
+    /// <summary>
     /// Gets the version of the application from the assembly information.
     /// </summary>
     /// <returns>The application version in major.minor.build format, or "0.0.0" if version information is unavailable.</returns>

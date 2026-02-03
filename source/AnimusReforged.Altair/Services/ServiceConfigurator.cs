@@ -27,6 +27,7 @@ public class ServiceConfigurator
 
         // Register Services
         services.AddSingleton<NavigationService>();
+        services.AddSingleton<IUpdateNotificationService, UpdateNotificationService>();
         services.AddSingleton<IMessageBoxService, MessageBoxService>();
 
         // Register AltairSettings with automatic initialization

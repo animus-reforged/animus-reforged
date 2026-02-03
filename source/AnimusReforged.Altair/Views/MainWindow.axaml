@@ -4,6 +4,7 @@
                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                   xmlns:window="clr-namespace:FluentAvalonia.UI.Windowing;assembly=FluentAvalonia"
+                  xmlns:controls="using:FluentAvalonia.UI.Controls"
                   xmlns:views="clr-namespace:AnimusReforged.Altair.Views"
                   mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
                   MinHeight="580" MinWidth="1000" Height="580" Width="1000"
@@ -17,5 +18,14 @@
         <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <views:MainView />
+    <Panel>
+        <views:MainView />
+        <controls:InfoBar HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                         IsOpen="{Binding HasUpdateNotifications}"
+                         Message="{Binding UpdateNotificationMessage}"
+                         Severity="Informational"
+                         IsClosable="True"
+                         CloseButtonClick="UpdateNotification_CloseButtonClick"
+                         Background="#ff1e1e1e" />
+    </Panel>
 </window:AppWindow>

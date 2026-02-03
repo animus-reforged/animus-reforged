@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Threading.Tasks;
+using AnimusReforged.Altair.Services;
 using AnimusReforged.Models;
 using AnimusReforged.Altair.Services.UI;
 using AnimusReforged.Logging;
@@ -59,6 +60,26 @@ public partial class ManagePageViewModel : ViewModelBase
         AvailableMods.Add(ModIdentifiers.UMod);
         AvailableMods.Add(ModIdentifiers.Overhaul);
     }
+    
+    public void OnPageLoaded()
+    {
+        // Check if there are already known updates from the startup check
+        IUpdateNotificationService updateService = App.Services.GetRequiredService<IUpdateNotificationService>();
+        if (!updateService.HasUpdates || updateService.UpdatableMods.Count <= 0)
+        {
+            return;
+        }
+        
+        // Populate the UpdatableMods collection with existing updates
+        UpdatableMods.Clear();
+        foreach (UpdatableMod mod in updateService.UpdatableMods)
+        {
+            UpdatableMods.Add(mod);
+        }
+        HasUpdatableMods = UpdatableMods.Count > 0;
+        DownloadStatus = $"{UpdatableMods.Count} update(s) available";
+        UpdateCheckStatus = $"{UpdatableMods.Count} update(s) available. Click for more info";
+    }
 
     [RelayCommand]
     private async Task CheckForUpdates()
@@ -105,6 +126,7 @@ public partial class ManagePageViewModel : ViewModelBase
 
             DownloadStatus = !HasUpdatableMods ? "No updates available" : $"{UpdatableMods.Count} update(s) available";
             UpdateCheckStatus = !HasUpdatableMods ? "No updates available" : $"{UpdatableMods.Count} update(s) available. Click for more info";
+
             IsDownloading = false;
             await _messageBoxService.ShowInfoAsync("Update Check", DownloadStatus);
         }
