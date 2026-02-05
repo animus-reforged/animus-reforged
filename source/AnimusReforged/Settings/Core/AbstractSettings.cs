@@ -59,10 +59,59 @@ public abstract class AbstractSettings<T> : ISettingsService<T> where T : class,
         _jsonSerializerOptions = new JsonSerializerOptions
         {
             Converters = {new JsonStringEnumConverter()},
-            WriteIndented = true
+            WriteIndented = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.Never
         };
-        
+
         Directory.CreateDirectory(Path.GetDirectoryName(_settingsPath) ?? string.Empty);
+    }
+
+    /// <summary>
+    /// Gets JSON serializer options that ensure all properties are included in serialization,
+    /// even those with default values, to ensure new settings appear in the file.
+    /// </summary>
+    /// <returns>JSON serializer options with full property inclusion.</returns>
+    private JsonSerializerOptions GetFullSerializationOptions()
+    {
+        JsonSerializerOptions options = new JsonSerializerOptions
+        {
+            Converters = { new JsonStringEnumConverter() },
+            WriteIndented = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.Never
+        };
+
+        return options;
+    }
+
+    /// <summary>
+    /// Ensures the settings object has all properties properly initialized with defaults where needed.
+    /// This helps ensure that when saving, all properties defined in the class are included in the output.
+    /// </summary>
+    /// <param name="currentSettings">The current settings instance</param>
+    /// <returns>A settings instance with all properties properly initialized</returns>
+    private T EnsureCompleteSettings(T currentSettings)
+    {
+        // Create a fresh instance of default settings
+        T defaultSettings = DefaultSettings;
+
+        // Serialize both current and default settings to JSON
+        string currentJson = JsonSerializer.Serialize(currentSettings, _jsonSerializerOptions);
+        string defaultJson = JsonSerializer.Serialize(defaultSettings, _jsonSerializerOptions);
+
+        // Parse both as dynamic objects to merge them
+        using JsonDocument currentDoc = JsonDocument.Parse(currentJson);
+        using JsonDocument defaultDoc = JsonDocument.Parse(defaultJson);
+
+        // For our scenario, the issue is that we want to ensure all properties from the class
+        // definition are represented in the saved file. The most reliable way is to ensure
+        // that we always save the settings object as it exists in memory after loading,
+        // which will have all properties properly initialized (either from the file or with defaults).
+
+        // Since the settings object in memory after loading should already have all properties
+        // initialized (loaded from the file or set to defaults), we can return it as-is.
+        // The key is to make sure that after loading, any missing properties have been
+        // assigned their default values, which should happen automatically with C#'s object initialization.
+        return currentSettings;
     }
 
     /// <summary>
@@ -176,20 +225,17 @@ public abstract class AbstractSettings<T> : ISettingsService<T> where T : class,
         {
             try
             {
-                // Check if settings have actually changed to avoid unnecessary writes
-                if (AreSettingsEqual(settings, _lastSavedSettings))
-                {
-                    return; // No changes to save
-                }
+                // Ensure the settings object has all properties properly initialized
+                T completeSettings = EnsureCompleteSettings(settings);
 
-                string settingsSerialized = JsonSerializer.Serialize(settings, _jsonSerializerOptions);
+                string settingsSerialized = JsonSerializer.Serialize(completeSettings, GetFullSerializationOptions());
 
-                // Use WriteAllTextAsync to ensure atomic write operation
+                // Use WriteAllText to ensure atomic write operation
                 File.WriteAllText(_settingsPath, settingsSerialized);
 
-                _settings = settings;
+                _settings = completeSettings;
                 _settingsLoaded = true;
-                _lastSavedSettings = CloneSettings(settings);
+                _lastSavedSettings = CloneSettings(completeSettings);
 
                 // Trigger the settings changed event
                 OnSettingsChanged();

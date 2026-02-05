@@ -66,6 +66,7 @@ public partial class App : Application
             
             // Initial loading of settings
             AltairSettings settings = Services.GetRequiredService<AltairSettings>();
+            settings.SaveSettings();
 
             // Get MainWindow
             Logger.Debug<App>("Resolving MainWindow from services");
