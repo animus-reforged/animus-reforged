@@ -350,6 +350,42 @@
                     </Border>
                 </StackPanel>
             </Expander>
+
+            <!-- Core Settings -->
+            <Expander>
+                <Expander.Header>
+                    <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,12">
+                        <ic:SymbolIcon Symbol="Settings" Margin="0,0,12,0" />
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="Launcher Settings" FontWeight="SemiBold" />
+                            <TextBlock Text="Core launcher configuration options"
+                                       FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                        </StackPanel>
+                    </Grid>
+                </Expander.Header>
+                <StackPanel Spacing="8">
+                    <!-- Logging Level -->
+                    <Border BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                            BorderThickness="2"
+                            CornerRadius="4"
+                            Padding="12">
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <ic:SymbolIcon Symbol="DocumentBulletList" Margin="0,0,12,0" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="Logging Level" FontWeight="SemiBold" />
+                                <TextBlock Text="Set the level of detail for application logs"
+                                           FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                            </StackPanel>
+                            <ComboBox Grid.Column="2"
+                                      ItemsSource="{Binding LogLevelOptions.Keys}"
+                                      SelectedItem="{Binding SelectedLogLevelKey, Mode=TwoWay}"
+                                      MinWidth="100"
+                                      VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </Expander>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

@@ -57,6 +57,32 @@ public partial class SettingsPageViewModel : ViewModelBase
     [ObservableProperty] private bool isPs3ControlsEnabled;
     [ObservableProperty] private bool isSkipIntroVideoEnabled;
 
+    // Core Settings
+    [ObservableProperty] private int loggingLevel;
+    public Dictionary<string, int> LogLevelOptions { get; } = new Dictionary<string, int>
+    {
+        {"Off", 0},
+        {"Fatal", 1},
+        {"Error", 2},
+        {"Warn", 3},
+        {"Info", 4},
+        {"Debug", 5},
+        {"Trace", 6}
+    };
+
+    public string SelectedLogLevelKey
+    {
+        get => LogLevelOptions.FirstOrDefault(x => x.Value == LoggingLevel).Key ?? "Info";
+        set
+        {
+            if (!string.IsNullOrEmpty(value) && LogLevelOptions.ContainsKey(value))
+            {
+                LoggingLevel = LogLevelOptions[value];
+                OnPropertyChanged();
+            }
+        }
+    }
+
     // Constructor
     public SettingsPageViewModel()
     {
@@ -68,6 +94,7 @@ public partial class SettingsPageViewModel : ViewModelBase
         LoadReShadeSettings();
         LoadAltairFixSettings();
         LoadEaglePatchSettings();
+        LoadCoreSettings();
         _suppressUpdates = false;
     }
 
@@ -197,6 +224,12 @@ public partial class SettingsPageViewModel : ViewModelBase
         Logger.Info<SettingsPageViewModel>($"PS3 Controls: {IsPs3ControlsEnabled}");
         IsSkipIntroVideoEnabled = _eaglePatchSettings.GetBool("EaglePatchAC1", "SkipIntroVideos");
         Logger.Info<SettingsPageViewModel>($"PS3 Controls: {IsSkipIntroVideoEnabled}");
+    }
+
+    private void LoadCoreSettings()
+    {
+        LoggingLevel = _settings.Settings.Core.LoggingLevel;
+        Logger.Info<SettingsPageViewModel>($"Logging Level: {LoggingLevel}");
     }
 
     // Saving UI Functions
@@ -519,6 +552,28 @@ public partial class SettingsPageViewModel : ViewModelBase
             return;
         }
         Logger.Debug<SettingsPageViewModel>($"Skip Intro Videos: {oldValue} -> {newValue}");
+    }
+
+    partial void OnLoggingLevelChanged(int oldValue, int newValue)
+    {
+        if (_suppressUpdates)
+        {
+            return;
+        }
+        try
+        {
+            _settings.Settings.Core.LoggingLevel = newValue;
+            _settings.SaveSettings();
+        }
+        catch (Exception ex)
+        {
+            Logger.Error<SettingsPageViewModel>("Failed to change Logging Level setting");
+            Logger.LogExceptionDetails<SettingsPageViewModel>(ex);
+            LoggingLevel = oldValue;
+            _messageBoxService.ShowErrorAsync("Error changing Logging Level", "An error occurred while changing Logging Level.");
+            return;
+        }
+        Logger.Debug<SettingsPageViewModel>($"Logging Level: {oldValue} -> {newValue}");
     }
 
     // Commands

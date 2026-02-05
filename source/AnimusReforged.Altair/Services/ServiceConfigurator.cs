@@ -6,6 +6,8 @@ using AnimusReforged.Altair.Views;
 using AnimusReforged.Logging;
 using AnimusReforged.Settings;
 using Microsoft.Extensions.DependencyInjection;
+using NLog;
+using Logger = AnimusReforged.Logging.Logger;
 
 namespace AnimusReforged.Altair.Services;
 
@@ -40,6 +42,9 @@ public class ServiceConfigurator
             {
                 // Load settings at startup (this will create defaults if file doesn't exist)
                 AltairSettings.AltairSettingsStore loadedSettings = settings.Settings; // This triggers lazy loading
+                LogLevel logLevel = LogLevelHelper.FromInt(loadedSettings.Core.LoggingLevel);
+                Logger.Debug<ServiceConfigurator>($"Loaded logging level from settings: {logLevel.Name}");
+                Logger.SetLogLevel(logLevel);
             }
             catch (Exception ex)
             {

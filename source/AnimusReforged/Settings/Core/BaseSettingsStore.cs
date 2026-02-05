@@ -21,6 +21,12 @@ public abstract class BaseSettingsStore
     public DateTime? LastUpdateCheckDate { get; set; } = null;
 
     /// <summary>
+    /// Gets or sets the core settings for the application.
+    /// </summary>
+    [JsonPropertyName("settings")]
+    public CoreSettings Core { get; set; } = new CoreSettings();
+
+    /// <summary>
     /// Gets the version of the application from the assembly information.
     /// </summary>
     /// <returns>The application version in major.minor.build format, or "0.0.0" if version information is unavailable.</returns>
