@@ -56,7 +56,8 @@
                 <!-- Check for updates -->
                 <Expander IsExpanded="{Binding HasUpdatableMods}">
                     <Expander.Header>
-                        <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,12">
+                        <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,12"
+                              MinHeight="44">
                             <ic:SymbolIcon Symbol="WrenchScrewdriver" Margin="0,0,12,0" />
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                 <TextBlock Text="Check for updates" FontWeight="SemiBold" />
@@ -111,6 +112,7 @@
                         Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                         BorderThickness="2"
                         CornerRadius="4"
+                        MinHeight="44"
                         Padding="12">
                     <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="Auto,*,Auto">
                         <ic:SymbolIcon Symbol="ArrowDownload" Grid.Row="0" Grid.Column="0" Margin="0,0,12,0" />
@@ -143,6 +145,7 @@
                         Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                         BorderThickness="2"
                         CornerRadius="4"
+                        MinHeight="44"
                         Padding="12">
                     <Grid ColumnDefinitions="Auto,*,Auto">
                         <ic:SymbolIcon Symbol="XboxController" Margin="0,0,12,0" />
@@ -165,6 +168,7 @@
                         Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                         BorderThickness="2"
                         CornerRadius="4"
+                        MinHeight="44"
                         Padding="12">
                     <Grid ColumnDefinitions="Auto,*,Auto">
                         <ic:SymbolIcon Symbol="TrayItemRemove" Margin="0,0,12,0" />

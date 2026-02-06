@@ -13,7 +13,8 @@
             <!-- uMod -->
             <Expander>
                 <Expander.Header>
-                    <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,12">
+                    <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,12"
+                          MinHeight="44">
                         <ic:SymbolIcon Symbol="WindowWrench" Margin="0,0,12,0" />
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <TextBlock Text="uMod" FontWeight="SemiBold" />
@@ -151,6 +152,7 @@
                     Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                     BorderThickness="2"
                     CornerRadius="4"
+                    MinHeight="44"
                     Padding="12">
                 <Grid ColumnDefinitions="Auto,*,Auto">
                     <ic:SymbolIcon Symbol="CameraEdit" Margin="0,0,12,0" />
@@ -166,7 +168,8 @@
             <!-- AltairFix -->
             <Expander>
                 <Expander.Header>
-                    <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,12">
+                    <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,12"
+                          MinHeight="44">
                         <ic:SymbolIcon Symbol="Patch" Margin="0,0,12,0" />
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <TextBlock Text="AltairFix" FontWeight="SemiBold" />
@@ -184,6 +187,7 @@
                             BorderThickness="2"
                             CornerRadius="4"
                             Padding="12"
+                            MinHeight="44"
                             IsEnabled="{Binding IsAltairFixEnabled}">
                         <Grid ColumnDefinitions="Auto,*,Auto">
                             <ic:SymbolIcon Symbol="Bug" Margin="0,0,12,0" />
@@ -202,6 +206,7 @@
                             BorderThickness="2"
                             CornerRadius="4"
                             Padding="12"
+                            MinHeight="44"
                             IsEnabled="{Binding IsAltairFixEnabled}">
                         <Grid ColumnDefinitions="Auto,*,Auto">
                             <ic:SymbolIcon Symbol="Settings" Margin="0,0,12,0" />
@@ -217,7 +222,8 @@
                     <!-- Window Mode -->
                     <Expander IsEnabled="{Binding IsAltairFixEnabled}" IsExpanded="True">
                         <Expander.Header>
-                            <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,12">
+                            <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,12"
+                                  MinHeight="44">
                                 <ic:SymbolIcon Symbol="Window" Margin="0,0,12,0" />
                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                     <TextBlock Text="Window Mode" FontWeight="SemiBold" />
@@ -238,6 +244,7 @@
                                     BorderThickness="2"
                                     CornerRadius="4"
                                     Padding="12"
+                                    MinHeight="44"
                                     IsEnabled="{Binding IsCustomResolutionMode}">
                                 <Grid ColumnDefinitions="Auto,*,Auto">
                                     <ic:SymbolIcon Symbol="ArrowAutofitWidth" Margin="0,0,12,0" />
@@ -258,6 +265,7 @@
                                     Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                                     BorderThickness="2"
                                     CornerRadius="4"
+                                    MinHeight="44"
                                     Padding="12"
                                     IsEnabled="{Binding IsCustomResolutionMode}">
                                 <Grid ColumnDefinitions="Auto,*,Auto">
@@ -281,7 +289,8 @@
             <!-- EaglePatch -->
             <Expander>
                 <Expander.Header>
-                    <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,12">
+                    <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,12"
+                          MinHeight="44">
                         <ic:SymbolIcon Symbol="WrenchScrewdriver" Margin="0,0,12,0" />
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <TextBlock Text="EaglePatch" FontWeight="SemiBold" />
@@ -298,6 +307,7 @@
                             BorderThickness="2"
                             CornerRadius="4"
                             Padding="12"
+                            MinHeight="44"
                             IsEnabled="{Binding IsEaglePatchEnabled}">
                         <Grid ColumnDefinitions="Auto,*,Auto">
                             <ic:SymbolIcon Symbol="Keyboard" Margin="0,0,12,0" />
@@ -319,6 +329,7 @@
                             BorderThickness="2"
                             CornerRadius="4"
                             Padding="12"
+                            MinHeight="44"
                             IsEnabled="{Binding IsEaglePatchEnabled}">
                         <Grid ColumnDefinitions="Auto,*,Auto">
                             <ic:SymbolIcon Symbol="XboxController" Margin="0,0,12,0" />
@@ -337,6 +348,7 @@
                             BorderThickness="2"
                             CornerRadius="4"
                             Padding="12"
+                            MinHeight="44"
                             IsEnabled="{Binding IsEaglePatchEnabled}">
                         <Grid ColumnDefinitions="Auto,*,Auto">
                             <ic:SymbolIcon Symbol="XboxController" Margin="0,0,12,0" />
@@ -354,7 +366,8 @@
             <!-- Core Settings -->
             <Expander>
                 <Expander.Header>
-                    <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,12">
+                    <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,12"
+                          MinHeight="44">
                         <ic:SymbolIcon Symbol="Settings" Margin="0,0,12,0" />
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <TextBlock Text="Launcher Settings" FontWeight="SemiBold" />
@@ -365,7 +378,7 @@
                 </Expander.Header>
                 <StackPanel Spacing="8">
                     <!-- Logging Level -->
-                    <Border BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                    <Border MinHeight="44" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                             Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                             BorderThickness="2"
                             CornerRadius="4"
