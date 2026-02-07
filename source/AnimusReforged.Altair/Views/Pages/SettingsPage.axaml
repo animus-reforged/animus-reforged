@@ -17,8 +17,8 @@
                           MinHeight="44">
                         <ic:SymbolIcon Symbol="WindowWrench" Margin="0,0,12,0" />
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Text="uMod" FontWeight="SemiBold" />
-                            <TextBlock Text="Enable texture modification support"
+                            <TextBlock Text="{DynamicResource SettingsPage.uMod.Title}" FontWeight="SemiBold" />
+                            <TextBlock Text="{DynamicResource SettingsPage.uMod.Description}"
                                        FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                         </StackPanel>
                         <ToggleSwitch Grid.Column="2" IsChecked="{Binding IsuModEnabled, Mode=TwoWay}" />
@@ -32,15 +32,15 @@
                             <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,12">
                                 <ic:SymbolIcon Symbol="CheckmarkCircle" Margin="0,0,12,0" />
                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                    <TextBlock Text="Enabled Mods" FontWeight="SemiBold" />
-                                    <TextBlock Text="Currently active modifications"
+                                    <TextBlock Text="{DynamicResource SettingsPage.uMod.EnabledMods.Title}" FontWeight="SemiBold" />
+                                    <TextBlock Text="{DynamicResource SettingsPage.uMod.EnabledMods.Description}"
                                                FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                                 </StackPanel>
                                 <Button Grid.Column="2" Command="{Binding AddModCommand}"
                                         CommandParameter="{Binding}">
                                     <ic:SymbolIcon Symbol="AddCircle" FontSize="16" />
                                     <ToolTip.Tip>
-                                        <TextBlock Text="Add mod" />
+                                        <TextBlock Text="{DynamicResource SettingsPage.uMod.AddMod.Tooltip}" />
                                     </ToolTip.Tip>
                                 </Button>
                             </Grid>
@@ -65,28 +65,28 @@
                                                     CommandParameter="{Binding}">
                                                 <ic:SymbolIcon Symbol="ArrowUp" FontSize="16" />
                                                 <ToolTip.Tip>
-                                                    <TextBlock Text="Move Up" />
+                                                    <TextBlock Text="{DynamicResource SettingsPage.uMod.MoveUp.Tooltip}" />
                                                 </ToolTip.Tip>
                                             </Button>
                                             <Button Command="{Binding $parent[UserControl].((vm:SettingsPageViewModel)DataContext).MoveModDownCommand}"
                                                     CommandParameter="{Binding}">
                                                 <ic:SymbolIcon Symbol="ArrowDown" FontSize="16" />
                                                 <ToolTip.Tip>
-                                                    <TextBlock Text="Move Down" />
+                                                    <TextBlock Text="{DynamicResource SettingsPage.uModMoveDown.Tooltip}" />
                                                 </ToolTip.Tip>
                                             </Button>
                                             <Button Command="{Binding $parent[UserControl].((vm:SettingsPageViewModel)DataContext).DisableModCommand}"
                                                     CommandParameter="{Binding}">
                                                 <ic:SymbolIcon Symbol="Dismiss" FontSize="16" />
                                                 <ToolTip.Tip>
-                                                    <TextBlock Text="Disable the mod" />
+                                                    <TextBlock Text="{DynamicResource SettingsPage.uMod.DisableMod.Tooltip}" />
                                                 </ToolTip.Tip>
                                             </Button>
                                             <Button Command="{Binding $parent[UserControl].((vm:SettingsPageViewModel)DataContext).RemoveModCommand}"
                                                     CommandParameter="{Binding}">
                                                 <ic:SymbolIcon Symbol="Delete" FontSize="16" />
                                                 <ToolTip.Tip>
-                                                    <TextBlock Text="Delete the mod from your computer" />
+                                                    <TextBlock Text="{DynamicResource SettingsPage.uMod.DeleteMod.Tooltip}" />
                                                 </ToolTip.Tip>
                                             </Button>
                                         </StackPanel>
@@ -102,8 +102,8 @@
                             <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,12">
                                 <ic:SymbolIcon Symbol="DismissCircle" Margin="0,0,12,0" />
                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                    <TextBlock Text="Disabled Mods" FontWeight="SemiBold" />
-                                    <TextBlock Text="Mods that are present but not active"
+                                    <TextBlock Text="{DynamicResource SettingsPage.uMod.DisabledMods.Title}" FontWeight="SemiBold" />
+                                    <TextBlock Text="{DynamicResource SettingsPage.uMod.DisabledMods.Description}"
                                                FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                                 </StackPanel>
                             </Grid>
@@ -128,14 +128,14 @@
                                                     CommandParameter="{Binding}">
                                                 <ic:SymbolIcon Symbol="Checkmark" FontSize="16" />
                                                 <ToolTip.Tip>
-                                                    <TextBlock Text="Enable mod" />
+                                                    <TextBlock Text="{DynamicResource SettingsPage.uMod.EnableMod.Tooltip}" />
                                                 </ToolTip.Tip>
                                             </Button>
                                             <Button Command="{Binding $parent[UserControl].((vm:SettingsPageViewModel)DataContext).RemoveModCommand}"
                                                     CommandParameter="{Binding}">
                                                 <ic:SymbolIcon Symbol="Delete" FontSize="16" />
                                                 <ToolTip.Tip>
-                                                    <TextBlock Text="Delete the mod from your computer" />
+                                                    <TextBlock Text="{DynamicResource SettingsPage.uMod.DeleteMod.Tooltip}" />
                                                 </ToolTip.Tip>
                                             </Button>
                                         </StackPanel>
@@ -157,8 +157,8 @@
                 <Grid ColumnDefinitions="Auto,*,Auto">
                     <ic:SymbolIcon Symbol="CameraEdit" Margin="0,0,12,0" />
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                        <TextBlock Text="ReShade" FontWeight="SemiBold" />
-                        <TextBlock Text="Enable post-processing effects"
+                        <TextBlock Text="{DynamicResource SettingsPage.ReShade.Title}" FontWeight="SemiBold" />
+                        <TextBlock Text="{DynamicResource SettingsPage.ReShade.Description}"
                                    FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                     </StackPanel>
                     <ToggleSwitch Grid.Column="2" IsChecked="{Binding IsReShadeEnabled, Mode=TwoWay}" />
@@ -172,8 +172,8 @@
                           MinHeight="44">
                         <ic:SymbolIcon Symbol="Patch" Margin="0,0,12,0" />
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Text="AltairFix" FontWeight="SemiBold" />
-                            <TextBlock Text="Additional patches and fixes related to performance and improvement"
+                            <TextBlock Text="{DynamicResource SettingsPage.AltairFix.Title}" FontWeight="SemiBold" />
+                            <TextBlock Text="{DynamicResource SettingsPage.AltairFix.Description}"
                                        FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                         </StackPanel>
                         <ToggleSwitch Grid.Column="2" IsChecked="{Binding IsAltairFixEnabled, Mode=TwoWay}" />
@@ -192,8 +192,8 @@
                         <Grid ColumnDefinitions="Auto,*,Auto">
                             <ic:SymbolIcon Symbol="Bug" Margin="0,0,12,0" />
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                <TextBlock Text="Stutter fix" FontWeight="SemiBold" />
-                                <TextBlock Text="Patches game executable and hosts file to ignore Ubisoft's servers"
+                                <TextBlock Text="{DynamicResource SettingsPage.AltairFix.StutterFix.Title}" FontWeight="SemiBold" />
+                                <TextBlock Text="{DynamicResource SettingsPage.AltairFix.StutterFix.Description}"
                                            FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                             </StackPanel>
                             <ToggleSwitch Grid.Column="2" IsChecked="{Binding IsStutterFixEnabled, Mode=TwoWay}" />
@@ -211,8 +211,8 @@
                         <Grid ColumnDefinitions="Auto,*,Auto">
                             <ic:SymbolIcon Symbol="Settings" Margin="0,0,12,0" />
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                <TextBlock Text="High Core Count Fix" FontWeight="SemiBold" />
-                                <TextBlock Text="Fixes the game not starting on CPU's with 32 Cores"
+                                <TextBlock Text="{DynamicResource SettingsPage.AltairFix.HighCoreCountFix.Title}" FontWeight="SemiBold" />
+                                <TextBlock Text="{DynamicResource SettingsPage.AltairFix.HighCoreCountFix.Description}"
                                            FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                             </StackPanel>
                             <ToggleSwitch Grid.Column="2" IsChecked="{Binding IsHighCoreCountFixEnabled, Mode=TwoWay}" />
@@ -226,8 +226,8 @@
                                   MinHeight="44">
                                 <ic:SymbolIcon Symbol="Window" Margin="0,0,12,0" />
                                 <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                    <TextBlock Text="Window Mode" FontWeight="SemiBold" />
-                                    <TextBlock Text="Choose window mode for the game"
+                                    <TextBlock Text="{DynamicResource SettingsPage.AltairFix.WindowMode.Title}" FontWeight="SemiBold" />
+                                    <TextBlock Text="{DynamicResource SettingsPage.AltairFix.WindowMode.Description}"
                                                FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                                 </StackPanel>
                                 <ComboBox Grid.Column="2"
@@ -249,8 +249,8 @@
                                 <Grid ColumnDefinitions="Auto,*,Auto">
                                     <ic:SymbolIcon Symbol="ArrowAutofitWidth" Margin="0,0,12,0" />
                                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                        <TextBlock Text="Width" FontWeight="SemiBold" />
-                                        <TextBlock Text="Window width (Windowed Only)"
+                                        <TextBlock Text="{DynamicResource SettingsPage.AltairFix.WindowedMode.WindowWidth.Title}" FontWeight="SemiBold" />
+                                        <TextBlock Text="{DynamicResource SettingsPage.AltairFix.WindowedMode.WindowWidth.Description}"
                                                    FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                                     </StackPanel>
                                     <ComboBox Grid.Column="2"
@@ -271,8 +271,8 @@
                                 <Grid ColumnDefinitions="Auto,*,Auto">
                                     <ic:SymbolIcon Symbol="ArrowAutofitHeight" Margin="0,0,12,0" />
                                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                        <TextBlock Text="Height" FontWeight="SemiBold" />
-                                        <TextBlock Text="Window height (Windowed Only)"
+                                        <TextBlock Text="{DynamicResource SettingsPage.AltairFix.WindowedMode.WindowHeight.Title}" FontWeight="SemiBold" />
+                                        <TextBlock Text="{DynamicResource SettingsPage.AltairFix.WindowedMode.WindowHeight.Description}"
                                                    FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                                     </StackPanel>
                                     <ComboBox Grid.Column="2"
@@ -293,8 +293,8 @@
                           MinHeight="44">
                         <ic:SymbolIcon Symbol="WrenchScrewdriver" Margin="0,0,12,0" />
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Text="EaglePatch" FontWeight="SemiBold" />
-                            <TextBlock Text="General patches and fixes"
+                            <TextBlock Text="{DynamicResource SettingsPage.EaglePatch.Title}" FontWeight="SemiBold" />
+                            <TextBlock Text="{DynamicResource SettingsPage.EaglePatch.Description}"
                                        FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                         </StackPanel>
                         <ToggleSwitch Grid.Column="2" IsChecked="{Binding IsEaglePatchEnabled, Mode=TwoWay}" />
@@ -312,8 +312,8 @@
                         <Grid ColumnDefinitions="Auto,*,Auto">
                             <ic:SymbolIcon Symbol="Keyboard" Margin="0,0,12,0" />
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                <TextBlock Text="Keyboard Layout" FontWeight="SemiBold" />
-                                <TextBlock Text="Select keyboard layout"
+                                <TextBlock Text="{DynamicResource SettingsPage.EaglePatch.KeyboardLayout.Title}" FontWeight="SemiBold" />
+                                <TextBlock Text="{DynamicResource SettingsPage.EaglePatch.KeyboardLayout.Description}"
                                            FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                             </StackPanel>
                             <ComboBox Grid.Column="2"
@@ -334,8 +334,8 @@
                         <Grid ColumnDefinitions="Auto,*,Auto">
                             <ic:SymbolIcon Symbol="XboxController" Margin="0,0,12,0" />
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                <TextBlock Text="PS3 Controls" FontWeight="SemiBold" />
-                                <TextBlock Text="Swap triggers and bumpers for PS3-style controls"
+                                <TextBlock Text="{DynamicResource SettingsPage.EaglePatch.PS3Controls.Title}" FontWeight="SemiBold" />
+                                <TextBlock Text="{DynamicResource SettingsPage.EaglePatch.PS3Controls.Description}"
                                            FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                             </StackPanel>
                             <ToggleSwitch Grid.Column="2" IsChecked="{Binding IsPs3ControlsEnabled, Mode=TwoWay}" />
@@ -353,8 +353,8 @@
                         <Grid ColumnDefinitions="Auto,*,Auto">
                             <ic:SymbolIcon Symbol="XboxController" Margin="0,0,12,0" />
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                <TextBlock Text="Skip Video Intros" FontWeight="SemiBold" />
-                                <TextBlock Text="Automatically skip startup videos"
+                                <TextBlock Text="{DynamicResource SettingsPage.EaglePatch.SkipIntroVideos.Title}" FontWeight="SemiBold" />
+                                <TextBlock Text="{DynamicResource SettingsPage.EaglePatch.SkipIntroVideos.Description}"
                                            FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                             </StackPanel>
                             <ToggleSwitch Grid.Column="2" IsChecked="{Binding IsSkipIntroVideoEnabled, Mode=TwoWay}" />
@@ -363,20 +363,47 @@
                 </StackPanel>
             </Expander>
 
-            <!-- Core Settings -->
+            <!-- Launcher Settings -->
             <Expander>
                 <Expander.Header>
                     <Grid ColumnDefinitions="Auto,*,Auto" Margin="0,12"
                           MinHeight="44">
                         <ic:SymbolIcon Symbol="Settings" Margin="0,0,12,0" />
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock Text="Launcher Settings" FontWeight="SemiBold" />
-                            <TextBlock Text="Core launcher configuration options"
+                            <TextBlock Text="{DynamicResource SettingsPage.Launcher.Title}" FontWeight="SemiBold" />
+                            <TextBlock Text="{DynamicResource SettingsPage.Launcher.Description}"
                                        FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                         </StackPanel>
                     </Grid>
                 </Expander.Header>
                 <StackPanel Spacing="8">
+                    <!-- Language -->
+                    <Border MinHeight="44" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                            BorderThickness="2"
+                            CornerRadius="4"
+                            Padding="12">
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <ic:SymbolIcon Symbol="LocalLanguage" Margin="0,0,12,0" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="{DynamicResource SettingsPage.Launcher.Language.Title}" FontWeight="SemiBold" />
+                                <TextBlock Text="{DynamicResource SettingsPage.Launcher.Language.Description}"
+                                           FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                            </StackPanel>
+                            <ComboBox Grid.Column="2"
+                                      ItemsSource="{Binding AppLanguages}"
+                                      SelectedIndex="{Binding SelectedLanguageIndex, Mode=TwoWay}"
+                                      MinWidth="150"
+                                      VerticalAlignment="Center">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding NativeName}" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </Grid>
+                    </Border>
+
                     <!-- Logging Level -->
                     <Border MinHeight="44" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                             Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
@@ -386,8 +413,8 @@
                         <Grid ColumnDefinitions="Auto,*,Auto">
                             <ic:SymbolIcon Symbol="DocumentBulletList" Margin="0,0,12,0" />
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                <TextBlock Text="Logging Level" FontWeight="SemiBold" />
-                                <TextBlock Text="Set the level of detail for application logs"
+                                <TextBlock Text="{DynamicResource SettingsPage.Launcher.LogLevel.Title}" FontWeight="SemiBold" />
+                                <TextBlock Text="{DynamicResource SettingsPage.Launcher.LogLevel.Description}"
                                            FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                             </StackPanel>
                             <ComboBox Grid.Column="2"

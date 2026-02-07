@@ -12,4 +12,10 @@ public class CoreSettings
     /// </summary>
     [JsonPropertyName("log_level")]
     public int LoggingLevel { get; set; } = 5;
+
+    /// <summary>
+    /// The language code for the application UI
+    /// </summary>
+    [JsonPropertyName("language")]
+    public string Language { get; set; } = "en";
 }

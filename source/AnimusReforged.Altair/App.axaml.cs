@@ -63,10 +63,14 @@ public partial class App : Application
                 Logger.LogExceptionDetails<App>(ex);
                 throw;
             }
-            
+
             // Initial loading of settings
             AltairSettings settings = Services.GetRequiredService<AltairSettings>();
             settings.SaveSettings();
+
+            // Localization initialization
+            LocalizationHelper.Initialize("avares://AnimusReforged.Altair/Resources/Language/");
+            LocalizationHelper.LoadLanguage(settings.Settings.Core.Language);
 
             // Get MainWindow
             Logger.Debug<App>("Resolving MainWindow from services");
@@ -132,7 +136,7 @@ public partial class App : Application
             desktop.MainWindow = mainWindow;
 
             Logger.Info<App>("Application initialization completed successfully");
-            
+
             ArgumentChecker();
         }
         else

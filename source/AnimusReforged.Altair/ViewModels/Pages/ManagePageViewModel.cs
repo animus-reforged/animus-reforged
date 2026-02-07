@@ -29,8 +29,8 @@ public partial class ManagePageViewModel : ViewModelBase
 
     // Download Progress Bar
     [ObservableProperty] private bool isDownloading;
-    [ObservableProperty] private string downloadStatus = "Waiting for download...";
-    [ObservableProperty] private string updateCheckStatus = "No updates available";
+    [ObservableProperty] private string downloadStatus = LocalizationHelper.GetText("ManagePage.DownloadStatus.Waiting");
+    [ObservableProperty] private string updateCheckStatus = LocalizationHelper.GetText("ManagePage.UpdateCheckStatus.NoUpdates");
     [ObservableProperty] private int downloadProgress;
 
     // Update Checking
@@ -60,7 +60,7 @@ public partial class ManagePageViewModel : ViewModelBase
         AvailableMods.Add(ModIdentifiers.UMod);
         AvailableMods.Add(ModIdentifiers.Overhaul);
     }
-    
+
     public void OnPageLoaded()
     {
         // Check if there are already known updates from the startup check
@@ -69,7 +69,7 @@ public partial class ManagePageViewModel : ViewModelBase
         {
             return;
         }
-        
+
         // Populate the UpdatableMods collection with existing updates
         UpdatableMods.Clear();
         foreach (UpdatableMod mod in updateService.UpdatableMods)
@@ -77,10 +77,12 @@ public partial class ManagePageViewModel : ViewModelBase
             UpdatableMods.Add(mod);
         }
         HasUpdatableMods = UpdatableMods.Count > 0;
-        DownloadStatus = !HasUpdatableMods ? "No updates available" : $"{UpdatableMods.Count} update(s) available";
+        DownloadStatus = !HasUpdatableMods
+            ? LocalizationHelper.GetText("ManagePage.DownloadStatus.NoUpdates")
+            : string.Format(LocalizationHelper.GetText("ManagePage.DownloadStatus.UpdatesAvailable"), UpdatableMods.Count);
         UpdateCheckStatus = !HasUpdatableMods
-            ? "No updates available"
-            : $"{UpdatableMods.Count} update(s) available. Click for more info";
+            ? LocalizationHelper.GetText("ManagePage.UpdateCheckStatus.NoUpdates")
+            : string.Format(LocalizationHelper.GetText("ManagePage.UpdateCheckStatus.UpdatesAvailable"), UpdatableMods.Count);
     }
 
     [RelayCommand]
@@ -92,7 +94,7 @@ public partial class ManagePageViewModel : ViewModelBase
 
             // Show download progress section while checking for updates
             IsDownloading = true;
-            DownloadStatus = "Checking for updates...";
+            DownloadStatus = LocalizationHelper.GetText("ManagePage.DownloadStatus.CheckingUpdates");
             DownloadProgress = 0;
 
             // Initialize mod manager to load manifest
@@ -126,19 +128,27 @@ public partial class ManagePageViewModel : ViewModelBase
             DownloadProgress = 100;
             HasUpdatableMods = UpdatableMods.Count > 0;
 
-            DownloadStatus = !HasUpdatableMods ? "No updates available" : $"{UpdatableMods.Count} update(s) available";
-            UpdateCheckStatus = !HasUpdatableMods ? "No updates available" : $"{UpdatableMods.Count} update(s) available. Click for more info";
+            DownloadStatus = !HasUpdatableMods
+                ? LocalizationHelper.GetText("ManagePage.DownloadStatus.NoUpdates")
+                : string.Format(LocalizationHelper.GetText("ManagePage.DownloadStatus.UpdatesAvailable"), UpdatableMods.Count);
+            UpdateCheckStatus = !HasUpdatableMods
+                ? LocalizationHelper.GetText("ManagePage.UpdateCheckStatus.NoUpdates")
+                : string.Format(LocalizationHelper.GetText("ManagePage.UpdateCheckStatus.UpdatesAvailable"), UpdatableMods.Count);
 
             IsDownloading = false;
-            await _messageBoxService.ShowInfoAsync("Update Check", DownloadStatus);
+            await _messageBoxService.ShowInfoAsync(
+                LocalizationHelper.GetText("ManagePage.MessageBox.UpdateCheckTitle"),
+                DownloadStatus);
         }
         catch (Exception ex)
         {
             Logger.Error<ManagePageViewModel>($"Error checking for updates: {ex.Message}");
             IsDownloading = false;
-            DownloadStatus = "Error checking for updates";
-            UpdateCheckStatus = "Error checking for updates";
-            await _messageBoxService.ShowErrorAsync("Update Check Failed", $"An error occurred while checking for updates: {ex.Message}");
+            DownloadStatus = LocalizationHelper.GetText("ManagePage.DownloadStatus.ErrorChecking");
+            UpdateCheckStatus = LocalizationHelper.GetText("ManagePage.UpdateCheckStatus.ErrorChecking");
+            await _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("ManagePage.MessageBox.UpdateCheckFailedTitle"),
+                string.Format(LocalizationHelper.GetText("ManagePage.MessageBox.UpdateCheckErrorMessage"), ex.Message));
         }
     }
 
@@ -159,7 +169,7 @@ public partial class ManagePageViewModel : ViewModelBase
 
             // Show download progress section
             IsDownloading = true;
-            DownloadStatus = $"Updating {updatableMod.Name}...";
+            DownloadStatus = string.Format(LocalizationHelper.GetText("ManagePage.DownloadStatus.UpdatingMod"), updatableMod.Name);
             DownloadProgress = 0;
 
             _mainWindowViewModel.DisableWindow = true;
@@ -178,12 +188,12 @@ public partial class ManagePageViewModel : ViewModelBase
             UpdatableMods.Remove(updatableMod);
 
             HasUpdatableMods = UpdatableMods.Count > 0;
-            DownloadStatus = $"{updatableMod.Name} updated successfully!";
+            DownloadStatus = string.Format(LocalizationHelper.GetText("ManagePage.DownloadStatus.ModUpdatedSuccessfully"), updatableMod.Name);
 
             // Update the update check status to reflect the new count of remaining updatable mods
             UpdateCheckStatus = !HasUpdatableMods
-                ? "No updates available"
-                : $"{UpdatableMods.Count} update(s) available. Click for more info";
+                ? LocalizationHelper.GetText("ManagePage.UpdateCheckStatus.NoUpdates")
+                : string.Format(LocalizationHelper.GetText("ManagePage.UpdateCheckStatus.UpdatesAvailable"), UpdatableMods.Count);
 
             DownloadProgress = 100;
 
@@ -192,15 +202,19 @@ public partial class ManagePageViewModel : ViewModelBase
             IsDownloading = false;
             _mainWindowViewModel.DisableWindow = false;
             // Show success message
-            await _messageBoxService.ShowInfoAsync("Update Successful", $"{updatableMod.Name} has been updated to version {updatableMod.LatestVersion}!");
+            await _messageBoxService.ShowInfoAsync(
+                LocalizationHelper.GetText("ManagePage.MessageBox.UpdateSuccessfulTitle"),
+                string.Format(LocalizationHelper.GetText("ManagePage.MessageBox.UpdateSuccessfulMessage"), updatableMod.Name, updatableMod.LatestVersion));
         }
         catch (Exception ex)
         {
             Logger.Error<ManagePageViewModel>($"Error updating mod {updatableMod.Name}: {ex.Message}");
             IsDownloading = false;
-            DownloadStatus = $"Error updating {updatableMod.Name}";
+            DownloadStatus = string.Format(LocalizationHelper.GetText("ManagePage.DownloadStatus.ErrorUpdating"), updatableMod.Name);
             _mainWindowViewModel.DisableWindow = false;
-            await _messageBoxService.ShowErrorAsync("Update Failed", $"An error occurred while updating {updatableMod.Name}: {ex.Message}");
+            await _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("ManagePage.MessageBox.UpdateFailedTitle"),
+                string.Format(LocalizationHelper.GetText("ManagePage.MessageBox.UpdateFailedMessage"), updatableMod.Name, ex.Message));
         }
         finally
         {
@@ -213,7 +227,9 @@ public partial class ManagePageViewModel : ViewModelBase
     {
         if (string.IsNullOrEmpty(SelectedMod))
         {
-            await _messageBoxService.ShowWarningAsync("No Mod Selected", "Please select a mod from the dropdown to redownload.");
+            await _messageBoxService.ShowWarningAsync(
+                LocalizationHelper.GetText("ManagePage.MessageBox.NoModSelectedTitle"),
+                LocalizationHelper.GetText("ManagePage.MessageBox.NoModSelectedMessage"));
             return;
         }
 
@@ -223,11 +239,11 @@ public partial class ManagePageViewModel : ViewModelBase
 
             // Show download progress section
             IsDownloading = true;
-            DownloadStatus = $"Redownloading {ModIdentifiers.GetModName(SelectedMod)}...";
+            DownloadStatus = string.Format(LocalizationHelper.GetText("ManagePage.DownloadStatus.RedownloadingMod"), ModIdentifiers.GetModName(SelectedMod));
             DownloadProgress = 0;
 
             _mainWindowViewModel.DisableWindow = true;
-            
+
             await ModManager.InitializeAsync();
 
             // Download the selected mod
@@ -239,7 +255,7 @@ public partial class ManagePageViewModel : ViewModelBase
             // Update the installed version in settings
             ModManager.UpdateInstalledModVersion(SelectedMod, _settings);
 
-            DownloadStatus = $"{ModIdentifiers.GetModName(SelectedMod)} redownloaded successfully!";
+            DownloadStatus = string.Format(LocalizationHelper.GetText("ManagePage.DownloadStatus.ModRedownloadedSuccessfully"), ModIdentifiers.GetModName(SelectedMod));
             DownloadProgress = 100;
 
             // Hide progress section after a short delay
@@ -248,15 +264,19 @@ public partial class ManagePageViewModel : ViewModelBase
             _mainWindowViewModel.DisableWindow = false;
 
             // Show success message
-            await _messageBoxService.ShowInfoAsync("Redownload Successful", $"{ModIdentifiers.GetModName(SelectedMod)} has been redownloaded and installed successfully!");
+            await _messageBoxService.ShowInfoAsync(
+                LocalizationHelper.GetText("ManagePage.MessageBox.RedownloadSuccessfulTitle"),
+                string.Format(LocalizationHelper.GetText("ManagePage.MessageBox.RedownloadSuccessfulMessage"), ModIdentifiers.GetModName(SelectedMod)));
         }
         catch (Exception ex)
         {
             Logger.Error<ManagePageViewModel>($"Error redownloading mod {SelectedMod}: {ex.Message}");
             IsDownloading = false;
-            DownloadStatus = $"Error redownloading {ModIdentifiers.GetModName(SelectedMod)}";
+            DownloadStatus = string.Format(LocalizationHelper.GetText("ManagePage.DownloadStatus.ErrorRedownloading"), ModIdentifiers.GetModName(SelectedMod));
             _mainWindowViewModel.DisableWindow = false;
-            await _messageBoxService.ShowErrorAsync("Redownload Failed", $"An error occurred while redownloading {ModIdentifiers.GetModName(SelectedMod)}: {ex.Message}");
+            await _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("ManagePage.MessageBox.RedownloadFailedTitle"),
+                string.Format(LocalizationHelper.GetText("ManagePage.MessageBox.RedownloadFailedMessage"), ModIdentifiers.GetModName(SelectedMod), ex.Message));
         }
         finally
         {
@@ -275,7 +295,9 @@ public partial class ManagePageViewModel : ViewModelBase
         catch (ArgumentException)
         {
             Logger.Error<ManagePageViewModel>($"Invalid game executable path");
-            await _messageBoxService.ShowErrorAsync("Failure", "Invalid game executable path");
+            await _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("ManagePage.MessageBox.FailureTitle"),
+                LocalizationHelper.GetText("ManagePage.MessageBox.InvalidExecutablePathMessage"));
         }
         try
         {
@@ -284,16 +306,22 @@ public partial class ManagePageViewModel : ViewModelBase
         catch (ArgumentException)
         {
             Logger.Error<ManagePageViewModel>($"Invalid game executable path");
-            await _messageBoxService.ShowErrorAsync("Failure", "Invalid game executable path");
+            await _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("ManagePage.MessageBox.FailureTitle"),
+                LocalizationHelper.GetText("ManagePage.MessageBox.InvalidExecutablePathMessage"));
         }
-        await _messageBoxService.ShowInfoAsync("Success", "uMod paths have been recreated.");
+        await _messageBoxService.ShowInfoAsync(
+            LocalizationHelper.GetText("ManagePage.MessageBox.SuccessTitle"),
+            LocalizationHelper.GetText("ManagePage.MessageBox.UmodPathsSuccessMessage"));
     }
 
     [RelayCommand]
     private async Task Uninstall()
     {
         // Confirmation
-        bool uninstallConfirmation = await _messageBoxService.ShowConfirmationAsync("Confirmation", "Do you want to remove AnimusReforged?\nThis will remove everything and reset AnimusReforged to first time setup.");
+        bool uninstallConfirmation = await _messageBoxService.ShowConfirmationAsync(
+            LocalizationHelper.GetText("ManagePage.MessageBox.ConfirmationTitle"),
+            LocalizationHelper.GetText("ManagePage.MessageBox.UninstallConfirmationMessage"));
         if (!uninstallConfirmation)
         {
             Logger.Info<ManagePageViewModel>("Uninstallation cancelled");
@@ -310,12 +338,16 @@ public partial class ManagePageViewModel : ViewModelBase
         {
             Logger.Error<ManagePageViewModel>("Uninstalling ASI Loader & Mods failed");
             Logger.LogExceptionDetails<ManagePageViewModel>(ex);
-            await _messageBoxService.ShowErrorAsync("Failure", "Uninstalling ASI Loader & Mods failed");
+            await _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("ManagePage.MessageBox.FailureTitle"),
+                LocalizationHelper.GetText("ManagePage.MessageBox.UninstallAsiLoaderFailedMessage"));
             return;
         }
 
         // Uninstall uMod
-        bool deleteuModConfig = await _messageBoxService.ShowConfirmationAsync("Confirmation", "Do you want to remove uMod configuration folder?");
+        bool deleteuModConfig = await _messageBoxService.ShowConfirmationAsync(
+            LocalizationHelper.GetText("ManagePage.MessageBox.ConfirmationTitle"),
+            LocalizationHelper.GetText("ManagePage.MessageBox.UninstallUmodConfirmationMessage"));
         try
         {
             await ModManager.UninstalluMod(deleteuModConfig);
@@ -324,7 +356,9 @@ public partial class ManagePageViewModel : ViewModelBase
         {
             Logger.Error<ManagePageViewModel>("Uninstalling uMod failed");
             Logger.LogExceptionDetails<ManagePageViewModel>(ex);
-            await _messageBoxService.ShowErrorAsync("Failure", "Uninstalling uMod failed");
+            await _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("ManagePage.MessageBox.FailureTitle"),
+                LocalizationHelper.GetText("ManagePage.MessageBox.UninstallUmodFailedMessage"));
             return;
         }
 
@@ -346,7 +380,9 @@ public partial class ManagePageViewModel : ViewModelBase
         {
             Logger.Error<ManagePageViewModel>("Restoring the original game executable failed");
             Logger.LogExceptionDetails<ManagePageViewModel>(ex);
-            await _messageBoxService.ShowErrorAsync("Failure", "Restoring the original game executable failed");
+            await _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("ManagePage.MessageBox.FailureTitle"),
+                LocalizationHelper.GetText("ManagePage.MessageBox.RestoreExecutableFailedMessage"));
             return;
         }
 
@@ -361,10 +397,14 @@ public partial class ManagePageViewModel : ViewModelBase
         {
             Logger.Error<ManagePageViewModel>("Resetting the configuration file failed");
             Logger.LogExceptionDetails<ManagePageViewModel>(ex);
-            await _messageBoxService.ShowErrorAsync("Failure", "Resetting the configuration file failed.");
+            await _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("ManagePage.MessageBox.FailureTitle"),
+                LocalizationHelper.GetText("ManagePage.MessageBox.ResetConfigFailedMessage"));
             return;
         }
-        await _messageBoxService.ShowInfoAsync("Success", "AnimusReforged has been successfully uninstalled!\nNow you can remove the AnimusReforged executable.");
+        await _messageBoxService.ShowInfoAsync(
+            LocalizationHelper.GetText("ManagePage.MessageBox.SuccessTitle"),
+            LocalizationHelper.GetText("ManagePage.MessageBox.UninstallSuccessMessage"));
 
         // Close the launcher
         Environment.Exit(0);

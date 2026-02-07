@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using AnimusReforged.Logging;
+using AnimusReforged.Utilities;
 using CommunityToolkit.Mvvm.Input;
 using FluentIcons.Common;
 
@@ -21,48 +22,48 @@ public partial class CreditsPageViewModel : ViewModelBase
     [
         new CreditItem
         {
-            Title = "uMod Tool",
-            Description = "For allowing texture modifications",
+            Title = LocalizationHelper.GetText("CreditsPage.uMod.Title"),
+            Description = LocalizationHelper.GetText("CreditsPage.uMod.Description"),
             Url = "https://code.google.com/archive/p/texmod/",
             Icon = Symbol.Wrench
         },
 
         new CreditItem
         {
-            Title = "hecumarine",
-            Description = "For creating Overhaul Mod",
+            Title = LocalizationHelper.GetText("CreditsPage.Overhaul.Title"),
+            Description = LocalizationHelper.GetText("CreditsPage.Overhaul.Description"),
             Url = "https://www.moddb.com/mods/assassins-creed-2014-overhaul",
             Icon = Symbol.Sparkle
         },
 
         new CreditItem
         {
-            Title = "Sergeanur",
-            Description = "For creating EaglePatch",
+            Title = LocalizationHelper.GetText("CreditsPage.EaglePatch.Title"),
+            Description = LocalizationHelper.GetText("CreditsPage.EaglePatch.Description"),
             Url = "https://github.com/Sergeanur/EaglePatch",
             Icon = Symbol.Code
         },
 
         new CreditItem
         {
-            Title = "crosire",
-            Description = "For creating ReShade",
+            Title = LocalizationHelper.GetText("CreditsPage.ReShadeTool.Title"),
+            Description = LocalizationHelper.GetText("CreditsPage.ReShadeTool.Description"),
             Url = "https://reshade.me/",
             Icon = Symbol.ColorBackground
         },
 
         new CreditItem
         {
-            Title = "Ciocolici",
-            Description = "For the ReShade Preset",
+            Title = LocalizationHelper.GetText("CreditsPage.ReShadePreset.Title"),
+            Description = LocalizationHelper.GetText("CreditsPage.ReShadePreset.Description"),
             Url = "https://steamcommunity.com/sharedfiles/filedetails/?id=2957930769",
             Icon = Symbol.PaintBrush
         },
 
         new CreditItem
         {
-            Title = "Claudio",
-            Description = "For creating banner and upscaling background image",
+            Title = LocalizationHelper.GetText("CreditsPage.Background.Title"),
+            Description = LocalizationHelper.GetText("CreditsPage.Background.Description"),
             Url = "https://www.nexusmods.com/users/70787823",
             Icon = Symbol.ImageSparkle
         }

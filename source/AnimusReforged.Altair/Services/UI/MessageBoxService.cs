@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using AnimusReforged.Utilities;
 using FluentAvalonia.UI.Controls;
 
 namespace AnimusReforged.Altair.Services.UI;
@@ -72,7 +73,7 @@ public class MessageBoxService : IMessageBoxService
         {
             Title = title,
             Content = message,
-            PrimaryButtonText = "OK",
+            PrimaryButtonText = LocalizationHelper.GetText("MessageBox.OK"),
             DefaultButton = ContentDialogButton.Primary
         };
 
@@ -88,7 +89,7 @@ public class MessageBoxService : IMessageBoxService
         {
             Title = title,
             Content = message,
-            PrimaryButtonText = "OK",
+            PrimaryButtonText = LocalizationHelper.GetText("MessageBox.OK"),
             DefaultButton = ContentDialogButton.Primary
         };
 
@@ -104,7 +105,7 @@ public class MessageBoxService : IMessageBoxService
         {
             Title = title,
             Content = message,
-            PrimaryButtonText = "OK",
+            PrimaryButtonText = LocalizationHelper.GetText("MessageBox.OK"),
             DefaultButton = ContentDialogButton.Primary
         };
 
@@ -120,8 +121,8 @@ public class MessageBoxService : IMessageBoxService
         {
             Title = title,
             Content = message,
-            PrimaryButtonText = "Yes",
-            SecondaryButtonText = "No",
+            PrimaryButtonText = LocalizationHelper.GetText("MessageBox.Yes"),
+            SecondaryButtonText = LocalizationHelper.GetText("MessageBox.No"),
             DefaultButton = ContentDialogButton.Primary
         };
 
@@ -159,6 +160,11 @@ public class MessageBoxService : IMessageBoxService
         else if (!string.IsNullOrEmpty(secondaryButtonText) && string.IsNullOrEmpty(closeButtonText))
         {
             dialog.CloseButtonText = null;
+        }
+        // If closeButtonText is null or empty, use default localized Cancel text
+        else if (string.IsNullOrEmpty(closeButtonText))
+        {
+            dialog.CloseButtonText = LocalizationHelper.GetText("MessageBox.Cancel");
         }
 
         return await dialog.ShowAsync();

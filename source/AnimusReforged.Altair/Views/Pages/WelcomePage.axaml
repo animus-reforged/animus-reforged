@@ -16,17 +16,17 @@
         <StackPanel Spacing="20" Margin="20">
             <!-- Welcome Header -->
             <StackPanel Spacing="8">
-                <TextBlock Text="Welcome to Animus Reforged"
+                <TextBlock Text="{DynamicResource WelcomePage.Header.Title}"
                            FontSize="24"
                            FontWeight="Bold" />
-                <TextBlock Text="The ultimate enhancement suite for Assassin's Creed"
+                <TextBlock Text="{DynamicResource WelcomePage.Header.Description}"
                            FontSize="14"
                            Opacity="0.8" />
             </StackPanel>
 
             <!-- Features Overview -->
-            <ui:SettingsExpander Header="Features"
-                                 Description="What Animus Reforged offers"
+            <ui:SettingsExpander Header="{DynamicResource WelcomePage.Features.Header}"
+                                 Description="{DynamicResource WelcomePage.Features.Description}"
                                  IsExpanded="True">
                 <ui:SettingsExpander.IconSource>
                     <ic:SymbolIconSource Symbol="Star" />
@@ -37,21 +37,21 @@
                         <!-- Feature 1 -->
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <ic:SymbolIcon Symbol="Checkmark" />
-                            <TextBlock Text="Texture modding support via uMod"
+                            <TextBlock Text="{DynamicResource WelcomePage.Features.TextureModding}"
                                        VerticalAlignment="Center" />
                         </StackPanel>
 
                         <!-- Feature 2 -->
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <ic:SymbolIcon Symbol="Checkmark" />
-                            <TextBlock Text="Post-processing effects with ReShade"
+                            <TextBlock Text="{DynamicResource WelcomePage.Features.PostProcessing}"
                                        VerticalAlignment="Center" />
                         </StackPanel>
 
                         <!-- Feature 3 -->
                         <StackPanel Orientation="Horizontal" Spacing="8">
                             <ic:SymbolIcon Symbol="Checkmark" />
-                            <TextBlock Text="Community patches and fixes"
+                            <TextBlock Text="{DynamicResource WelcomePage.Features.CommunityPatches}"
                                        VerticalAlignment="Center" />
                         </StackPanel>
                     </StackPanel>
@@ -59,8 +59,8 @@
             </ui:SettingsExpander>
 
             <!-- Installation Section -->
-            <ui:SettingsExpander Header="Installation"
-                                 Description="Download and install required components"
+            <ui:SettingsExpander Header="{DynamicResource WelcomePage.Installation.Header}"
+                                 Description="{DynamicResource WelcomePage.Installation.Description}"
                                  IsExpanded="True">
                 <ui:SettingsExpander.IconSource>
                     <ic:SymbolIconSource Symbol="ArrowDownload" />
@@ -82,7 +82,7 @@
                     </StackPanel>
 
                     <!-- Install Button -->
-                    <Button Content="Install"
+                    <Button Content="{DynamicResource WelcomePage.Installation.Button}"
                             HorizontalAlignment="Right"
                             Margin="0,12,0,0"
                             Command="{Binding InstallCommand}" />

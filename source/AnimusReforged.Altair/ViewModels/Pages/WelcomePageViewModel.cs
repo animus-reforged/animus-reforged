@@ -3,7 +3,6 @@ using System.IO;
 using System.Threading.Tasks;
 using AnimusReforged.Altair.Services.UI;
 using AnimusReforged.Logging;
-using AnimusReforged.Models.Mods;
 using AnimusReforged.Mods.Altair;
 using AnimusReforged.Mods.Core;
 using AnimusReforged.Settings;
@@ -41,91 +40,91 @@ public partial class WelcomePageViewModel : ViewModelBase
         try
         {
             _mainWindowViewModel.DisableWindow = true;
-            StatusText = "Downloading Mods List";
+            StatusText = LocalizationHelper.GetText("WelcomePage.Status.DownloadingModsList");
             Logger.Info<WelcomePageViewModel>("Initializing mod manager and downloading mods list");
             await ModManager.InitializeAsync();
             Logger.Info<WelcomePageViewModel>("Successfully downloaded mods list");
 
             // Install ASI Loader
-            StatusText = "Downloading ASI Loader";
+            StatusText = LocalizationHelper.GetText("WelcomePage.Status.DownloadingAsiLoader");
             Logger.Info<WelcomePageViewModel>("Starting ASI Loader download");
             await ModManager.DownloadAsiLoader(progress => ProgressBarValue = progress);
             Logger.Info<WelcomePageViewModel>("ASI Loader download completed");
 
-            StatusText = "Installing ASI Loader";
+            StatusText = LocalizationHelper.GetText("WelcomePage.Status.InstallingAsiLoader");
             Logger.Info<WelcomePageViewModel>("Installing ASI Loader");
             ModManager.InstallAsiLoader();
             ModManager.UpdateInstalledModVersion(ModIdentifiers.AsiLoader, _settings);
             Logger.Info<WelcomePageViewModel>("ASI Loader installation completed");
 
             // Install EaglePatch
-            StatusText = "Downloading EaglePatch mod";
+            StatusText = LocalizationHelper.GetText("WelcomePage.Status.DownloadingEaglePatch");
             Logger.Info<WelcomePageViewModel>("Starting EaglePatch download");
             await ModManager.DownloadEaglePatch(progress => ProgressBarValue = progress);
             Logger.Info<WelcomePageViewModel>("EaglePatch download completed");
 
-            StatusText = "Installing EaglePatch mod";
+            StatusText = LocalizationHelper.GetText("WelcomePage.Status.InstallingEaglePatch");
             Logger.Info<WelcomePageViewModel>("Installing EaglePatch mod");
             ModManager.InstallEaglePatch();
             ModManager.UpdateInstalledModVersion(ModIdentifiers.EaglePatch, _settings);
             Logger.Info<WelcomePageViewModel>("EaglePatch installation completed");
 
             // Install AltairFix
-            StatusText = "Downloading AltairFix";
+            StatusText = LocalizationHelper.GetText("WelcomePage.Status.DownloadingAltairFix");
             Logger.Info<WelcomePageViewModel>("Starting AltairFix download");
             await ModManager.DownloadAltairFix(progress => ProgressBarValue = progress);
             Logger.Info<WelcomePageViewModel>("AltairFix download completed");
 
-            StatusText = "Installing AltairFix";
+            StatusText = LocalizationHelper.GetText("WelcomePage.Status.InstallingAltairFix");
             Logger.Info<WelcomePageViewModel>("Installing AltairFix");
             ModManager.InstallAltairFix();
             ModManager.UpdateInstalledModVersion(ModIdentifiers.AltairFix, _settings);
             Logger.Info<WelcomePageViewModel>("AltairFix installation completed");
 
             // Install ReShade
-            StatusText = "Downloading ReShade";
+            StatusText = LocalizationHelper.GetText("WelcomePage.Status.DownloadingReShade");
             Logger.Info<WelcomePageViewModel>("Starting ReShade download");
             await ModManager.DownloadReShade(progress => ProgressBarValue = progress);
             Logger.Info<WelcomePageViewModel>("ReShade download completed");
 
-            StatusText = "Installing Reshade";
+            StatusText = LocalizationHelper.GetText("WelcomePage.Status.InstallingReShade");
             Logger.Info<WelcomePageViewModel>("Installing ReShade");
             ModManager.InstallReShade();
             ModManager.UpdateInstalledModVersion(ModIdentifiers.ReShade, _settings);
             Logger.Info<WelcomePageViewModel>("ReShade installation completed");
 
             // Install uMod
-            StatusText = "Downloading uMod";
+            StatusText = LocalizationHelper.GetText("WelcomePage.Status.DownloadingUMod");
             Logger.Info<WelcomePageViewModel>("Starting uMod download");
             await ModManager.DownloadUMod(progress => ProgressBarValue = progress);
             Logger.Info<WelcomePageViewModel>("uMod download completed");
 
-            StatusText = "Installing uMod";
+            StatusText = LocalizationHelper.GetText("WelcomePage.Status.InstallingUMod");
             Logger.Info<WelcomePageViewModel>("Installing uMod");
             ModManager.InstallUMod();
             ModManager.UpdateInstalledModVersion(ModIdentifiers.UMod, _settings);
             Logger.Info<WelcomePageViewModel>("uMod installation completed");
 
             // Install Overhaul
-            StatusText = "Downloading Overhaul mod";
+            StatusText = LocalizationHelper.GetText("WelcomePage.Status.DownloadingOverhaul");
             Logger.Info<WelcomePageViewModel>("Starting Overhaul mod download");
             await ModManager.DownloadOverhaul(progress => ProgressBarValue = progress);
             Logger.Info<WelcomePageViewModel>("Overhaul mod download completed");
 
-            StatusText = "Installing Overhaul mod";
+            StatusText = LocalizationHelper.GetText("WelcomePage.Status.InstallingOverhaul");
             Logger.Info<WelcomePageViewModel>("Installing Overhaul mod");
             ModManager.InstallOverhaul();
             ModManager.UpdateInstalledModVersion(ModIdentifiers.Overhaul, _settings);
             Logger.Info<WelcomePageViewModel>("Overhaul mod installation completed");
 
             // Setup uMod and Overhaul
-            StatusText = "Setting up uMod and Overhaul mod";
+            StatusText = LocalizationHelper.GetText("WelcomePage.Status.SettingUpUMod");
             Logger.Info<WelcomePageViewModel>("Setting up uMod and Overhaul mod");
             await ModManager.SetupUMod();
             Logger.Info<WelcomePageViewModel>("uMod and Overhaul setup completed");
 
             // Applying 4GB Patch (Large Address Aware)
-            StatusText = "Applying 4GB Patch (Large Address Aware)";
+            StatusText = LocalizationHelper.GetText("WelcomePage.Status.Applying4gbPatch");
             Logger.Info<WelcomePageViewModel>("Applying 4GB Patch (Large Address Aware) to AssassinsCreed_Dx9.exe");
             Patcher.LargeAddressAwarePatch(FilePaths.AltairExecutable);
             Logger.Info<WelcomePageViewModel>("4GB Patch applied successfully");
@@ -148,14 +147,18 @@ public partial class WelcomePageViewModel : ViewModelBase
 
             _mainWindowViewModel.DisableWindow = false;
             Logger.Info<WelcomePageViewModel>("Installation completed successfully, showing success message");
-            await _messageBoxService.ShowInfoAsync("Installation Completed!", "AnimusReforged has been successfully installed!");
+            await _messageBoxService.ShowInfoAsync(
+                LocalizationHelper.GetText("WelcomePage.MessageBox.InstallationCompletedTitle"),
+                LocalizationHelper.GetText("WelcomePage.MessageBox.InstallationCompletedMessage"));
         }
         catch (Exception ex)
         {
             Logger.Error<WelcomePageViewModel>($"Installation failed with error: {ex.Message}");
             Logger.Error<WelcomePageViewModel>($"Stack trace: {ex.StackTrace}");
             _mainWindowViewModel.DisableWindow = false;
-            await _messageBoxService.ShowErrorAsync("Installation Failed", $"An error occurred during installation: {ex.Message}\n\nPlease check the logs for more details.");
+            await _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("WelcomePage.MessageBox.InstallationFailedTitle"),
+                string.Format(LocalizationHelper.GetText("WelcomePage.MessageBox.InstallationFailedMessage"), ex.Message));
         }
 
         Logger.Info<WelcomePageViewModel>("Finished installation process");

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,7 +41,13 @@ public partial class SettingsPageViewModel : ViewModelBase
     [ObservableProperty] private bool isStutterFixEnabled;
     [ObservableProperty] private bool isHighCoreCountFixEnabled;
 
-    public ObservableCollection<string> WindowModes { get; } = ["Fullscreen", "Borderless", "Windowed"];
+    public ObservableCollection<string> WindowModes { get; } =
+    [
+        LocalizationHelper.GetText("SettingsPage.AltairFix.WindowedMode.Option.Fullscreen"),
+        LocalizationHelper.GetText("SettingsPage.AltairFix.WindowedMode.Option.Borderless"),
+        LocalizationHelper.GetText("SettingsPage.AltairFix.WindowedMode.Option.Windowed")
+    ];
+
     [ObservableProperty] private int selectedWindowModeIndex;
     [ObservableProperty] private bool isCustomResolutionMode;
     public ObservableCollection<int> SupportedWidths { get; } = [];
@@ -52,22 +59,36 @@ public partial class SettingsPageViewModel : ViewModelBase
     // EaglePatch
     private IniFile _eaglePatchSettings = null!;
     [ObservableProperty] private bool isEaglePatchEnabled;
-    public ObservableCollection<string> KeyboardLayouts { get; } = ["KeyboardMouse2", "KeyboardMouse5", "Keyboard", "KeyboardAlt"];
+
+    public ObservableCollection<string> KeyboardLayouts { get; } =
+    [
+        "KeyboardMouse2",
+        "KeyboardMouse5",
+        "Keyboard",
+        "KeyboardAlt"
+    ];
+
     [ObservableProperty] private int selectedKeyboardLayoutIndex = 2; // Default Value
     [ObservableProperty] private bool isPs3ControlsEnabled;
     [ObservableProperty] private bool isSkipIntroVideoEnabled;
 
     // Core Settings
+    [ObservableProperty] private CultureInfo selectedLanguage = CultureInfo.InvariantCulture;
+    [ObservableProperty] private int selectedLanguageIndex = 0;
+
+    public ObservableCollection<CultureInfo> AppLanguages { get; set; } = new ObservableCollection<CultureInfo>();
+    
     [ObservableProperty] private int loggingLevel;
+
     public Dictionary<string, int> LogLevelOptions { get; } = new Dictionary<string, int>
     {
-        {"Off", 0},
-        {"Fatal", 1},
-        {"Error", 2},
-        {"Warn", 3},
-        {"Info", 4},
-        {"Debug", 5},
-        {"Trace", 6}
+        { LocalizationHelper.GetText("SettingsPage.Launcher.LogLevel.Option.Off"), 0 },
+        { LocalizationHelper.GetText("SettingsPage.Launcher.LogLevel.Option.Fatal"), 1 },
+        { LocalizationHelper.GetText("SettingsPage.Launcher.LogLevel.Option.Error"), 2 },
+        { LocalizationHelper.GetText("SettingsPage.Launcher.LogLevel.Option.Warn"), 3 },
+        { LocalizationHelper.GetText("SettingsPage.Launcher.LogLevel.Option.Info"), 4 },
+        { LocalizationHelper.GetText("SettingsPage.Launcher.LogLevel.Option.Debug"), 5 },
+        { LocalizationHelper.GetText("SettingsPage.Launcher.LogLevel.Option.Trace"), 6 }
     };
 
     public string SelectedLogLevelKey
@@ -228,6 +249,30 @@ public partial class SettingsPageViewModel : ViewModelBase
 
     private void LoadCoreSettings()
     {
+        CultureInfo[] supportedCultures = LocalizationHelper.GetSupportedLanguages();
+        AppLanguages = new ObservableCollection<CultureInfo>(supportedCultures);
+
+        // Get the stored language from settings
+        string storedLanguage = _settings.Settings.Core.Language;
+
+        // Find the index of the stored language in the supported languages
+        int currentIndex = AppLanguages.ToList().FindIndex(c => c.Name == storedLanguage);
+        if (currentIndex == -1)
+        {
+            // If the stored language isn't in the supported list, default to English (en)
+            CultureInfo? defaultCulture = AppLanguages.FirstOrDefault(c => c.Name == "en") ?? AppLanguages.FirstOrDefault();
+            if (defaultCulture != null)
+            {
+                currentIndex = AppLanguages.IndexOf(defaultCulture);
+            }
+        }
+
+        if (currentIndex >= 0)
+        {
+            SelectedLanguageIndex = currentIndex;
+            SelectedLanguage = AppLanguages[currentIndex];
+        }
+
         LoggingLevel = _settings.Settings.Core.LoggingLevel;
         Logger.Info<SettingsPageViewModel>($"Logging Level: {LoggingLevel}");
     }
@@ -249,7 +294,9 @@ public partial class SettingsPageViewModel : ViewModelBase
             Logger.Error<SettingsPageViewModel>("Failed to change IsuModEnabled tweak");
             Logger.LogExceptionDetails<SettingsPageViewModel>(ex);
             IsuModEnabled = oldValue;
-            _messageBoxService.ShowErrorAsync("Error changing IsuModEnabled", "An error occurred while changing IsuModEnabled.");
+            _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorChangingIsuModEnabledTitle"),
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorChangingIsuModEnabledMessage"));
             return;
         }
         Logger.Debug<SettingsPageViewModel>($"uMod: {oldValue} -> {newValue}");
@@ -301,7 +348,9 @@ public partial class SettingsPageViewModel : ViewModelBase
                 _suppressUpdates = true;
                 IsReShadeEnabled = false;
                 _suppressUpdates = false;
-                _messageBoxService.ShowErrorAsync("ReShade Not Found", "ReShade.asi couldn't be found. This could mean a corrupted ReShade installation.");
+                _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ReShadeNotFoundTitle"),
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ReShadeNotFoundMessage"));
                 return;
             }
         }
@@ -310,7 +359,9 @@ public partial class SettingsPageViewModel : ViewModelBase
             Logger.Error<SettingsPageViewModel>("Failed to toggle ReShade state");
             Logger.LogExceptionDetails<SettingsPageViewModel>(ex);
             IsReShadeEnabled = oldValue;
-            _messageBoxService.ShowErrorAsync("Error toggling ReShade", "An error occurred while toggling ReShade. Please check file permissions.");
+            _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorTogglingReShadeTitle"),
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorTogglingReShadeMessage"));
             return;
         }
         Logger.Debug<SettingsPageViewModel>($"ReShade: {oldValue} -> {newValue}");
@@ -331,7 +382,9 @@ public partial class SettingsPageViewModel : ViewModelBase
                 _suppressUpdates = true;
                 IsAltairFixEnabled = false;
                 _suppressUpdates = false;
-                _messageBoxService.ShowErrorAsync("AltairFix Not Found", "AltairFix.asi couldn't be found. This could mean a corrupted AltairFix installation.");
+                _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.AltairFixNotFoundTitle"),
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.AltairFixNotFoundMessage"));
                 return;
             }
         }
@@ -340,7 +393,9 @@ public partial class SettingsPageViewModel : ViewModelBase
             Logger.Error<SettingsPageViewModel>("Failed to toggle AltairFix state");
             Logger.LogExceptionDetails<SettingsPageViewModel>(ex);
             IsAltairFixEnabled = oldValue;
-            _messageBoxService.ShowErrorAsync("Error toggling AltairFix", "An error occurred while toggling AltairFix. Please check file permissions.");
+            _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorTogglingAltairFixTitle"),
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorTogglingAltairFixMessage"));
             return;
         }
         Logger.Debug<SettingsPageViewModel>($"AltairFix: {oldValue} -> {newValue}");
@@ -362,7 +417,9 @@ public partial class SettingsPageViewModel : ViewModelBase
             Logger.Error<SettingsPageViewModel>("Failed to change ServerBlocker tweak");
             Logger.LogExceptionDetails<SettingsPageViewModel>(ex);
             IsStutterFixEnabled = oldValue;
-            _messageBoxService.ShowErrorAsync("Error changing ServerBlocker (AltairFix)", "An error occurred while changing ServerBlocker.");
+            _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorChangingServerBlockerTitle"),
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorChangingServerBlockerMessage"));
             return;
         }
         Logger.Debug<SettingsPageViewModel>($"Stutter Fix: {oldValue} -> {newValue}");
@@ -384,7 +441,9 @@ public partial class SettingsPageViewModel : ViewModelBase
             Logger.Error<SettingsPageViewModel>("Failed to change HighCoreCountFix tweak");
             Logger.LogExceptionDetails<SettingsPageViewModel>(ex);
             IsHighCoreCountFixEnabled = oldValue;
-            _messageBoxService.ShowErrorAsync("Error changing HighCoreCountFix (AltairFix)", "An error occurred while changing HighCoreCountFix.");
+            _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorChangingHighCoreCountFixTitle"),
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorChangingHighCoreCountFixMessage"));
             return;
         }
         Logger.Debug<SettingsPageViewModel>($"High Core Count Fix: {oldValue} -> {newValue}");
@@ -408,7 +467,9 @@ public partial class SettingsPageViewModel : ViewModelBase
             Logger.LogExceptionDetails<SettingsPageViewModel>(ex);
             SelectedWindowModeIndex = oldValue;
             IsCustomResolutionMode = newValue == 2;
-            _messageBoxService.ShowErrorAsync("Error changing Window Mode (AltairFix)", "An error occurred while changing Window Mode.");
+            _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorChangingWindowModeTitle"),
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorChangingWindowModeMessage"));
             return;
         }
         Logger.Debug<SettingsPageViewModel>($"Window Mode: {WindowModes[oldValue]} -> {WindowModes[newValue]}");
@@ -430,7 +491,9 @@ public partial class SettingsPageViewModel : ViewModelBase
             Logger.Error<SettingsPageViewModel>("Failed to change Window Width tweak");
             Logger.LogExceptionDetails<SettingsPageViewModel>(ex);
             SelectedWidth = oldValue;
-            _messageBoxService.ShowErrorAsync("Error changing Window Width (AltairFix)", "An error occurred while changing Window Width.");
+            _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorChangingWindowWidthTitle"),
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorChangingWindowWidthMessage"));
             return;
         }
         Logger.Debug<SettingsPageViewModel>($"Window Width: {oldValue} -> {newValue}");
@@ -452,7 +515,9 @@ public partial class SettingsPageViewModel : ViewModelBase
             Logger.Error<SettingsPageViewModel>("Failed to change Window Height tweak");
             Logger.LogExceptionDetails<SettingsPageViewModel>(ex);
             SelectedHeight = oldValue;
-            _messageBoxService.ShowErrorAsync("Error changing Window Height (AltairFix)", "An error occurred while changing Window Height.");
+            _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorChangingWindowHeightTitle"),
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorChangingWindowHeightMessage"));
             return;
         }
         Logger.Debug<SettingsPageViewModel>($"Window Height: {oldValue} -> {newValue}");
@@ -473,7 +538,9 @@ public partial class SettingsPageViewModel : ViewModelBase
                 _suppressUpdates = true;
                 IsEaglePatchEnabled = false;
                 _suppressUpdates = false;
-                _messageBoxService.ShowErrorAsync("EaglePatch Not Found", "EaglePatchAC1.asi couldn't be found. This could mean a corrupted EaglePatch installation.");
+                _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.EaglePatchNotFoundTitle"),
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.EaglePatchNotFoundMessage"));
                 return;
             }
         }
@@ -482,7 +549,9 @@ public partial class SettingsPageViewModel : ViewModelBase
             Logger.Error<SettingsPageViewModel>("Failed to toggle EaglePatch state");
             Logger.LogExceptionDetails<SettingsPageViewModel>(ex);
             IsEaglePatchEnabled = oldValue;
-            _messageBoxService.ShowErrorAsync("Error toggling EaglePatch", "An error occurred while toggling EaglePatch. Please check file permissions.");
+            _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorTogglingEaglePatchTitle"),
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorTogglingEaglePatchMessage"));
             return;
         }
         Logger.Debug<SettingsPageViewModel>($"EaglePatch: {oldValue} -> {newValue}");
@@ -504,7 +573,9 @@ public partial class SettingsPageViewModel : ViewModelBase
             Logger.Error<SettingsPageViewModel>("Failed to change Keyboard Layout tweak");
             Logger.LogExceptionDetails<SettingsPageViewModel>(ex);
             SelectedWindowModeIndex = oldValue;
-            _messageBoxService.ShowErrorAsync("Error changing Keyboard Layout (EaglePatch)", "An error occurred while changing Keyboard Layout.");
+            _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorChangingKeyboardLayoutTitle"),
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorChangingKeyboardLayoutMessage"));
             return;
         }
         Logger.Debug<SettingsPageViewModel>($"Keyboard Layout: {oldValue} -> {newValue}");
@@ -526,7 +597,9 @@ public partial class SettingsPageViewModel : ViewModelBase
             Logger.Error<SettingsPageViewModel>("Failed to change IsPs3ControlsEnabled tweak");
             Logger.LogExceptionDetails<SettingsPageViewModel>(ex);
             IsPs3ControlsEnabled = oldValue;
-            _messageBoxService.ShowErrorAsync("Error changing IsPs3ControlsEnabled (EaglePatch)", "An error occurred while changing IsPs3ControlsEnabled.");
+            _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorChangingIsPs3ControlsEnabledTitle"),
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorChangingIsPs3ControlsEnabledMessage"));
             return;
         }
         Logger.Debug<SettingsPageViewModel>($"PS3 Controls: {oldValue} -> {newValue}");
@@ -548,10 +621,43 @@ public partial class SettingsPageViewModel : ViewModelBase
             Logger.Error<SettingsPageViewModel>("Failed to change IsSkipIntroVideoEnabled tweak");
             Logger.LogExceptionDetails<SettingsPageViewModel>(ex);
             IsSkipIntroVideoEnabled = oldValue;
-            _messageBoxService.ShowErrorAsync("Error changing IsSkipIntroVideoEnabled (EaglePatch)", "An error occurred while changing IsSkipIntroVideoEnabled.");
+            _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorChangingIsSkipIntroVideoEnabledTitle"),
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorChangingIsSkipIntroVideoEnabledMessage"));
             return;
         }
         Logger.Debug<SettingsPageViewModel>($"Skip Intro Videos: {oldValue} -> {newValue}");
+    }
+
+    partial void OnSelectedLanguageIndexChanged(int oldValue, int newValue)
+    {
+        if (_suppressUpdates || newValue < 0 || newValue >= AppLanguages.Count)
+        {
+            return;
+        }
+        try
+        {
+            CultureInfo selectedCulture = AppLanguages[newValue];
+            SelectedLanguage = selectedCulture;
+
+            // Change the application language
+            LocalizationHelper.LoadLanguage(selectedCulture.Name);
+
+            // Save the selected language to settings
+            _settings.Settings.Core.Language = selectedCulture.Name;
+            _settings.SaveSettings();
+        }
+        catch (Exception ex)
+        {
+            Logger.Error<SettingsPageViewModel>("Failed to change language setting");
+            Logger.LogExceptionDetails<SettingsPageViewModel>(ex);
+            SelectedLanguageIndex = oldValue;
+            _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorChangingLanguageTitle"),
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorChangingLanguageMessage"));
+            return;
+        }
+        Logger.Debug<SettingsPageViewModel>($"Language: {oldValue} -> {newValue}");
     }
 
     partial void OnLoggingLevelChanged(int oldValue, int newValue)
@@ -570,7 +676,9 @@ public partial class SettingsPageViewModel : ViewModelBase
             Logger.Error<SettingsPageViewModel>("Failed to change Logging Level setting");
             Logger.LogExceptionDetails<SettingsPageViewModel>(ex);
             LoggingLevel = oldValue;
-            _messageBoxService.ShowErrorAsync("Error changing Logging Level", "An error occurred while changing Logging Level.");
+            _messageBoxService.ShowErrorAsync(
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorChangingLoggingLevelTitle"),
+                LocalizationHelper.GetText("SettingsPage.ErrorMessage.ErrorChangingLoggingLevelMessage"));
             return;
         }
         Logger.Debug<SettingsPageViewModel>($"Logging Level: {oldValue} -> {newValue}");

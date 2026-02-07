@@ -25,19 +25,19 @@
                              ItemInvoked="NavView_OnItemInvoked">
         <!-- Navigation Items -->
         <controls:NavigationView.MenuItems>
-            <controls:NavigationViewItem Content="Play" Tag="Play" IsEnabled="{Binding FirstSetup}">
+            <controls:NavigationViewItem Content="{DynamicResource MainView.Navigation.Play}" Tag="Play" IsEnabled="{Binding FirstSetup}">
                 <controls:NavigationViewItem.IconSource>
                     <ic:SymbolIconSource Symbol="Play" />
                 </controls:NavigationViewItem.IconSource>
             </controls:NavigationViewItem>
 
-            <controls:NavigationViewItem Content="Settings" Tag="Settings" IsEnabled="{Binding FirstSetup}">
+            <controls:NavigationViewItem Content="{DynamicResource MainView.Navigation.Settings}" Tag="Settings" IsEnabled="{Binding FirstSetup}">
                 <controls:NavigationViewItem.IconSource>
                     <ic:SymbolIconSource Symbol="Settings" />
                 </controls:NavigationViewItem.IconSource>
             </controls:NavigationViewItem>
 
-            <controls:NavigationViewItem Content="Manage" Tag="Manage" IsEnabled="{Binding FirstSetup}">
+            <controls:NavigationViewItem Content="{DynamicResource MainView.Navigation.Manage}" Tag="Manage" IsEnabled="{Binding FirstSetup}">
                 <controls:NavigationViewItem.IconSource>
                     <ic:SymbolIconSource Symbol="Apps" />
                 </controls:NavigationViewItem.IconSource>
@@ -45,12 +45,12 @@
         </controls:NavigationView.MenuItems>
 
         <controls:NavigationView.FooterMenuItems>
-            <controls:NavigationViewItem Content="Credits" Tag="Credits" IsEnabled="{Binding FirstSetup}">
+            <controls:NavigationViewItem Content="{DynamicResource MainView.Navigation.Credits}" Tag="Credits" IsEnabled="{Binding FirstSetup}">
                 <controls:NavigationViewItem.IconSource>
                     <ic:SymbolIconSource Symbol="ContactCard" />
                 </controls:NavigationViewItem.IconSource>
             </controls:NavigationViewItem>
-            <controls:NavigationViewItem Content="Donate" Tag="Donate" SelectsOnInvoked="False">
+            <controls:NavigationViewItem Content="{DynamicResource MainView.Navigation.Donate}" Tag="Donate" SelectsOnInvoked="False">
                 <controls:NavigationViewItem.IconSource>
                     <ic:SymbolIconSource Symbol="Heart" />
                 </controls:NavigationViewItem.IconSource>

@@ -11,7 +11,7 @@
                   x:Class="AnimusReforged.Altair.Views.MainWindow"
                   x:DataType="vm:MainWindowViewModel"
                   Icon="/Assets/icon.ico"
-                  Title="Animus Reforged (Altair)"
+                  Title="{DynamicResource MainWindow.Title}"
                   IsEnabled="{Binding DisableWindow, Converter={StaticResource InverseBoolConverter}}">
 
     <Design.DataContext>
@@ -21,11 +21,11 @@
     <Panel>
         <views:MainView />
         <controls:InfoBar HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                         IsOpen="{Binding HasUpdateNotifications}"
-                         Message="{Binding UpdateNotificationMessage}"
-                         Severity="Informational"
-                         IsClosable="True"
-                         CloseButtonClick="UpdateNotification_CloseButtonClick"
-                         Background="#ff1e1e1e" />
+                          IsOpen="{Binding HasUpdateNotifications}"
+                          Message="{Binding UpdateNotificationMessage}"
+                          Severity="Informational"
+                          IsClosable="True"
+                          CloseButtonClick="UpdateNotification_CloseButtonClick"
+                          Background="#ff1e1e1e" />
     </Panel>
 </window:AppWindow>

@@ -6,6 +6,7 @@ using AnimusReforged.Altair.ViewModels;
 using AnimusReforged.Altair.Views.Pages;
 using AnimusReforged.Logging;
 using AnimusReforged.Settings;
+using AnimusReforged.Utilities;
 using FluentAvalonia.UI.Controls;
 using FluentAvalonia.UI.Media.Animation;
 using Microsoft.Extensions.DependencyInjection;
@@ -113,9 +114,11 @@ public class NavigationService
                 break;
             case "Donate":
                 IMessageBoxService messageBoxService = App.Services.GetRequiredService<IMessageBoxService>();
-                ContentDialogResult result = await messageBoxService.ShowCustomDialogAsync("Confirmation",
-                    "Donations are and will always be optional.\nEverything made by me on my own in my spare time will always be free and fully open source.\nDon't donate unless you can really afford it and don't donate your parents money without them knowing.\nDonations are NOT refundable.",
-                    "Continue", "Cancel");
+                ContentDialogResult result = await messageBoxService.ShowCustomDialogAsync(
+                    LocalizationHelper.GetText("NavigationService.DonateConfirmationTitle"),
+                    LocalizationHelper.GetText("NavigationService.DonateConfirmationMessage"),
+                    LocalizationHelper.GetText("NavigationService.DonatePrimaryButtonText"),
+                    LocalizationHelper.GetText("NavigationService.DonateSecondaryButtonText"));
                 if (result == ContentDialogResult.Primary)
                 {
                     Process.Start(new ProcessStartInfo
