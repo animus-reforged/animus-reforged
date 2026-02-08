@@ -126,7 +126,8 @@
                             <ComboBox ItemsSource="{Binding AvailableMods}"
                                       SelectedItem="{Binding SelectedMod}"
                                       Width="200"
-                                      HorizontalAlignment="Left">
+                                      HorizontalAlignment="Left"
+                                      VerticalAlignment="Center">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Converter={StaticResource ModIdentifierConverter}}" />

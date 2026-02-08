@@ -233,6 +233,7 @@
                                 <ComboBox Grid.Column="2"
                                           ItemsSource="{Binding WindowModes}"
                                           SelectedIndex="{Binding SelectedWindowModeIndex}"
+                                          VerticalAlignment="Center"
                                           MinWidth="100" />
                             </Grid>
                         </Expander.Header>
