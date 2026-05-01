@@ -1,0 +1,241 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <!-- Main Window -->
+    <sys:String x:Key="MainWindow.Title">Animus Reforged v{0}</sys:String>
+
+    <!-- Main View -->
+    <sys:String x:Key="MainView.Navigation.Play">启动</sys:String>
+    <sys:String x:Key="MainView.Navigation.Settings">设置</sys:String>
+    <sys:String x:Key="MainView.Navigation.Manage">管理</sys:String>
+    <sys:String x:Key="MainView.Navigation.Credits">鸣谢</sys:String>
+    <sys:String x:Key="MainView.Navigation.Donate">捐赠</sys:String>
+    <sys:String x:Key="MainView.MissingExecutable.Title">未找到游戏可执行文件。</sys:String>
+    <sys:String x:Key="MainView.MissingExecutable.Text">请确认你已安装游戏，并且游戏可执行文件与 {0} 位于同一个游戏文件夹中。</sys:String>
+
+    <!-- Welcome Page -->
+    <sys:String x:Key="WelcomePage.Header.Title">欢迎使用 Animus Reforged</sys:String>
+    <sys:String x:Key="WelcomePage.Header.Description">《刺客信条》终极增强套件</sys:String>
+
+    <!-- Welcome Page - Features Section -->
+    <sys:String x:Key="WelcomePage.Features.Header">功能特性</sys:String>
+    <sys:String x:Key="WelcomePage.Features.Description">Animus Reforged 提供的功能</sys:String>
+    <sys:String x:Key="WelcomePage.Features.TextureModding">通过 uMod 支持纹理 Mod</sys:String>
+    <sys:String x:Key="WelcomePage.Features.PostProcessing">通过 ReShade 添加后处理效果</sys:String>
+    <sys:String x:Key="WelcomePage.Features.CommunityPatches">社区补丁与修复</sys:String>
+
+    <!-- Welcome Page - Installation Section -->
+    <sys:String x:Key="WelcomePage.Installation.Header">安装</sys:String>
+    <sys:String x:Key="WelcomePage.Installation.Description">下载并安装所需组件</sys:String>
+    <sys:String x:Key="WelcomePage.Installation.Button">安装</sys:String>
+
+    <!-- Welcome Page - Status Messages -->
+    <sys:String x:Key="WelcomePage.Status.DownloadingModsList">正在下载 Mod 列表</sys:String>
+    <sys:String x:Key="WelcomePage.Status.DownloadingAsiLoader">正在下载 ASI Loader</sys:String>
+    <sys:String x:Key="WelcomePage.Status.InstallingAsiLoader">正在安装 ASI Loader</sys:String>
+    <sys:String x:Key="WelcomePage.Status.DownloadingEaglePatch">正在下载 EaglePatch Mod</sys:String>
+    <sys:String x:Key="WelcomePage.Status.InstallingEaglePatch">正在安装 EaglePatch Mod</sys:String>
+    <sys:String x:Key="WelcomePage.Status.DownloadingAltairFix">正在下载 AltairFix</sys:String>
+    <sys:String x:Key="WelcomePage.Status.InstallingAltairFix">正在安装 AltairFix</sys:String>
+    <sys:String x:Key="WelcomePage.Status.DownloadingReShade">正在下载 ReShade</sys:String>
+    <sys:String x:Key="WelcomePage.Status.InstallingReShade">正在安装 ReShade</sys:String>
+    <sys:String x:Key="WelcomePage.Status.DownloadingUMod">正在下载 uMod</sys:String>
+    <sys:String x:Key="WelcomePage.Status.InstallingUMod">正在安装 uMod</sys:String>
+    <sys:String x:Key="WelcomePage.Status.DownloadingOverhaul">正在下载 Overhaul Mod</sys:String>
+    <sys:String x:Key="WelcomePage.Status.InstallingOverhaul">正在安装 Overhaul Mod</sys:String>
+    <sys:String x:Key="WelcomePage.Status.SettingUpUMod">正在设置 uMod 与 Overhaul Mod</sys:String>
+    <sys:String x:Key="WelcomePage.Status.Applying4gbPatch">正在应用 4GB 补丁（Large Address Aware）</sys:String>
+
+    <!-- Welcome Page - Message Box Titles -->
+    <sys:String x:Key="WelcomePage.MessageBox.InstallationCompletedTitle">安装完成！</sys:String>
+    <sys:String x:Key="WelcomePage.MessageBox.InstallationFailedTitle">安装失败</sys:String>
+
+    <!-- Welcome Page - Message Box Messages -->
+    <sys:String x:Key="WelcomePage.MessageBox.InstallationCompletedMessage">Animus Reforged 已成功安装！</sys:String>
+    <sys:String x:Key="WelcomePage.MessageBox.InstallationFailedMessage">安装过程中发生错误：{0}&#10;请查看日志以获取更多详细信息。</sys:String>
+
+    <!-- Settings Page -->
+    <!-- uMod -->
+    <sys:String x:Key="SettingsPage.uMod.Title">uMod</sys:String>
+    <sys:String x:Key="SettingsPage.uMod.Description">启用纹理修改支持</sys:String>
+    <sys:String x:Key="SettingsPage.uMod.EnabledMods.Title">已启用的 Mod</sys:String>
+    <sys:String x:Key="SettingsPage.uMod.EnabledMods.Description">当前启用的修改内容</sys:String>
+    <sys:String x:Key="SettingsPage.uMod.DisabledMods.Title">已禁用的 Mod</sys:String>
+    <sys:String x:Key="SettingsPage.uMod.DisabledMods.Description">已存在但未启用的 Mod</sys:String>
+    <sys:String x:Key="SettingsPage.uMod.AddMod.Tooltip">添加 Mod</sys:String>
+    <sys:String x:Key="SettingsPage.uMod.MoveUp.Tooltip">上移</sys:String>
+    <sys:String x:Key="SettingsPage.uModMoveDown.Tooltip">下移</sys:String>
+    <sys:String x:Key="SettingsPage.uMod.EnableMod.Tooltip">启用此 Mod</sys:String>
+    <sys:String x:Key="SettingsPage.uMod.DisableMod.Tooltip">禁用此 Mod</sys:String>
+    <sys:String x:Key="SettingsPage.uMod.DeleteMod.Tooltip">从电脑中删除此 Mod</sys:String>
+
+    <!-- ReShade -->
+    <sys:String x:Key="SettingsPage.ReShade.Title">ReShade</sys:String>
+    <sys:String x:Key="SettingsPage.ReShade.Description">启用后处理效果</sys:String>
+
+    <!-- AltairFix -->
+    <sys:String x:Key="SettingsPage.AltairFix.Title">AltairFix</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.Description">与性能和体验改进相关的额外补丁与修复</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.StutterFix.Title">卡顿修复</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.StutterFix.Description">修改游戏可执行文件和 hosts 文件，以忽略 Ubisoft 服务器</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.HighCoreCountFix.Title">高核心数修复</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.HighCoreCountFix.Description">修复游戏无法在 32 核 CPU 上启动的问题</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.WindowMode.Title">窗口模式</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.WindowMode.Description">选择游戏窗口模式</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.WindowedMode.Option.Fullscreen">全屏</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.WindowedMode.Option.Borderless">无边框</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.WindowedMode.Option.Windowed">窗口化</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.WindowedMode.WindowWidth.Title">宽度</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.WindowedMode.WindowWidth.Description">窗口宽度（仅窗口化模式）</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.WindowedMode.WindowHeight.Title">高度</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.WindowedMode.WindowHeight.Description">窗口高度（仅窗口化模式）</sys:String>
+
+    <!-- EaglePatch -->
+    <sys:String x:Key="SettingsPage.EaglePatch.Title">EaglePatch</sys:String>
+    <sys:String x:Key="SettingsPage.EaglePatch.Description">通用补丁与修复</sys:String>
+    <sys:String x:Key="SettingsPage.EaglePatch.KeyboardLayout.Title">键盘布局</sys:String>
+    <sys:String x:Key="SettingsPage.EaglePatch.KeyboardLayout.Description">选择键盘布局</sys:String>
+    <sys:String x:Key="SettingsPage.EaglePatch.PS3Controls.Title">PS3 控制方式</sys:String>
+    <sys:String x:Key="SettingsPage.EaglePatch.PS3Controls.Description">交换扳机键与肩键，以使用 PS3 风格控制方式</sys:String>
+    <sys:String x:Key="SettingsPage.EaglePatch.SkipIntroVideos.Title">跳过开场视频</sys:String>
+    <sys:String x:Key="SettingsPage.EaglePatch.SkipIntroVideos.Description">自动跳过启动视频</sys:String>
+
+    <!-- Launcher Settings -->
+    <sys:String x:Key="SettingsPage.Launcher.Title">启动器设置</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.Description">启动器配置选项</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.Language.Title">应用语言</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.Language.Description">选择菜单、按钮和设置中显示的语言</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Title">日志级别</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Description">设置应用日志的详细程度</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Off">关闭</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Fatal">致命</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Error">错误</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Warn">警告</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Info">信息</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Debug">调试</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Trace">跟踪</sys:String>
+
+    <!-- Manage Page-->
+    <sys:String x:Key="ManagePage.DownloadProgress.Title">下载进度</sys:String>
+    <sys:String x:Key="ManagePage.CheckForModUpdates.Title">检查 Mod 更新</sys:String>
+    <sys:String x:Key="ManagePage.CheckForModUpdates.Button.Tooltip">手动检查 Mod 更新</sys:String>
+    <sys:String x:Key="ManagePage.CheckForModUpdates.UpdateButton.Text">更新</sys:String>
+    <sys:String x:Key="ManagePage.CheckForModUpdates.UpdateButton.Tooltip">更新</sys:String>
+    <sys:String x:Key="ManagePage.RedownloadMod.Title">重新下载 Mod</sys:String>
+    <sys:String x:Key="ManagePage.RedownloadMod.Description">选择要重新下载并重新安装的 Mod</sys:String>
+    <sys:String x:Key="ManagePage.FixuModPaths.Title">修复 uMod 路径</sys:String>
+    <sys:String x:Key="ManagePage.FixuModPaths.Description">修复 uMod 用于加载图形 Mod 的路径</sys:String>
+    <sys:String x:Key="ManagePage.Uninstall.Title">卸载</sys:String>
+    <sys:String x:Key="ManagePage.Uninstall.Description">移除 Animus Reforged 使用的所有 Mod</sys:String>
+
+    <!-- Manage Page - Download Status Messages -->
+    <sys:String x:Key="ManagePage.DownloadStatus.Waiting">等待下载...</sys:String>
+    <sys:String x:Key="ManagePage.DownloadStatus.CheckingUpdates">正在检查更新...</sys:String>
+    <sys:String x:Key="ManagePage.DownloadStatus.NoUpdates">没有可用更新</sys:String>
+    <sys:String x:Key="ManagePage.DownloadStatus.UpdatesAvailable">有 {0} 个更新可用</sys:String>
+    <sys:String x:Key="ManagePage.DownloadStatus.ErrorChecking">检查更新时出错</sys:String>
+    <sys:String x:Key="ManagePage.DownloadStatus.UpdatingMod">正在更新 {0}...</sys:String>
+    <sys:String x:Key="ManagePage.DownloadStatus.RedownloadingMod">正在重新下载 {0}...</sys:String>
+    <sys:String x:Key="ManagePage.DownloadStatus.ModUpdatedSuccessfully">{0} 已成功更新！</sys:String>
+    <sys:String x:Key="ManagePage.DownloadStatus.ModRedownloadedSuccessfully">{0} 已成功重新下载！</sys:String>
+    <sys:String x:Key="ManagePage.DownloadStatus.ErrorUpdating">更新 {0} 时出错</sys:String>
+    <sys:String x:Key="ManagePage.DownloadStatus.ErrorRedownloading">重新下载 {0} 时出错</sys:String>
+
+    <!-- Manage Page - Update Check Status Messages -->
+    <sys:String x:Key="ManagePage.UpdateCheckStatus.NoUpdates">没有可用更新</sys:String>
+    <sys:String x:Key="ManagePage.UpdateCheckStatus.UpdatesAvailable">有 {0} 个更新可用。点击查看更多信息</sys:String>
+    <sys:String x:Key="ManagePage.UpdateCheckStatus.ErrorChecking">检查更新时出错</sys:String>
+
+    <!-- Manage Page - Message Box Titles -->
+    <sys:String x:Key="ManagePage.MessageBox.UpdateCheckTitle">更新检查</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.UpdateCheckFailedTitle">更新检查失败</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.UpdateSuccessfulTitle">更新成功</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.UpdateFailedTitle">更新失败</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.NoModSelectedTitle">未选择 Mod</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.RedownloadSuccessfulTitle">重新下载成功</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.RedownloadFailedTitle">重新下载失败</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.SuccessTitle">成功</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.FailureTitle">失败</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.ConfirmationTitle">确认</sys:String>
+
+    <!-- Manage Page - Message Box Messages -->
+    <sys:String x:Key="ManagePage.MessageBox.UpdateCheckErrorMessage">检查更新时发生错误：{0}</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.UpdateSuccessfulMessage">{0} 已更新到版本 {1}！</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.UpdateFailedMessage">更新 {0} 时发生错误：{1}</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.NoModSelectedMessage">请选择一个要重新下载的 Mod。</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.RedownloadSuccessfulMessage">{0} 已成功重新下载并安装！</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.RedownloadFailedMessage">重新下载 {0} 时发生错误：{1}</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.InvalidExecutablePathMessage">无效的游戏可执行文件路径</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.UmodPathsSuccessMessage">uMod 路径已重新创建。</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.UninstallConfirmationMessage">你确定要移除 Animus Reforged 吗？&#10;这会移除所有内容，并将 Animus Reforged 重置为首次设置状态。</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.UninstallAsiLoaderFailedMessage">卸载 ASI Loader &amp; Mod 失败</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.UninstallUmodConfirmationMessage">你要移除 uMod 配置文件夹吗？</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.UninstallUmodFailedMessage">卸载 uMod 失败</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.RestoreExecutableFailedMessage">还原原始游戏可执行文件失败</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.ResetConfigFailedMessage">重置配置文件失败</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.UninstallSuccessMessage">Animus Reforged 已成功卸载！&#10;现在你可以删除 Animus Reforged 可执行文件了。</sys:String>
+
+    <!-- Credits Page -->
+    <sys:String x:Key="CreditsPage.uMod.Title">uMod 工具</sys:String>
+    <sys:String x:Key="CreditsPage.uMod.Description">用于支持纹理修改</sys:String>
+    <sys:String x:Key="CreditsPage.Overhaul.Title">hecumarine</sys:String>
+    <sys:String x:Key="CreditsPage.Overhaul.Description">感谢其制作 Overhaul Mod</sys:String>
+    <sys:String x:Key="CreditsPage.EaglePatch.Title">Sergeanur</sys:String>
+    <sys:String x:Key="CreditsPage.EaglePatch.Description">感谢其制作 EaglePatch</sys:String>
+    <sys:String x:Key="CreditsPage.ReShadeTool.Title">crosire</sys:String>
+    <sys:String x:Key="CreditsPage.ReShadeTool.Description">感谢其制作 ReShade</sys:String>
+    <sys:String x:Key="CreditsPage.ReShadePreset.Title">Ciocolici</sys:String>
+    <sys:String x:Key="CreditsPage.ReShadePreset.Description">感谢其提供 ReShade 预设</sys:String>
+    <sys:String x:Key="CreditsPage.Background.Title">Claudio</sys:String>
+    <sys:String x:Key="CreditsPage.Background.Description">感谢其放大背景图像</sys:String>
+    <sys:String x:Key="CreditsPage.Icon.Title">ArteF4ct</sys:String>
+    <sys:String x:Key="CreditsPage.Icon.Description">感谢其提供用作图标的 Animus 标志</sys:String>
+
+    <!-- MessageBox Service -->
+    <sys:String x:Key="MessageBox.OK">确定</sys:String>
+    <sys:String x:Key="MessageBox.Yes">是</sys:String>
+    <sys:String x:Key="MessageBox.No">否</sys:String>
+    <sys:String x:Key="MessageBox.Cancel">取消</sys:String>
+
+    <!-- Settings Page - Error Messages -->
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingIsuModEnabledTitle">更改 IsuModEnabled 时出错</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingIsuModEnabledMessage">更改 IsuModEnabled 时发生错误。</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ReShadeNotFoundTitle">未找到 ReShade</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ReShadeNotFoundMessage">找不到 ReShade.asi。这可能表示 ReShade 安装已损坏。</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorTogglingReShadeTitle">切换 ReShade 时出错</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorTogglingReShadeMessage">切换 ReShade 时发生错误。请检查文件权限。</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.AltairFixNotFoundTitle">未找到 AltairFix</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.AltairFixNotFoundMessage">找不到 AltairFix.asi。这可能表示 AltairFix 安装已损坏。</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorTogglingAltairFixTitle">切换 AltairFix 时出错</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorTogglingAltairFixMessage">切换 AltairFix 时发生错误。请检查文件权限。</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingServerBlockerTitle">更改 ServerBlocker（AltairFix）时出错</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingServerBlockerMessage">更改 ServerBlocker 时发生错误。</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingHighCoreCountFixTitle">更改 HighCoreCountFix（AltairFix）时出错</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingHighCoreCountFixMessage">更改 HighCoreCountFix 时发生错误。</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingWindowModeTitle">更改窗口模式（AltairFix）时出错</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingWindowModeMessage">更改窗口模式时发生错误。</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingWindowWidthTitle">更改窗口宽度（AltairFix）时出错</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingWindowWidthMessage">更改窗口宽度时发生错误。</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingWindowHeightTitle">更改窗口高度（AltairFix）时出错</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingWindowHeightMessage">更改窗口高度时发生错误。</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.EaglePatchNotFoundTitle">未找到 EaglePatch</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.EaglePatchNotFoundMessage">找不到 EaglePatchAC1.asi。这可能表示 EaglePatch 安装已损坏。</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorTogglingEaglePatchTitle">切换 EaglePatch 时出错</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorTogglingEaglePatchMessage">切换 EaglePatch 时发生错误。请检查文件权限。</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingKeyboardLayoutTitle">更改键盘布局（EaglePatch）时出错</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingKeyboardLayoutMessage">更改键盘布局时发生错误。</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingIsPs3ControlsEnabledTitle">更改 IsPs3ControlsEnabled（EaglePatch）时出错</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingIsPs3ControlsEnabledMessage">更改 IsPs3ControlsEnabled 时发生错误。</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingIsSkipIntroVideoEnabledTitle">更改 IsSkipIntroVideoEnabled（EaglePatch）时出错</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingIsSkipIntroVideoEnabledMessage">更改 IsSkipIntroVideoEnabled 时发生错误。</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingLanguageTitle">更改应用语言时出错</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingLanguageMessage">更改应用语言时发生错误。</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingLoggingLevelTitle">更改日志级别时出错</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingLoggingLevelMessage">更改日志级别时发生错误。</sys:String>
+
+    <!-- Navigation Service -->
+    <sys:String x:Key="NavigationService.DonateConfirmationTitle">确认</sys:String>
+    <sys:String x:Key="NavigationService.DonateConfirmationMessage">捐赠现在是、以后也永远是自愿的。&#10;我利用业余时间独立制作的所有内容都将始终免费并完全开源。&#10;除非你真的负担得起，否则不要捐赠；也不要在父母不知情的情况下使用他们的钱捐赠。&#10;捐赠不可退款。</sys:String>
+    <sys:String x:Key="NavigationService.DonatePrimaryButtonText">继续</sys:String>
+    <sys:String x:Key="NavigationService.DonateSecondaryButtonText">取消</sys:String>
+</ResourceDictionary>
