@@ -1,0 +1,237 @@
+﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <!-- Main Window -->
+    <sys:String x:Key="MainWindow.Title">Animus Reforged v{0}</sys:String>
+
+    <!-- Main View -->
+    <sys:String x:Key="MainView.Navigation.Play">Играть</sys:String>
+    <sys:String x:Key="MainView.Navigation.Settings">Настройки</sys:String>
+    <sys:String x:Key="MainView.Navigation.Manage">Управлять</sys:String>
+    <sys:String x:Key="MainView.Navigation.Credits">Благодарности</sys:String>
+    <sys:String x:Key="MainView.Navigation.Donate">Пожертвования</sys:String>
+    <sys:String x:Key="MainView.MissingExecutable.Title">Исполняемый файл игры не найден.</sys:String>
+    <sys:String x:Key="MainView.MissingExecutable.Text">Пожалуйста удостоверьтесь что игра установлена и исполняемый файл программы находятся в папке игры рядом с {0}.</sys:String>
+
+    <!-- Welcome Page -->
+    <sys:String x:Key="WelcomePage.Header.Title">Добро пожаловать в Animus Reforged</sys:String>
+    <sys:String x:Key="WelcomePage.Header.Description">Набор улучшений Assassin's Creed</sys:String>
+
+    <!-- Welcome Page - Features Section -->
+    <sys:String x:Key="WelcomePage.Features.Header">Возможности</sys:String>
+    <sys:String x:Key="WelcomePage.Features.Description">Что Animus Reforged предлагает</sys:String>
+    <sys:String x:Key="WelcomePage.Features.TextureModding">Поддержка изменения текстур посредством uMod</sys:String>
+    <sys:String x:Key="WelcomePage.Features.PostProcessing">Эффекты пост-обработки посредством ReShade</sys:String>
+    <sys:String x:Key="WelcomePage.Features.CommunityPatches">Патчи и исправления от сообщества</sys:String>
+
+    <!-- Welcome Page - Installation Section -->
+    <sys:String x:Key="WelcomePage.Installation.Header">Установка</sys:String>
+    <sys:String x:Key="WelcomePage.Installation.Description">Установить и загрузить необходимые компоненты</sys:String>
+    <sys:String x:Key="WelcomePage.Installation.Button">Установить</sys:String>
+
+    <!-- Welcome Page - Status Messages -->
+    <sys:String x:Key="WelcomePage.Status.DownloadingModsList">Скачивание модов</sys:String>
+    <sys:String x:Key="WelcomePage.Status.DownloadingAsiLoader">Скачивание загрузчика ASI</sys:String>
+    <sys:String x:Key="WelcomePage.Status.InstallingAsiLoader">Установка загрузка ASI Loader</sys:String>
+    <sys:String x:Key="WelcomePage.Status.DownloadingEaglePatch">Скачивание мода EaglePatch</sys:String>
+    <sys:String x:Key="WelcomePage.Status.InstallingEaglePatch">Установка мода EaglePatch</sys:String>
+    <sys:String x:Key="WelcomePage.Status.DownloadingAltairFix">Скачивание мода AltairFix</sys:String>
+    <sys:String x:Key="WelcomePage.Status.InstallingAltairFix">Установка мода AltairFix</sys:String>
+    <sys:String x:Key="WelcomePage.Status.DownloadingReShade">Скачивание ReShade</sys:String>
+    <sys:String x:Key="WelcomePage.Status.InstallingReShade">Уставновка ReShade</sys:String>
+    <sys:String x:Key="WelcomePage.Status.DownloadingUMod">Скачивание uMod</sys:String>
+    <sys:String x:Key="WelcomePage.Status.InstallingUMod">Установка uMod</sys:String>
+    <sys:String x:Key="WelcomePage.Status.DownloadingOverhaul">Скачивание Overhaul mod</sys:String>
+    <sys:String x:Key="WelcomePage.Status.InstallingOverhaul">Установка Overhaul mod</sys:String>
+    <sys:String x:Key="WelcomePage.Status.SettingUpUMod">Настройка uMod и Overhaul mod</sys:String>
+    <sys:String x:Key="WelcomePage.Status.Applying4gbPatch">Применение 4ГБ патча (Large Address Aware)</sys:String>
+
+    <!-- Welcome Page - Message Box Titles -->
+    <sys:String x:Key="WelcomePage.MessageBox.InstallationCompletedTitle">Установка завершена!</sys:String>
+    <sys:String x:Key="WelcomePage.MessageBox.InstallationFailedTitle">Установка провалилась</sys:String>
+
+    <!-- Welcome Page - Message Box Messages -->
+    <sys:String x:Key="WelcomePage.MessageBox.InstallationCompletedMessage">AnimusReforged был успешно установлен!</sys:String>
+    <sys:String x:Key="WelcomePage.MessageBox.InstallationFailedMessage">Во время установки произошла ошибка: {0}&#10;Пожалуйста проверьте логи для подробностей.</sys:String>
+
+    <!-- Settings Page -->
+    <!-- uMod -->
+    <sys:String x:Key="SettingsPage.uMod.Title">uMod</sys:String>
+    <sys:String x:Key="SettingsPage.uMod.Description">Включить поддержку изменений текстур</sys:String>
+    <sys:String x:Key="SettingsPage.uMod.EnabledMods.Title">Включённые модификации</sys:String>
+    <sys:String x:Key="SettingsPage.uMod.EnabledMods.Description">Модификации которые сейчас активны</sys:String>
+    <sys:String x:Key="SettingsPage.uMod.DisabledMods.Title">Выключенные модификации</sys:String>
+    <sys:String x:Key="SettingsPage.uMod.DisabledMods.Description">Модификации которые установлены, но выключены</sys:String>
+    <sys:String x:Key="SettingsPage.uMod.AddMod.Tooltip">Добавить модификацию</sys:String>
+    <sys:String x:Key="SettingsPage.uMod.MoveUp.Tooltip">Переместить выше</sys:String>
+    <sys:String x:Key="SettingsPage.uModMoveDown.Tooltip">Переместить ниже</sys:String>
+    <sys:String x:Key="SettingsPage.uMod.EnableMod.Tooltip">Включить модификацию</sys:String>
+    <sys:String x:Key="SettingsPage.uMod.DisableMod.Tooltip">Выключить модификацию</sys:String>
+    <sys:String x:Key="SettingsPage.uMod.DeleteMod.Tooltip">Удалить модификацию с ПК</sys:String>
+    <!-- ReShade -->
+    <sys:String x:Key="SettingsPage.ReShade.Title">ReShade</sys:String>
+    <sys:String x:Key="SettingsPage.ReShade.Description">Включить эффекты пост-обработки</sys:String>
+    <!-- AltairFix -->
+    <sys:String x:Key="SettingsPage.AltairFix.Title">AltairFix</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.Description">Дополнительные патчи и исправления для улучшения и быстродействия</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.StutterFix.Title">Исправление зависаний</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.StutterFix.Description">Патчит исполняемый файл и файл hosts для игнорирования игрой серверов Ubisoft</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.HighCoreCountFix.Title">Исправление запуска с высоким количеством ядер</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.HighCoreCountFix.Description">Исправление запуска игры с 32 ядерным процессором</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.WindowMode.Title">Режим окна</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.WindowMode.Description">Выбрать режим окна для игры</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.WindowedMode.Option.Fullscreen">Полноэкранный</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.WindowedMode.Option.Borderless">Безрамочный</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.WindowedMode.Option.Windowed">Оконный</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.WindowedMode.WindowWidth.Title">Ширина</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.WindowedMode.WindowWidth.Description">Ширина окна (только в Оконном)</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.WindowedMode.WindowHeight.Title">Высока</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.WindowedMode.WindowHeight.Description">Высота окна (только в Оконном)</sys:String>
+    <!-- EaglePatch -->
+    <sys:String x:Key="SettingsPage.EaglePatch.Title">EaglePatch</sys:String>
+    <sys:String x:Key="SettingsPage.EaglePatch.Description">Основные патчи и исправления</sys:String>
+    <sys:String x:Key="SettingsPage.EaglePatch.KeyboardLayout.Title">Раскладка управления</sys:String>
+    <sys:String x:Key="SettingsPage.EaglePatch.KeyboardLayout.Description">Выбрать раскладку управления</sys:String>
+    <sys:String x:Key="SettingsPage.EaglePatch.PS3Controls.Title">Управление как на PS3</sys:String>
+    <sys:String x:Key="SettingsPage.EaglePatch.PS3Controls.Description">Поменять бамперы и триггеры местами для управления в стиле PS3</sys:String>
+    <sys:String x:Key="SettingsPage.EaglePatch.SkipIntroVideos.Title">Пропустить видео заставки</sys:String>
+    <sys:String x:Key="SettingsPage.EaglePatch.SkipIntroVideos.Description">Автоматически пропускает видео заставки в начале игры</sys:String>
+    <!-- Launcher Settings -->
+    <sys:String x:Key="SettingsPage.Launcher.Title">Настройки лаунчера</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.Description">Управление настройками лаунчера</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.Language.Title">Язык приложения</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.Language.Description">Выбрать язык приложения для меню, кнопок, и настроек</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Title">Уровень логов</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Description">Настроить детальность логов</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Off">Выключить</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Fatal">Фатальные ошибки</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Error">Ошибка</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Warn">Предупреждение</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Info">Информация</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Debug">Отладка</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Trace">Trace</sys:String>
+
+    <!-- Manage Page-->
+    <sys:String x:Key="ManagePage.DownloadProgress.Title">Прогресс загрузки</sys:String>
+    <sys:String x:Key="ManagePage.CheckForModUpdates.Title">Проверять обновления модификаци</sys:String>
+    <sys:String x:Key="ManagePage.CheckForModUpdates.Button.Tooltip">Вручную проверить обновления модификаций</sys:String>
+    <sys:String x:Key="ManagePage.CheckForModUpdates.UpdateButton.Text">Обновить</sys:String>
+    <sys:String x:Key="ManagePage.CheckForModUpdates.UpdateButton.Tooltip">Обновить</sys:String>
+    <sys:String x:Key="ManagePage.RedownloadMod.Title">Заново загрузить мод</sys:String>
+    <sys:String x:Key="ManagePage.RedownloadMod.Description">Выбрать мод для повторной загрузки и переустановки</sys:String>
+    <sys:String x:Key="ManagePage.FixuModPaths.Title">Исправить пути uMod</sys:String>
+    <sys:String x:Key="ManagePage.FixuModPaths.Description">Исправляет пути uMod для загрузки граф. модификаций</sys:String>
+    <sys:String x:Key="ManagePage.Uninstall.Title">Удалить</sys:String>
+    <sys:String x:Key="ManagePage.Uninstall.Description">Удалить все используемые моды AnimusReforged</sys:String>
+
+    <!-- Manage Page - Download Status Messages -->
+    <sys:String x:Key="ManagePage.DownloadStatus.Waiting">Ожидание загрузки...</sys:String>
+    <sys:String x:Key="ManagePage.DownloadStatus.CheckingUpdates">Проверка обновлений...</sys:String>
+    <sys:String x:Key="ManagePage.DownloadStatus.NoUpdates">Нет доступных обновлений</sys:String>
+    <sys:String x:Key="ManagePage.DownloadStatus.UpdatesAvailable">{0} обновлений доступно</sys:String>
+    <sys:String x:Key="ManagePage.DownloadStatus.ErrorChecking">Проверка обновлений на ошибки</sys:String>
+    <sys:String x:Key="ManagePage.DownloadStatus.UpdatingMod">Обновление {0}...</sys:String>
+    <sys:String x:Key="ManagePage.DownloadStatus.RedownloadingMod">Повторная загрузка {0}...</sys:String>
+    <sys:String x:Key="ManagePage.DownloadStatus.ModUpdatedSuccessfully">{0} обновлено успешно!</sys:String>
+    <sys:String x:Key="ManagePage.DownloadStatus.ModRedownloadedSuccessfully">{0} успешно повторно загружено!</sys:String>
+    <sys:String x:Key="ManagePage.DownloadStatus.ErrorUpdating">Ошибка обновления {0}</sys:String>
+    <sys:String x:Key="ManagePage.DownloadStatus.ErrorRedownloading">Ошибка повторной загрузки {0}</sys:String>
+
+    <!-- Manage Page - Update Check Status Messages -->
+    <sys:String x:Key="ManagePage.UpdateCheckStatus.NoUpdates">Нет доступных обновлений</sys:String>
+    <sys:String x:Key="ManagePage.UpdateCheckStatus.UpdatesAvailable">{0} обновлений доступно. Нажмите для подробностей</sys:String>
+    <sys:String x:Key="ManagePage.UpdateCheckStatus.ErrorChecking">Ошибка проверки обновлений</sys:String>
+
+    <!-- Manage Page - Message Box Titles -->
+    <sys:String x:Key="ManagePage.MessageBox.UpdateCheckTitle">Проверка обновлений</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.UpdateCheckFailedTitle">Проверка обновлений провалилась</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.UpdateSuccessfulTitle">Обновление успешно</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.UpdateFailedTitle">Обновление провалилось</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.NoModSelectedTitle">Модификация не выбрана</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.RedownloadSuccessfulTitle">Повторная загрузка успешна</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.RedownloadFailedTitle">Повторная загрузка провалилась</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.SuccessTitle">Успех</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.FailureTitle">Провал</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.ConfirmationTitle">Подтверждение</sys:String>
+
+    <!-- Manage Page - Message Box Messages -->
+    <sys:String x:Key="ManagePage.MessageBox.UpdateCheckErrorMessage">В ходе проверки на обновления произошла ошибки: {0}</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.UpdateSuccessfulMessage">{0} был обновлён до версии {1}!</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.UpdateFailedMessage">Ошибка в ходе обновления {0}: {1}</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.NoModSelectedMessage">Пожалуйста выберите модификацию для повторной загрузки.</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.RedownloadSuccessfulMessage">{0} был успешно повторно загружен и переустановлён!</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.RedownloadFailedMessage">Ошибка в ходе повторной загрузки {0}: {1}</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.InvalidExecutablePathMessage">Неверный путь исполняемого файла игры</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.UmodPathsSuccessMessage">Пути uMod были воссозданы.</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.UninstallConfirmationMessage">Вы хотите удалить AnimusReforged?&#10;Это всё удалит и сбросит AnimusReforged на момент первой установки.</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.UninstallAsiLoaderFailedMessage">Удаление загрузчика ASI и модификаций ASI провалено</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.UninstallUmodConfirmationMessage">Вы хотите удалить настройки uMod?</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.UninstallUmodFailedMessage">Удаление uMod провалилось</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.RestoreExecutableFailedMessage">Восстановление изначального исполняемого файла игры провалилось</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.ResetConfigFailedMessage">Сброс файла настроек провалился</sys:String>
+    <sys:String x:Key="ManagePage.MessageBox.UninstallSuccessMessage">AnimusReforged был успешно удалён!&#10;Теперь вы можете удалить исполняемый файл AnimusReforged.</sys:String>
+
+    <!-- Credits Page -->
+    <sys:String x:Key="CreditsPage.uMod.Title">uMod</sys:String>
+    <sys:String x:Key="CreditsPage.uMod.Description">За то что сделали возможным модификацию текстур</sys:String>
+    <sys:String x:Key="CreditsPage.Overhaul.Title">hecumarine</sys:String>
+    <sys:String x:Key="CreditsPage.Overhaul.Description">За создание Overhaul Mod</sys:String>
+    <sys:String x:Key="CreditsPage.EaglePatch.Title">Sergeanur</sys:String>
+    <sys:String x:Key="CreditsPage.EaglePatch.Description">За создание EaglePatch</sys:String>
+    <sys:String x:Key="CreditsPage.ReShadeTool.Title">crosire</sys:String>
+    <sys:String x:Key="CreditsPage.ReShadeTool.Description">За создание ReShade</sys:String>
+    <sys:String x:Key="CreditsPage.ReShadePreset.Title">Ciocolici</sys:String>
+    <sys:String x:Key="CreditsPage.ReShadePreset.Description">За пресет настроек ReShade</sys:String>
+    <sys:String x:Key="CreditsPage.Background.Title">Claudio</sys:String>
+    <sys:String x:Key="CreditsPage.Background.Description">За апскейл фонового изображения</sys:String>
+    <sys:String x:Key="CreditsPage.Icon.Title">ArteF4ct</sys:String>
+    <sys:String x:Key="CreditsPage.Icon.Description">За лого Animus использованное как иконку</sys:String>
+
+    <!-- MessageBox Service -->
+    <sys:String x:Key="MessageBox.OK">ОК</sys:String>
+    <sys:String x:Key="MessageBox.Yes">Да</sys:String>
+    <sys:String x:Key="MessageBox.No">Нет</sys:String>
+    <sys:String x:Key="MessageBox.Cancel">Отмена</sys:String>
+
+    <!-- Settings Page - Error Messages -->
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingIsuModEnabledTitle">Ошибка переключения IsuModEnabled</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingIsuModEnabledMessage">Произошла ошибка в ходе переключения uMod.</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ReShadeNotFoundTitle">ReShade не найден</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ReShadeNotFoundMessage">ReShade.asi не найден. Это может означать повреждённую установку ReShade.</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorTogglingReShadeTitle">Ошибка переключения Reshade</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorTogglingReShadeMessage">Произошла ошибка в ходе переключения ReShade. Пожалуйста проверьте разрешения файлов.</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.AltairFixNotFoundTitle">AltairFix не найден</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.AltairFixNotFoundMessage">AltairFix.asi не найден. Это может означать повреждённую установку AltairFix.</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorTogglingAltairFixTitle">Ошибка переключения AltairFix</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorTogglingAltairFixMessage">Произошла ошибка в ходе переключения AltairFix. Пожалуйста проверьте разрешения файлов.</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingServerBlockerTitle">Ошибка переключения ServerBlocker (AltairFix)</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingServerBlockerMessage">Произошла ошибка в ходе переключении блокировки сервера Ubisoft.</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingHighCoreCountFixTitle">Ошибка изменения HighCoreCountFix (AltairFix)</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingHighCoreCountFixMessage">Произошла ошибка в ходе изменения исправления запуска при высоком количестве ядер.</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingWindowModeTitle">Ошибка смены режима окна (AltairFix)</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingWindowModeMessage">Произошла ошибка в ходе изменения режима окна.</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingWindowWidthTitle">Ошибка изменения ширины окна (AltairFix)</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingWindowWidthMessage">Произошла ошибка в ходе изменения ширины окна.</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingWindowHeightTitle">Ошибка изменения высоты окна (AltairFix)</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingWindowHeightMessage">Произошла ошибка в изменения высоты окна.</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.EaglePatchNotFoundTitle">EaglePatch не найден</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.EaglePatchNotFoundMessage">EaglePatchAC1.asi не найден. Это может означать повреждённую установку EaglePatch.</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorTogglingEaglePatchTitle">Ошибка переключения EaglePatch</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorTogglingEaglePatchMessage">Произошла ошибка в ходе переключения EaglePatch. Пожалуйста проверьте разрешения файлов.</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingKeyboardLayoutTitle">Ошибка изменения раскладки управления (EaglePatch)</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingKeyboardLayoutMessage">Произошла ошибка в ходе переключения раскладки управления.</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingIsPs3ControlsEnabledTitle">Ошибка переключения IsPs3ControlsEnabled (EaglePatch)</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingIsPs3ControlsEnabledMessage">Произошла ошибка в ходе переключения раскладки управления в стиле PS3.</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingIsSkipIntroVideoEnabledTitle">Ошибка переключения IsSkipIntroVideoEnabled (EaglePatch)</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingIsSkipIntroVideoEnabledMessage">Произошла ошибка в ходе переключения пропуска вступительных заставок.</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingLanguageTitle">Ошибка смены языка приложения</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingLanguageMessage">Произошла ошибки в ходе смены языка приложения.</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingLoggingLevelTitle">Ошибка изменения уровня логгирования</sys:String>
+    <sys:String x:Key="SettingsPage.ErrorMessage.ErrorChangingLoggingLevelMessage">Произошла ошибка в ходе смены уровня логгирования.</sys:String>
+
+    <!-- Navigation Service -->
+    <sys:String x:Key="NavigationService.DonateConfirmationTitle">Подтверждение</sys:String>
+    <sys:String x:Key="NavigationService.DonateConfirmationMessage">Пожертвования всегда будут опциональны.&#10;Всё сделанное лично мной в своё свободное время будет всегда бесплатно и иметь открытый исходный код.&#10;Жертвуйте только если вы действительно можете себе это позволить и не жертвуйте деньги ваших родителей без их огласки.&#10;Пожертвования НЕ подлежат возврату.</sys:String>
+    <sys:String x:Key="NavigationService.DonatePrimaryButtonText">Продолжить</sys:String>
+    <sys:String x:Key="NavigationService.DonateSecondaryButtonText">Отмена</sys:String>
+</ResourceDictionary>
