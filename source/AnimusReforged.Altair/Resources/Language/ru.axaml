@@ -30,9 +30,9 @@
     <sys:String x:Key="WelcomePage.Installation.Button">Установить</sys:String>
 
     <!-- Welcome Page - Status Messages -->
-    <sys:String x:Key="WelcomePage.Status.DownloadingModsList">Скачивание модов</sys:String>
+    <sys:String x:Key="WelcomePage.Status.DownloadingModsList">Скачивание модификаций</sys:String>
     <sys:String x:Key="WelcomePage.Status.DownloadingAsiLoader">Скачивание загрузчика ASI</sys:String>
-    <sys:String x:Key="WelcomePage.Status.InstallingAsiLoader">Установка загрузка ASI Loader</sys:String>
+    <sys:String x:Key="WelcomePage.Status.InstallingAsiLoader">Установка загрузчика ASI Loader</sys:String>
     <sys:String x:Key="WelcomePage.Status.DownloadingEaglePatch">Скачивание мода EaglePatch</sys:String>
     <sys:String x:Key="WelcomePage.Status.InstallingEaglePatch">Установка мода EaglePatch</sys:String>
     <sys:String x:Key="WelcomePage.Status.DownloadingAltairFix">Скачивание мода AltairFix</sys:String>
