@@ -109,7 +109,7 @@
     <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Warn">Предупреждение</sys:String>
     <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Info">Информация</sys:String>
     <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Debug">Отладка</sys:String>
-    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Trace">Trace</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Trace">Подробный</sys:String>
 
     <!-- Manage Page-->
     <sys:String x:Key="ManagePage.DownloadProgress.Title">Прогресс загрузки</sys:String>
