@@ -85,7 +85,7 @@
     <sys:String x:Key="SettingsPage.AltairFix.WindowedMode.Option.Windowed">Оконный</sys:String>
     <sys:String x:Key="SettingsPage.AltairFix.WindowedMode.WindowWidth.Title">Ширина</sys:String>
     <sys:String x:Key="SettingsPage.AltairFix.WindowedMode.WindowWidth.Description">Ширина окна (только в Оконном)</sys:String>
-    <sys:String x:Key="SettingsPage.AltairFix.WindowedMode.WindowHeight.Title">Высока</sys:String>
+    <sys:String x:Key="SettingsPage.AltairFix.WindowedMode.WindowHeight.Title">Высота</sys:String>
     <sys:String x:Key="SettingsPage.AltairFix.WindowedMode.WindowHeight.Description">Высота окна (только в Оконном)</sys:String>
     <!-- EaglePatch -->
     <sys:String x:Key="SettingsPage.EaglePatch.Title">EaglePatch</sys:String>
@@ -105,11 +105,11 @@
     <sys:String x:Key="SettingsPage.Launcher.LogLevel.Description">Настроить детальность логов</sys:String>
     <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Off">Выключить</sys:String>
     <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Fatal">Фатальные ошибки</sys:String>
-    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Error">Ошибка</sys:String>
-    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Warn">Предупреждение</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Error">Ошибки</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Warn">Предупреждения</sys:String>
     <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Info">Информация</sys:String>
     <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Debug">Отладка</sys:String>
-    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Trace">Подробный</sys:String>
+    <sys:String x:Key="SettingsPage.Launcher.LogLevel.Option.Trace">Подробности</sys:String>
 
     <!-- Manage Page-->
     <sys:String x:Key="ManagePage.DownloadProgress.Title">Прогресс загрузки</sys:String>
